@@ -17,12 +17,11 @@ import { Input } from "@/components/ui/input";
 // Libraries
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { refreshAccessToken } from "../api/refresh/route";
 
 // Icons
 
@@ -54,6 +53,25 @@ function Register() {
         },
     });
 
+    const fetchAccessToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to refresh token.");
+            }
+
+            return data.accessToken;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            return null;
+        }
+    };
+
     const handleSubmit = async (data: RegisterFormValues) => {
         try {
             // Ambil token dari localStorage
@@ -61,7 +79,9 @@ function Register() {
 
             // Jika token tidak ada atau kadaluarsa, refresh token
             if (!token) {
-                token = await refreshAccessToken();
+                token = await fetchAccessToken();
+                if (!token) throw new Error("Failed to obtain new access token.");
+                setCookie("accessToken", token, { path: "/" });
             }
 
             // Cek apakah token ada
