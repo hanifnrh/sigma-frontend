@@ -109,7 +109,7 @@ const ContactForm = () => {
             setLoading(false);
 
             // reset the form
-        } catch (_error) {
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Message not sent!",

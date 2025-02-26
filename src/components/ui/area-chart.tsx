@@ -60,7 +60,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
                 const categories = lastFiveData.map((item) => new Date(item.timestamp).toLocaleString());
 
                 setChartData({ seriesData, categories });
-            } catch (_error) {
+            } catch (error) {
                 console.log("Data grafik kosong");
             }
         };
@@ -69,6 +69,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
     }, [apiUrl, dataType]);
 
     useEffect(() => {
+        const label = dataTypeMapping[dataType] || "Data";
         const options = {
             chart: {
                 maxHeight: "100%",
@@ -98,7 +99,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
             },
             series: [
                 {
-                    name: dataTypeLabel,
+                    name: label,
                     data: chartData.seriesData,
                     color: color,
                 },
@@ -115,7 +116,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
             },
             yaxis: {
                 title: {
-                    text: `Tingkat ${dataTypeLabel}`,
+                    text: `Tingkat ${label}`,
                     style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
                 },
                 labels: { show: false },

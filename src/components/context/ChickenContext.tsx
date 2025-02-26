@@ -1,8 +1,9 @@
 "use client"
+
 import { refreshAccessToken } from "@/app/api/refresh/route";
 import { useNotifications } from "@/components/context/NotificationContext";
 import { getCookie } from "cookies-next";
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { BsHeartPulse } from "react-icons/bs";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { GiRooster } from "react-icons/gi";
@@ -208,7 +209,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     };
 
     // Fetch chicken data
-    const fetchDataChicken = async () => {
+    const fetchDataChicken = useCallback(async () => {
         try {
             const response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
                 credentials: "include", // Penting agar cookies dikirim ke backend
@@ -248,13 +249,13 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             setMortalitas(0);
             setAgeInDays(0);
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchDataChicken();
-    }, []);
+    }, [fetchDataChicken]);
 
-    const updateAgeInDays = async (ageInDays: number) => {
+    const updateAgeInDays = useCallback(async (ageInDays: number) => {
         const data = {
             usia_ayam: ageInDays,  // Send the updated age
         };
@@ -302,7 +303,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             console.error('Error updating age:', error);
             alert('Terjadi kesalahan saat memperbarui usia ayam.');
         }
-    };
+    }, []);
 
     const postJumlahAyam = async (jumlahAyam: number, targetTanggal: Date, startDate: Date) => {
         const data = {
@@ -427,7 +428,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     }, [jumlahAyam, jumlahAwalAyam]); // This effect runs when jumlahAyam or jumlahAwalAyam changes
 
 
-    const updateMortalitas = async (JumlahAwalAyam: number, ayamMati: number) => {
+    const updateMortalitas = useCallback(async (JumlahAwalAyam: number, ayamMati: number) => {
         // Pastikan perhitungan mortalitas tidak menghasilkan nilai yang tidak valid
         const mortalityPercentage = (JumlahAwalAyam > 0 && jumlahAyam > 0)
             ? (((JumlahAwalAyam - jumlahAyam) / JumlahAwalAyam) * 100).toFixed(1)
@@ -513,7 +514,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             // console.error('Error:', error);
             // alert('Terjadi kesalahan saat memperbarui mortalitas.');
         }
-    };
+    }, []);
 
     async function handleDeleteData() {
         try {
@@ -745,7 +746,16 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             setStatusAyam(updatedStatusAyam);
             setWarningsAyam(updatedWarningsAyam);
         }
-    }, [mortalitas, ayamDecreasePercentage, daysToTarget, sendNotification]);
+    }, [mortalitas,
+        ayamDecreasePercentage,
+        daysToTarget,
+        sendNotification,
+        farmingStarted,
+        prevStatusAyam.ayamDecreasePercentage,
+        prevStatusAyam.daysToTarget,
+        prevStatusAyam.mortalitas,
+        statusAyam,
+        warningsAyam]);
 
     return (
         <ChickenContext.Provider
