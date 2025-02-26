@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 // Libraries
-import { loginUser } from "@/app/api/login/route";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,13 +42,26 @@ export default function Login() {
         }
 
         // Jika validasi sukses, lanjutkan dengan login
-        const result = await loginUser(username, password);
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
 
-        if (result?.error) {
-            setError({ username: result.error, password: "" });
-        } else {
+            const result = await response.json();
+
+            if (!response.ok) {
+                setError({ username: result.error || "Login failed", password: "" });
+                return;
+            }
+
+            // Redirect berdasarkan role
             const redirectPath = result.role.toLowerCase() === "pemilik" ? "/pemilik/dashboard" : "/staf/dashboard";
             router.push(redirectPath);
+        } catch (error) {
+            console.error("Login Error:", error);
+            setError({ username: "Something went wrong. Please try again.", password: "" });
         }
     };
 
