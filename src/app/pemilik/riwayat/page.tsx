@@ -5,7 +5,7 @@ import { useNotifications } from "@/components/context/NotificationContext";
 import { useParameterContext } from "@/components/context/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/staf/navbar";
+import Navbar from "@/app/pemilik/navbar";
 import { Aktivitas } from "@/components/section/aktivitas";
 import GrafikCard from "@/components/section/grafik-card";
 import { RiwayatTable } from '@/components/section/riwayat-table';

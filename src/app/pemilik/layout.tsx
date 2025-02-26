@@ -2,7 +2,7 @@ import { ChickenProvider } from "@/components/context/ChickenContext";
 import { NotificationProvider } from "@/components/context/NotificationContext";
 import { ParameterProvider } from "@/components/context/ParameterContext";
 
-export default function StafLayout({
+export default function PemilikLayout({
     children,
 }: {
     children: React.ReactNode;

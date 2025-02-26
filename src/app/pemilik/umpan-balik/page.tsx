@@ -46,9 +46,6 @@ export default function UmpanBalik() {
 
                 </div>
             </div>
-
-
-
         </main>
     );
 }

@@ -43,19 +43,15 @@ type Notification = {
 };
 
 export default function Dashboard() {
-    const { jumlahAyam, setJumlahAyam, mortalitas, setMortalitas, ageInDays, setAgeInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
-    const { statusAndColor, averageScore } = useParameterContext();
+    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
+    const { averageScore } = useParameterContext();
     const pathname = usePathname(); // Get the current pathname
     const { notifications } = useNotifications();
     const {
         ammonia,
         temperature,
         humidity,
-        setAmmonia,
-        setTemperature,
-        setHumidity,
         overallStatus,
-        setOverallStatus,
         warnings,
         ammoniaColor,
         temperatureColor,
@@ -81,21 +77,21 @@ export default function Dashboard() {
     const parameterCards = [
         {
             label: "Amonia",
-            value: `${ammonia ?? 0} ppm`,
+            value: `${(ammonia ?? 0).toFixed(2)} ppm`,
             icon: <TbAtom2Filled />,
             statusColor: ammoniaColor,
             warning: warnings.ammonia,
         },
         {
             label: "Suhu",
-            value: `${temperature ?? 0} °C`,
+            value: `${(temperature ?? 0).toFixed(2)} °C`,
             icon: getTemperatureIcon(temperature ?? 0),
             statusColor: temperatureColor,
             warning: warnings.temperature,
         },
         {
             label: "Kelembapan",
-            value: `${humidity ?? 0}%`,
+            value: `${(humidity ?? 0).toFixed(2)}%`,
             icon: <IoWater />,
             statusColor: humidityColor,
             warning: warnings.humidity,
@@ -122,7 +118,7 @@ export default function Dashboard() {
     const generalCards = [
         {
             label: "Mortalitas Ayam",
-            value: `${mortalitas}%`,
+            value: `${(mortalitas).toFixed(2)}%`,
             icon: <BsHeartPulse />,
             statusColor: mortalitas > 5 ? "text-red-500" : "text-green-500",
             warning: mortalitas > 5 ? "Bahaya, mortalitas ayam sudah melewati batas!" : "",

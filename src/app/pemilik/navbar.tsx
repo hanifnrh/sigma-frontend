@@ -7,6 +7,7 @@ import { useParameterContext } from "@/components/context/ParameterContext";
 import { Button } from '@/components/ui/button';
 import Dynamic from "@/components/ui/dynamic";
 import withIconStyles from "@/components/ui/withIconStyles";
+import { deleteCookie } from "cookies-next";
 
 // Libraries
 import Image from 'next/image';
@@ -37,7 +38,10 @@ const Navbar: React.FC = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        deleteCookie("accessToken");
+        deleteCookie("refreshToken");
+        deleteCookie("role");
+        deleteCookie("username");
         router.push('/login');
     };
     const getStatusColor = (statusText: string) => ({
@@ -87,18 +91,18 @@ const Navbar: React.FC = () => {
 
                         <ul className="space-y-2 font-medium mt-5 sm:mt-0">
                             <p className='body-bold navbar-title text-xs mb-2'>MAIN MENU</p>
-                            <MenuItem href="/staf/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
-                            <MenuItem href="/staf/grafik" Icon={StyledGraphIcon} label="Grafik" />
-                            <MenuItem href="/staf/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
-                            <MenuItem href="/staf/perangkat-sensor" Icon={StyledSensorsIcon} label="Perangkat Sensor" />
-                            <MenuItem href="/staf/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
+                            <MenuItem href="/pemilik/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
+                            <MenuItem href="/pemilik/grafik" Icon={StyledGraphIcon} label="Grafik" />
+                            <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
+                            <MenuItem href="/pemilik/perangkat-sensor" Icon={StyledSensorsIcon} label="Perangkat Sensor" />
+                            <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
                         </ul>
 
                         <ul className="pt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                             <p className='body-bold navbar-title text-xs mb-2'>BANTUAN</p>
-                            <MenuItem href="/staf/umpan-balik" Icon={StyledFeedbackIcon} label="Umpan balik" />
-                            <MenuItem href="/staf/informasi" Icon={StyledInfoIcon} label="Informasi" />
-                            <MenuItem href="/staf/standar-operasional" Icon={StyledBookIcon} label="Standar operasional" />
+                            <MenuItem href="/pemilik/umpan-balik" Icon={StyledFeedbackIcon} label="Umpan balik" />
+                            <MenuItem href="/pemilik/informasi" Icon={StyledInfoIcon} label="Informasi" />
+                            <MenuItem href="/pemilik/standar-operasional" Icon={StyledBookIcon} label="Standar operasional" />
                         </ul>
 
                         <div className="status-container w-full relative mt-5 sm:mt-0">

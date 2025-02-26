@@ -17,10 +17,12 @@ import { Input } from "@/components/ui/input";
 // Libraries
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getCookie } from "cookies-next";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { refreshAccessToken } from "../api/refresh/route";
 
 // Icons
 
@@ -55,7 +57,12 @@ function Register() {
     const handleSubmit = async (data: RegisterFormValues) => {
         try {
             // Ambil token dari localStorage
-            const token = localStorage.getItem("token");
+            let token = getCookie("accessToken");
+
+            // Jika token tidak ada atau kadaluarsa, refresh token
+            if (!token) {
+                token = await refreshAccessToken();
+            }
 
             // Cek apakah token ada
             if (!token) {
@@ -68,11 +75,12 @@ function Register() {
             }
 
             // Kirim request POST untuk registrasi dengan header Authorization
-            const response = await fetch("http://localhost:8000/api/register/", {
+            const response = await fetch("https://sigma-backend-production.up.railway.app/api/register ", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
-                    // "Authorization": `Token ${token}`, // Menambahkan token di header
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify(data),
             });

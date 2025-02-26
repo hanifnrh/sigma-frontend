@@ -4,7 +4,7 @@
 import { useParameterContext } from "@/components/context/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/staf/navbar";
+import Navbar from "@/app/pemilik/navbar";
 import GrafikCard from "@/components/section/grafik-card";
 import { Button } from '@/components/ui/button';
 import {
