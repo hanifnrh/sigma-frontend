@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import Navbar from "../navbar";
 
 // Libraries
-import dynamic from 'next/dynamic';
 
 // Icons
 import { FaTemperatureLow } from "react-icons/fa";
@@ -17,8 +16,6 @@ import { TbAtom2Filled } from "react-icons/tb";
 // Private route for disallow unauthenticated users
 import PrivateRoute from '@/components/PrivateRoute';
 import TopMenu from '../top-menu';
-
-const AreaChart = dynamic(() => import('@/components/ui/area-chart'), { ssr: false });
 
 export default function PerangkatSensor() {
     return (
@@ -44,7 +41,7 @@ export default function PerangkatSensor() {
                     <div className="page flex items-center justify-between p-4">
                         <div className="flex flex-col justify-between items-center w-full">
                             <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 w-full'>
-                                <div className="relative flex flex-grow !flex-row flex-col items-center justify-center rounded-[10px] rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
+                                <div className="relative flex flex-grow !flex-row items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
                                     <div className="flex h-[90px] w-auto flex-row items-center">
                                         <div className="rounded-full bg-lightPrimary  dark:bg-navy-700">
                                             <span className="flex items-center text-brand-500 dark:text-white">
@@ -57,7 +54,7 @@ export default function PerangkatSensor() {
                                         <h4 className="text-3xl body-bold">4 buah</h4>
                                     </div>
                                 </div>
-                                <div className="relative flex flex-grow !flex-row flex-col items-center justify-center rounded-[10px] rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
+                                <div className="relative flex flex-grow !flex-row items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
                                     <div className="flex h-[90px] w-auto flex-row items-center">
                                         <div className="rounded-full bg-lightPrimary  dark:bg-navy-700">
                                             <span className="flex items-center text-brand-500 dark:text-white">
@@ -92,9 +89,6 @@ export default function PerangkatSensor() {
                         </div>
                     </div>
                 </div>
-
-
-
             </main>
         </PrivateRoute>
     );

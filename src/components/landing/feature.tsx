@@ -2,7 +2,7 @@
 import { DasborMonitoring } from "../section/dasbor-monitoring";
 import { EvaluasiMortalitas } from "../section/evaluasimortalitas";
 import { Notifikasi } from "../section/notifikasi";
-import { PenyesuaianParameter } from "../ui/penyesuaianparameter";
+import { PenyesuaianParameter } from "../section/penyesuaianparameter";
 
 
 export function Feature() {

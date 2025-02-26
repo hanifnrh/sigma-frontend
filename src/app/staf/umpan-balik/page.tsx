@@ -7,14 +7,11 @@ import ContactForm from '@/components/ui/contact-form';
 import Navbar from "../navbar";
 
 // Libraries
-import dynamic from 'next/dynamic';
 
 // Icons
 import TopMenu from '../top-menu';
 
 // Private route for disallow unauthenticated users
-
-const AreaChart = dynamic(() => import('@/components/ui/area-chart'), { ssr: false });
 
 export default function UmpanBalik() {
     return (

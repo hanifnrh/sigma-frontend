@@ -33,11 +33,9 @@ export function DasborMonitoring({
     className?: string;
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const div1Ref = useRef<HTMLDivElement>(null);
     const div2Ref = useRef<HTMLDivElement>(null);
     const div3Ref = useRef<HTMLDivElement>(null);
     const div4Ref = useRef<HTMLDivElement>(null);
-    const div5Ref = useRef<HTMLDivElement>(null);
     const div6Ref = useRef<HTMLDivElement>(null);
     const div7Ref = useRef<HTMLDivElement>(null);
 
@@ -52,7 +50,7 @@ export function DasborMonitoring({
             <div className="flex size-full flex-row items-stretch justify-between gap-10 max-w-lg text-indigo-700">
                 <div className="flex flex-col justify-center gap-2">
                     <Circle ref={div2Ref}>
-                        <TbAtom2Filled  />
+                        <TbAtom2Filled />
                     </Circle>
                     <Circle ref={div3Ref}>
                         <IoWater />

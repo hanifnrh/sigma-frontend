@@ -26,7 +26,6 @@ import Navbar from "../navbar";
 // Libraries
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import dynamic from 'next/dynamic';
 import { useState } from "react";
 
 // Icons
@@ -39,14 +38,12 @@ import { GiRooster } from "react-icons/gi";
 import PrivateRoute from "@/components/PrivateRoute";
 import TopMenu from "../top-menu";
 
-const AreaChart = dynamic(() => import('@/components/ui/area-chart'), { ssr: false });
-
 export default function DataAyam() {
     // Use context values
-    const { jumlahAyam, setJumlahAyam, mortalitas, setMortalitas, ageInDays, setAgeInDays, jumlahAwalAyam, setJumlahAwalAyam, tanggalMulai, setTanggalMulai, targetTanggal, setTargetTanggal, farmingStarted, setFarmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, ayamId, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, updateAgeInDays, postJumlahAyam, handleStartFarming, updateJumlahAyam, updateMortalitas, jumlahAyamInput, setJumlahAyamInput, handleParameterPanen, countdown, setCountdown } = useChickenContext();
+    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal, setTargetTanggal, farmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, handleStartFarming, updateJumlahAyam, updateMortalitas, jumlahAyamInput, setJumlahAyamInput, countdown } = useChickenContext();
 
     // Component-specific state
-    const [harvested, setHarvested] = useState(false);
+    const [harvested] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [harvestDialogOpen, setHarvestDialogOpen] = useState(false);
 
@@ -57,7 +54,7 @@ export default function DataAyam() {
             statusColor: statusAyam.mortalitas.color || "text-gray-500",
             statusText: statusAyam.mortalitas.text || "N/A",
             chartId: "mortalitas",
-            apiUrl: `http://localhost:8000/api/data-ayam/${ayamId}/history/`,
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/data-ayam/`,
             dataType: "mortalitas",
         }
     ];

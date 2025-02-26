@@ -2,7 +2,6 @@
 
 // Context for data fetching
 import { useChickenContext } from "@/components/context/ChickenContext";
-import { useNotifications } from "@/components/context/NotificationContext";
 import { useParameterContext } from "@/components/context/ParameterContext";
 
 // UI Components
@@ -14,8 +13,6 @@ import { Button } from '@/components/ui/button';
 import StatusIndicator from '@/components/ui/status-indicator';
 
 // Libraries
-import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
 import { utils, writeFile } from "xlsx";
 
 // Icons
@@ -31,22 +28,9 @@ import PrivateRoute from "@/components/PrivateRoute";
 import Navbar from "../navbar";
 import TopMenu from "../top-menu";
 
-const AreaChart = dynamic(() => import('@/components/ui/area-chart'), { ssr: false });
-
-type Notification = {
-    parameter: string;
-    status: string;
-    timestamp: Date;
-    message: string;
-    icon: React.ReactNode;
-    color: string;
-};
-
 export default function Dashboard() {
     const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
     const { averageScore } = useParameterContext();
-    const pathname = usePathname(); // Get the current pathname
-    const { notifications } = useNotifications();
     const {
         ammonia,
         temperature,

@@ -1,7 +1,6 @@
 "use client";
 
 // Context for data fetching
-import { useNotifications } from "@/components/context/NotificationContext";
 import { useParameterContext } from "@/components/context/ParameterContext";
 
 // UI Components
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // Libraries
-import dynamic from 'next/dynamic';
 
 // Icons
 import { MdOutlineFileDownload } from "react-icons/md";
@@ -28,11 +26,8 @@ import TopMenu from "../top-menu";
 
 // Private route for disallow unauthenticated users
 
-const AreaChart = dynamic(() => import('@/components/ui/area-chart'), { ssr: false });
-
 export default function Riwayat() {
     const { overallColor, overallStatus, averageScore } = useParameterContext();
-    const { notifications } = useNotifications();
     const grafikData = [
         {
             title: "Skor Keseluruhan",

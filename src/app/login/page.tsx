@@ -25,20 +25,33 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState({ username: "", password: "" });
     const router = useRouter();
-    const [redirectPath, setRedirectPath] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Validasi dengan Zod
+        const validationResult = LoginSchema.safeParse({ username, password });
+
+        if (!validationResult.success) {
+            const fieldErrors = validationResult.error.format();
+            setError({
+                username: fieldErrors.username?._errors[0] || "",
+                password: fieldErrors.password?._errors[0] || "",
+            });
+            return;
+        }
+
+        // Jika validasi sukses, lanjutkan dengan login
         const result = await loginUser(username, password);
 
         if (result?.error) {
-            setError({ username: result.error, password: "" }); // Pastikan sesuai dengan struktur objek
+            setError({ username: result.error, password: "" });
         } else {
             const redirectPath = result.role.toLowerCase() === "pemilik" ? "/pemilik/dashboard" : "/staf/dashboard";
             router.push(redirectPath);
         }
     };
+
 
 
     return (

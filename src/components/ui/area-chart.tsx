@@ -11,7 +11,7 @@ interface DataItem {
     humidity?: number;
     score?: number;
     mortalitas?: number;
-    [key: string]: string | number | undefined; // Supaya TypeScript tidak error ketika mengakses item[dataType]
+    [key: string]: string | number | undefined;
 }
 
 interface AreaChartProps {
@@ -60,7 +60,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
                 const categories = lastFiveData.map((item) => new Date(item.timestamp).toLocaleString());
 
                 setChartData({ seriesData, categories });
-            } catch (error) {
+            } catch (_error) {
                 console.log("Data grafik kosong");
             }
         };

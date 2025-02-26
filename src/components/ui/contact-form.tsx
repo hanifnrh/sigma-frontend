@@ -20,9 +20,6 @@ import { useForm } from "react-hook-form";
 import { FaPaperPlane } from "react-icons/fa";
 import * as z from "zod";
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
-
 // form data validation using zod
 const profileFormSchema = z.object({
     name: z
@@ -101,9 +98,6 @@ const ContactForm = () => {
                 throw new Error("Error sending email");
             }
 
-            const responseData = await response.json();
-            // Handle response data as needed
-
             // Add toast here
             toast({
                 variant: "default",
@@ -115,7 +109,7 @@ const ContactForm = () => {
             setLoading(false);
 
             // reset the form
-        } catch (error) {
+        } catch (_error) {
             toast({
                 variant: "destructive",
                 title: "Message not sent!",
@@ -124,10 +118,6 @@ const ContactForm = () => {
             // Handle error as needed
         }
     };
-
-    function setFile(arg0: File): void {
-        throw new Error("Function not implemented.");
-    }
 
     return (
         <Form {...form}>

@@ -39,3 +39,5 @@ export function PenyesuaianParameter() {
         </div>
     );
 }
+
+Circle.displayName = "Circle";

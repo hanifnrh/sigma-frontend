@@ -22,6 +22,8 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
+import { getCookie } from "cookies-next";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 
@@ -34,15 +36,17 @@ type Notification = {
     color: string;
 };
 
-const TopMenu: React.FC = () => {
+const TopMenu = () => {
     const { notifications } = useNotifications();
     const [username, setUsername] = useState<string | null>(null);
     const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            setUsername(localStorage.getItem("username"));
-            setRole(localStorage.getItem("role"));
+            const user = getCookie("username") as string | undefined;
+            const userRole = getCookie("role") as string | undefined;
+            setUsername(user ?? null);
+            setRole(userRole ?? null);
         }
     }, []);
 
@@ -88,9 +92,11 @@ const TopMenu: React.FC = () => {
                 <ModeToggle />
                 <div className="flex items-center border-l ml-3 pl-5 gap-2">
                     <p className="body text-base">
-                        {username}
+                        {role} | {username}
                     </p>
-                    <img src="/profile.png" alt="Profile Picture" className='w-8 h-auto' width={500} height={500} />
+                    <Image
+                        src="/profile.png" alt="Profile Picture" className='w-8 h-auto' width={500} height={500}
+                    />
                 </div>
                 <RiArrowDropDownLine className="dark:text-white mx-1" />
             </div>

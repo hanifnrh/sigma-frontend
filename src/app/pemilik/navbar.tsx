@@ -13,7 +13,7 @@ import { deleteCookie } from "cookies-next";
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // Icons
 import { GiRooster } from "react-icons/gi";
@@ -30,12 +30,6 @@ const Navbar: React.FC = () => {
     const currentPath = usePathname();
     const { overallStatus, overallColor } = useParameterContext();
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsAuthenticated(!!token); // Set true if token exists
-    }, []);
 
     const handleLogout = () => {
         deleteCookie("accessToken");
@@ -44,12 +38,6 @@ const Navbar: React.FC = () => {
         deleteCookie("username");
         router.push('/login');
     };
-    const getStatusColor = (statusText: string) => ({
-        "Sangat Baik": "bg-customGreen",
-        "Baik": "bg-blue-500",
-        "Buruk": "bg-yellow-400",
-        "Bahaya": "bg-customRed",
-    }[statusText] || "");
 
     const toggleNavbar = () => setIsOpen(!isOpen);
 
