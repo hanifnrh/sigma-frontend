@@ -1,8 +1,7 @@
 "use client"
 
-import { refreshAccessToken } from "@/app/api/refresh/route";
 import { useNotifications } from "@/components/context/NotificationContext";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { BsHeartPulse } from "react-icons/bs";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -117,12 +116,34 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
 
     const token = getCookie("accessToken");
 
+    const fetchAccessToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to refresh token.");
+            }
+
+            return data.accessToken;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            return null;
+        }
+    };
+
     const fetchAyamHistory = async () => {
         try {
             // Pastikan token ada
             let token = getCookie("accessToken");
+
             if (!token) {
-                token = await refreshAccessToken(); // Refresh token jika tidak ada
+                token = await fetchAccessToken();
+                if (!token) throw new Error("Failed to obtain new access token.");
+                setCookie("accessToken", token, { path: "/" });
             }
 
             // Fetch data ayam
@@ -133,8 +154,30 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 },
             });
 
+            if (response.status === 401) {
+                const newToken = await fetchAccessToken();
+                if (!newToken) throw new Error("Failed to refresh token.");
+
+                setCookie("accessToken", newToken, { path: "/" });
+
+                const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
+                    credentials: "include",
+                    headers: {
+                        "Authorization": `Bearer ${newToken}`,
+                    },
+                });
+
+                if (!newResponse.ok) {
+                    throw new Error(`HTTP error! Status: ${newResponse.status}`);
+                }
+
+                const newData = await newResponse.json();
+                // Proses data baru...
+                return;
+            }
+
             if (!response.ok) {
-                throw new Error(`Failed to fetch ayam data: ${response.statusText}`);
+                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
             }
 
             const allData = await response.json();

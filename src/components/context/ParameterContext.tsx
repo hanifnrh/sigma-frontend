@@ -1,7 +1,7 @@
 "use client"
-import { refreshAccessToken } from "@/app/api/refresh/route";
+
 import { useNotifications } from "@/components/context/NotificationContext";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { FaTemperatureHigh, FaTemperatureLow } from "react-icons/fa";
 import { IoWater } from "react-icons/io5";
@@ -120,6 +120,25 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
         addNotification(notification);
     };
 
+    const fetchAccessToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to refresh token.");
+            }
+
+            return data.accessToken;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            return null;
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -127,7 +146,9 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
                 // Jika token tidak ada atau kadaluarsa, refresh token
                 if (!token) {
-                    token = await refreshAccessToken();
+                    token = await fetchAccessToken();
+                    if (!token) throw new Error("Failed to obtain new access token.");
+                    setCookie("accessToken", token, { path: "/" });
                 }
 
                 const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
@@ -139,7 +160,11 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
                 // Jika token kadaluarsa, coba refresh token dan ulang request
                 if (response.status === 401) {
-                    const newToken = await refreshAccessToken();
+                    const newToken = await fetchAccessToken();
+                    if (!newToken) throw new Error("Failed to refresh token.");
+
+                    setCookie("accessToken", newToken, { path: "/" });
+
                     const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
                         credentials: "include",
                         headers: {
