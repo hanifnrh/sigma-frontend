@@ -40,30 +40,38 @@ export function RiwayatTable() {
 
     useEffect(() => {
         const mergeData = () => {
-            const dataMap = new Map<string, any>(); // Use Map to avoid duplicate entries based on timestamp
-            let lastData: any = {}; // Initialize with empty object for storing the last valid data
+            const dataMap = new Map<string, CombinedHistory>(); // Gunakan CombinedHistory sebagai tipe
+            let lastData: CombinedHistory = {
+                timestamp: "",
+                temperature: null,
+                humidity: null,
+                ammonia: null,
+                score: null,
+                status: null,
+                jumlah_ayam: null,
+                mortalitas: null,
+                usia_ayam: null,
+            };
 
             // Process parameter data
             historyParameter.forEach((param) => {
                 const roundedTimestamp = roundToNearest5Minutes(new Date(param.timestamp));
                 const key = roundedTimestamp.toISOString();
 
-                // If no data exists for this timestamp, use the previous data
                 if (!dataMap.has(key)) {
                     dataMap.set(key, {
-                        timestamp: roundedTimestamp,
+                        timestamp: key,
                         temperature: param.temperature,
                         humidity: param.humidity,
                         ammonia: param.ammonia,
                         score: param.score,
                         status: param.status,
-                        jumlah_ayam: lastData.jumlah_ayam || null,
-                        mortalitas: lastData.mortalitas || null,
-                        usia_ayam: lastData.usia_ayam || null,
+                        jumlah_ayam: lastData.jumlah_ayam,
+                        mortalitas: lastData.mortalitas,
+                        usia_ayam: lastData.usia_ayam,
                     });
                 } else {
-                    // Update data if it already exists
-                    const existingData = dataMap.get(key);
+                    const existingData = dataMap.get(key)!;
                     dataMap.set(key, {
                         ...existingData,
                         temperature: param.temperature,
@@ -74,8 +82,7 @@ export function RiwayatTable() {
                     });
                 }
 
-                // Save the last valid data
-                lastData = { ...dataMap.get(key) };
+                lastData = { ...dataMap.get(key)! };
             });
 
             // Process chicken data
@@ -84,44 +91,40 @@ export function RiwayatTable() {
                 const key = roundedTimestamp.toISOString();
 
                 if (!dataMap.has(key)) {
-                    // Add new chicken data
                     dataMap.set(key, {
-                        timestamp: roundedTimestamp,
-                        temperature: lastData.temperature || null,
-                        humidity: lastData.humidity || null,
-                        ammonia: lastData.ammonia || null,
-                        score: lastData.score || null,
-                        status: lastData.status || null,
+                        timestamp: key,
+                        temperature: lastData.temperature,
+                        humidity: lastData.humidity,
+                        ammonia: lastData.ammonia,
+                        score: lastData.score,
+                        status: lastData.status,
                         jumlah_ayam: ayam.jumlah_ayam,
                         mortalitas: ayam.mortalitas,
                         usia_ayam: ayam.usia_ayam,
                     });
                 } else {
-                    // Update chicken data if it exists
-                    const existingData = dataMap.get(key);
+                    const existingData = dataMap.get(key)!;
                     dataMap.set(key, {
                         ...existingData,
-                        jumlah_ayam: ayam.jumlah_ayam, // Overwrite with the latest value
+                        jumlah_ayam: ayam.jumlah_ayam,
                         mortalitas: ayam.mortalitas,
                         usia_ayam: ayam.usia_ayam,
                     });
                 }
 
-                // Save the last valid data
-                lastData = { ...dataMap.get(key) };
+                lastData = { ...dataMap.get(key)! };
             });
 
-            // Ensure that data without updates still appears with the last valid data
             const mergedArray = Array.from(dataMap.values()).sort(
-                (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
+                (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
             );
 
-            // Update state with the merged data
             setCombinedHistory(mergedArray);
         };
 
         mergeData();
     }, [historyParameter, historyData]);
+
 
     const getButtonVariant = (status: string) => {
         switch (status) {

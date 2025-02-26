@@ -191,9 +191,6 @@ function Register() {
                     </Form>
 
                 </div>
-                <div className="md:h-full">
-                    <img src="/hero.png" className="w-full h-full object-cover rounded-xl" alt="register-image" />
-                </div>
             </div>
         </div>
     );
