@@ -8,7 +8,7 @@ import SwipeButton from '../components/ui/swipe-button';
 
 // Libraries
 
-import Navbar from '@/components/section/NavbarHome';
+import Navbar from '@/components/section/navbar-home';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 

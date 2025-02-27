@@ -33,7 +33,7 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 
 export function RiwayatTable() {
     const { historyParameter } = useParameterContext();
-    const { historyData } = useChickenContext();
+    const { allChickenData } = useChickenContext();
 
     // State for combined history
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
@@ -86,7 +86,7 @@ export function RiwayatTable() {
             });
 
             // Process chicken data
-            historyData.forEach((ayam) => {
+            allChickenData.forEach((ayam) => {
                 const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp));
                 const key = roundedTimestamp.toISOString();
 
@@ -123,7 +123,7 @@ export function RiwayatTable() {
         };
 
         mergeData();
-    }, [historyParameter, historyData]);
+    }, [historyParameter, allChickenData]);
 
 
     const getButtonVariant = (status: string) => {
@@ -162,11 +162,11 @@ export function RiwayatTable() {
                         {combinedHistory.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell className="font-medium">{new Date(item.timestamp).toLocaleString()}</TableCell>
-                                <TableCell className="font-medium">{item.temperature} °C</TableCell>
-                                <TableCell className="font-medium">{item.humidity} %</TableCell>
-                                <TableCell className="font-medium">{item.ammonia} ppm</TableCell>
+                                <TableCell className="font-medium">{item.temperature?.toFixed(2)} °C</TableCell>
+                                <TableCell className="font-medium">{item.humidity?.toFixed(2)} %</TableCell>
+                                <TableCell className="font-medium">{item.ammonia?.toFixed(2)} ppm</TableCell>
                                 <TableCell className="font-medium">{item.jumlah_ayam} ekor</TableCell>
-                                <TableCell className="font-medium">{item.mortalitas} %</TableCell>
+                                <TableCell className="font-medium">{item.mortalitas?.toFixed(2)} %</TableCell>
                                 <TableCell className="font-medium">{item.usia_ayam} hari</TableCell>
                                 <TableCell className="font-medium">
                                     {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : 'N/A'}

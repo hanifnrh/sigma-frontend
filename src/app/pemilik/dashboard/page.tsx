@@ -46,7 +46,7 @@ export default function Dashboard() {
     const grafikData = [
         {
             title: "Skor Keseluruhan",
-            value: averageScore ?? 0, // Contoh rata-rata
+            value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
@@ -61,21 +61,24 @@ export default function Dashboard() {
     const parameterCards = [
         {
             label: "Amonia",
-            value: `${(ammonia ?? 0).toFixed(2)} ppm`,
+            value: `${(ammonia ?? 0).toFixed(2)}`,
+            unit: "ppm",
             icon: <TbAtom2Filled />,
             statusColor: ammoniaColor,
             warning: warnings.ammonia,
         },
         {
             label: "Suhu",
-            value: `${(temperature ?? 0).toFixed(2)} °C`,
+            value: `${(temperature ?? 0).toFixed(2)}`,
+            unit: "°C",
             icon: getTemperatureIcon(temperature ?? 0),
             statusColor: temperatureColor,
             warning: warnings.temperature,
         },
         {
             label: "Kelembapan",
-            value: `${(humidity ?? 0).toFixed(2)}%`,
+            value: `${(humidity ?? 0).toFixed(2)}`,
+            unit: "%",
             icon: <IoWater />,
             statusColor: humidityColor,
             warning: warnings.humidity,
@@ -102,7 +105,8 @@ export default function Dashboard() {
     const generalCards = [
         {
             label: "Mortalitas Ayam",
-            value: `${(mortalitas).toFixed(2)}%`,
+            value: `${(mortalitas).toFixed(2)}`,
+            unit: "%",
             icon: <BsHeartPulse />,
             statusColor: mortalitas > 5 ? "text-red-500" : "text-green-500",
             warning: mortalitas > 5 ? "Bahaya, mortalitas ayam sudah melewati batas!" : "",
@@ -110,6 +114,7 @@ export default function Dashboard() {
         {
             label: "Jumlah Ayam",
             value: `${jumlahAyam}`,
+            unit: "ekor",
             icon: <GiRooster />,
             statusColor: ayamDecreasePercentage > 5 ? "text-red-500" : "text-green-500",
             warning:
@@ -117,7 +122,8 @@ export default function Dashboard() {
         },
         {
             label: "Usia Ayam",
-            value: `${ageInDays} hari`,
+            value: `${ageInDays}`,
+            unit: "hari",
             icon: <FaRegCalendarAlt />,
             statusColor: getAgeStatusColor(),
             warning:
@@ -208,16 +214,16 @@ export default function Dashboard() {
 
                             <div className="flex justify-between items-center w-full p-4">
                                 <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                    {parameterCards.map(({ label, value, icon, statusColor, warning }) => (
-                                        <StatCard key={label} label={label} value={value} icon={icon} statusColor={statusColor} warning={warning} />
+                                    {parameterCards.map(({ label, unit, value, icon, statusColor, warning }) => (
+                                        <StatCard key={label} label={label} unit={unit} value={value} icon={icon} statusColor={statusColor} warning={warning} />
                                     ))}
                                 </div>
                             </div>
 
                             <div className="flex justify-between items-center w-full p-4">
                                 <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                    {generalCards.map(({ label, value, icon, statusColor, warning }) => (
-                                        <StatCard key={label} label={label} value={value} icon={icon} statusColor={statusColor} warning={warning} />
+                                    {generalCards.map(({ label, unit, value, icon, statusColor, warning }) => (
+                                        <StatCard key={label} label={label} unit={unit} value={value} icon={icon} statusColor={statusColor} warning={warning} />
                                     ))}
                                 </div>
                             </div>

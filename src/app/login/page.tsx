@@ -1,12 +1,13 @@
 "use client";
 
-import { AuroraBackground } from "@/components/ui/aurora-background";
 
 // UI Components
-import { Button } from "@/components/ui/button";
+import ButtonLogin from "@/components/ui/button-login";
 import { Input } from "@/components/ui/input";
 
 // Libraries
+import { cn } from "@/lib/utils";
+import { ChevronLeft } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -68,87 +69,121 @@ export default function Login() {
 
 
     return (
-        <main className="w-full flex flex-col items-center justify-center">
-            <AuroraBackground className='w-full'>
-                <div
-                    className="w-full relative flex flex-col gap-4 items-center justify-center"
-                >
-
-                    <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <main className="w-full h-screen flex flex-col items-center justify-center">
+            <Image
+                src="https://images.unsplash.com/photo-1618397746666-63405ce5d015?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                width={1000}
+                height={1000}
+                alt="Login Image"
+                className="absolute inset-0 -z-10 h-full w-full"
+            />
+            <div
+                className={cn(
+                    "w-5/6 flex justify-center",
+                    "rounded-2xl p-10",
+                    "bg-white dark:bg-zinc-900",
+                    "border border-zinc-200 dark:border-zinc-800",
+                    "shadow-xs"
+                )}
+            >
+                <div className="w-full grid grid-cols-2 items-center gap-8">
+                    <div className="relative w-full">
+                        <div className="flex items-center gap-2 z-50 absolute top-10 left-10">
+                            <Image
+                                src="/sigmalogonobg.png"
+                                alt="Logo"
+                                width={256}
+                                height={256}
+                                className="w-12 h-auto"
+                            />
+                            <p className='font-bold text-xl text-white'>
+                                SIGMA
+                            </p>
+                        </div>
+                        <div className="absolute top-32 left-10 z-50">
+                            <h1 className="font-bold text-white text-7xl">
+                                Selamat Datang!
+                            </h1>
+                        </div>
                         <Image
-                            src="/sigmalogonobg.png"
-                            alt="Logo"
-                            width={256}
-                            height={256}
-                            className="w-20 h-auto"
+                            src="https://images.unsplash.com/photo-1618397746666-63405ce5d015?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            width={1000}
+                            height={1000}
+                            alt="Login Image"
+                            className="w-full h-auto aspect-square object-cover rounded-xl z-0 brightness-90"
                         />
-                        <p className='font-bold text-5xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
-                            SIGMA
-                        </p>
-                    </Link>
-                    <div className="grid items-center gap-4 w-4/6 p-4 m-4 border rounded-xl shadow-xl">
-                        <div className="w-full px-4 py-4">
-                            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-8 mt-4">
+                        <div className="flex flex-col items-start gap-6">
+                            <Link href="/" className="w-full flex items-center justify-start space-x-3 rtl:space-x-reverse">
+                                <div className="p-2 rounded-xl border border-zinc-300 shadow-sm text-zinc-800 hover:bg-zinc-100 transition-all">
+                                    <ChevronLeft size={20} />
+                                </div>
+                            </Link>
+                            <div className="flex flex-col">
                                 <h3 className="text-gray-800 text-3xl font-extrabold">Masuk</h3>
-                                <p className="text-sm mt-4 text-gray-800">
+                                <p className="text-sm text-gray-800">
                                     Belum punya akun?{" "}
                                     <Link href="/register" className="text-blue-600 hover:underline ml-1">
                                         Daftar di sini
                                     </Link>
                                 </p>
 
-                                {/* Username Field */}
-                                <div>
-                                    <label className="block text-gray-700 font-medium">Username</label>
-                                    <Input
-                                        type="text"
-                                        placeholder="Masukkan username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                    />
-                                    {error.username && <p className="text-red-500 text-sm">{error.username}</p>}
-                                </div>
-
-                                {/* Password Field */}
-                                <div>
-                                    <label className="block text-gray-700 font-medium">Password</label>
-                                    <Input
-                                        type="password"
-                                        placeholder="Masukkan password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                    {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
-                                </div>
-
-                                <Button variant={"blue"} type="submit" className="w-full">
-                                    Masuk
-                                </Button>
-
-
-
-                                <div className="flex flex-wrap items-center justify-between gap-4 mt-6">
-                                    <div className="flex items-center">
-                                        <input
-                                            id="remember-me"
-                                            type="checkbox"
-                                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                                        />
-                                        <label htmlFor="remember-me" className="ml-3 text-sm text-gray-800">
-                                            Ingat saya
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <a href="#" className="text-blue-600 text-sm hover:underline">
-                                            Lupa Password?
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+
+                        {/* Form Field */}
+                        <div className="flex flex-col gap-4">
+                            {/* Username Field */}
+                            <div className="flex flex-col gap-2">
+                                <label className="block text-gray-700 font-medium">Username</label>
+                                <Input
+                                    type="text"
+                                    placeholder="Masukkan username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="body-light"
+                                />
+                                {error.username && <p className="text-red-500 text-sm">{error.username}</p>}
+                            </div>
+
+                            {/* Password Field */}
+                            <div className="flex flex-col gap-2">
+                                <label className="block text-gray-700 font-medium">Password</label>
+                                <Input
+                                    type="password"
+                                    placeholder="Masukkan password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="body-light"
+                                />
+                                {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+                            </div>
+                        </div>
+
+
+                        <div className="flex flex-wrap items-center justify-between gap-4 mt-6">
+                            <ButtonLogin type="submit" className="w-full rounded-xl" />
+                            <div className="flex items-center">
+                                <input
+                                    id="remember-me"
+                                    type="checkbox"
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                />
+                                <label htmlFor="remember-me" className="ml-3 text-sm text-gray-800">
+                                    Ingat saya
+                                </label>
+                            </div>
+                            <div>
+                                <a href="#" className="text-blue-600 text-sm hover:underline">
+                                    Lupa Password?
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </AuroraBackground>
+            </div>
         </main>
     );
 }

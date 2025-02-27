@@ -30,8 +30,8 @@ import TopMenu from "../top-menu";
 
 export default function Dashboard() {
     const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
-    const { averageScore } = useParameterContext();
     const {
+        averageScore,
         ammonia,
         temperature,
         humidity,
@@ -46,7 +46,7 @@ export default function Dashboard() {
     const grafikData = [
         {
             title: "Skor Keseluruhan",
-            value: averageScore ?? 0, // Contoh rata-rata
+            value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
@@ -61,21 +61,24 @@ export default function Dashboard() {
     const parameterCards = [
         {
             label: "Amonia",
-            value: `${(ammonia ?? 0).toFixed(2)} ppm`,
+            value: `${(ammonia ?? 0).toFixed(2)}`,
+            unit: "ppm",
             icon: <TbAtom2Filled />,
             statusColor: ammoniaColor,
             warning: warnings.ammonia,
         },
         {
             label: "Suhu",
-            value: `${(temperature ?? 0).toFixed(2)} °C`,
+            value: `${(temperature ?? 0).toFixed(2)}`,
+            unit: "°C",
             icon: getTemperatureIcon(temperature ?? 0),
             statusColor: temperatureColor,
             warning: warnings.temperature,
         },
         {
             label: "Kelembapan",
-            value: `${(humidity ?? 0).toFixed(2)}%`,
+            value: `${(humidity ?? 0).toFixed(2)}`,
+            unit: "%",
             icon: <IoWater />,
             statusColor: humidityColor,
             warning: warnings.humidity,
@@ -102,7 +105,8 @@ export default function Dashboard() {
     const generalCards = [
         {
             label: "Mortalitas Ayam",
-            value: `${(mortalitas).toFixed(2)}%`,
+            value: `${(mortalitas).toFixed(2)}`,
+            unit: "%",
             icon: <BsHeartPulse />,
             statusColor: mortalitas > 5 ? "text-red-500" : "text-green-500",
             warning: mortalitas > 5 ? "Bahaya, mortalitas ayam sudah melewati batas!" : "",
@@ -110,6 +114,7 @@ export default function Dashboard() {
         {
             label: "Jumlah Ayam",
             value: `${jumlahAyam}`,
+            unit: "ekor",
             icon: <GiRooster />,
             statusColor: ayamDecreasePercentage > 5 ? "text-red-500" : "text-green-500",
             warning:
@@ -117,7 +122,8 @@ export default function Dashboard() {
         },
         {
             label: "Usia Ayam",
-            value: `${ageInDays} hari`,
+            value: `${ageInDays}`,
+            unit: "hari",
             icon: <FaRegCalendarAlt />,
             statusColor: getAgeStatusColor(),
             warning:
@@ -135,15 +141,15 @@ export default function Dashboard() {
     const getStatusGradient = (statusText: string) => {
         switch (statusText) {
             case "Sangat Baik":
-                return "bg-[linear-gradient(107deg,#16CC53_8.32%,#108496_60.18%,#35B6CA_105.75%)]";
+                return "bg-green-500";
             case "Baik":
-                return "bg-[linear-gradient(107deg,#3B82F6_8.32%,#1D4ED8_60.18%,#1E40AF_105.75%)]";
+                return "bg-blue-500";
             case "Buruk":
-                return "bg-[linear-gradient(107deg,#FBBF24_8.32%,#F59E0B_60.18%,#D97706_105.75%)]";
+                return "bg-yellow-500";
             case "Bahaya":
-                return "bg-[linear-gradient(107deg,#EF4444_8.32%,#B91C1C_60.18%,#7F1D1D_105.75%)]";
+                return "bg-red-500";
             default:
-                return "bg-[linear-gradient(107deg,#16CC53_8.32%,#108496_60.18%,#35B6CA_105.75%)]";
+                return "bg-zinc-900";
         }
     };
     const handleDownload = () => {
@@ -206,22 +212,13 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="flex justify-between items-center w-full p-4">
-                                <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                    {parameterCards.map(({ label, value, icon, statusColor, warning }) => (
-                                        <StatCard key={label} label={label} value={value} icon={icon} statusColor={statusColor} warning={warning} />
+                            <div className="flex justify-between items-center w-full p-6">
+                                <div className="w-full grid grid-cols-2 gap-5 xl:grid-cols-3">
+                                    {[...parameterCards, ...generalCards].map(({ label, unit, value, icon, statusColor, warning }) => (
+                                        <StatCard key={label} label={label} unit={unit} value={value} icon={icon} statusColor={statusColor} warning={warning} />
                                     ))}
                                 </div>
                             </div>
-
-                            <div className="flex justify-between items-center w-full p-4">
-                                <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                    {generalCards.map(({ label, value, icon, statusColor, warning }) => (
-                                        <StatCard key={label} label={label} value={value} icon={icon} statusColor={statusColor} warning={warning} />
-                                    ))}
-                                </div>
-                            </div>
-
 
                             <div className="status-container flex items-center justify-center py-4 border-b w-full">
                                 <div className="status-wrapper grid grid-cols-2 xl:grid-cols-4 gap-4">

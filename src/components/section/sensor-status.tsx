@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card";
 import {
     Table,
     TableBody,
@@ -6,37 +6,23 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from "@/components/ui/table"
-import { Button } from "../ui/button"
-
-const sensors = [
-    {
-        sensor: "Suhu & Kelembapan DHT22 - 1",
-        status: "Aktif",
-    },
-    {
-        sensor: "Suhu & Kelembapan DHT22 - 2",
-        status: "Aktif",
-    },
-    {
-        sensor: "Suhu & Kelembapan DHT22 - 3",
-        status: "Mati",
-    },
-    {
-        sensor: "Suhu & Kelembapan DHT22 - 4",
-        status: "Aktif",
-    },
-    {
-        sensor: "Amonia DFRobot MEMS NH3 - 1",
-        status: "Mati",
-    },
-    {
-        sensor: "Amonia DFRobot MEMS NH3 - 2",
-        status: "Aktif",
-    },
-]
+} from "@/components/ui/table";
+import { useParameterContext } from "../context/ParameterContext";
+import { Button } from "../ui/button";
 
 export function SensorStatus() {
+    const { sensorDFRobotStatus, sensorDHT22Status } = useParameterContext();
+    const sensors = [
+        {
+            sensor: "Suhu & Kelembapan DHT22",
+            status: sensorDHT22Status,
+        },
+        {
+            sensor: "Amonia DFRobot MEMS NH3",
+            status: sensorDFRobotStatus,
+        },
+    ]
+
     return (
         <Card className="w-full">
             <CardContent>

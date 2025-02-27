@@ -47,6 +47,10 @@ type ParameterContextType = {
     overallColor: string;
     setOverallColor: (color: string) => void;
 
+    // Device Status
+    sensorDFRobotStatus: string;
+    sensorDHT22Status: string;
+
     ammoniaStatus: string;
     setAmmoniaStatus: (status: string) => void;
     temperatureStatus: string;
@@ -99,9 +103,13 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
     const [humidity, setHumidity] = useState<number | null>(null);
     const [averageScore, setAverageScore] = useState<number | null>(null);
     const [overallStatus, setOverallStatus] = useState<string>("");
+
     // const [overallStatus, setOverallStatus] = useState<Status>({ text: "Error", color: "text-red-500" });
     const [latestData, setLatestData] = useState<ParameterData | null>(null);
     const [historyParameter, setHistoryParameter] = useState<ParameterData[]>([]);
+
+    const [sensorDFRobotStatus, setSensorDFRobotStatus] = useState<string>("Aktif");
+    const [sensorDHT22Status, setSensorDHT22Status] = useState<string>("Aktif");
 
     // const [historyParameter, setHistoryParameter] = useState<ParameterData[]>([]);
     const [ammoniaStatus, setAmmoniaStatus] = useState<string>("");
@@ -177,7 +185,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     }
 
                     const newData = await newResponse.json();
-                    // Proses data baru...
+                    processSensorData(newData);
                     return;
                 }
 
@@ -186,34 +194,51 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                 }
 
                 const data: ParameterData[] = await response.json();
-
-                if (data.length) {
-                    const latestData = data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
-                    console.log("Latest Data:", latestData);
-                    setHistoryParameter(data);
-                    setLatestData(latestData);
-                    setAmmonia(latestData.ammonia);
-                    setTemperature(latestData.temperature);
-                    setHumidity(latestData.humidity);
-                    setAverageScore(latestData.score);
-                    setOverallStatus(latestData.status);
-                    setAmmoniaStatus(latestData.ammonia_status);
-                    setTemperatureStatus(latestData.temperature_status);
-                    setHumidityStatus(latestData.humidity_status);
-                    setAmmoniaColor(latestData.ammonia_color);
-                    setTemperatureColor(latestData.temperature_color);
-                    setHumidityColor(latestData.humidity_color);
-                    setOverallColor(latestData.color);
-                }
+                processSensorData(data);
             } catch (error) {
                 console.error("Error fetching parameter data:", error);
             }
         };
 
-        fetchData(); // Panggil fetchData pertama kali
-        const interval = setInterval(fetchData, 300000); // Set interval untuk fetch data setiap 5 menit
-        return () => clearInterval(interval); // Bersihkan interval saat komponen unmount
+        const processSensorData = (data: ParameterData[]) => {
+            if (data.length) {
+                const latestData = data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+                const lastUpdated = new Date(latestData.timestamp).getTime();
+                const now = new Date().getTime();
+                const isSensorOffline = now - lastUpdated > 20 * 60 * 1000;
+
+                const statusDHT22 = latestData.temperature !== null && latestData.humidity !== null;
+                const statusDFRobot = latestData.ammonia !== null;
+
+                setHistoryParameter(data);
+                setLatestData(latestData);
+                setAmmonia(latestData.ammonia);
+                setTemperature(latestData.temperature);
+                setHumidity(latestData.humidity);
+                setAverageScore(latestData.score);
+                setOverallStatus(latestData.status);
+                setAmmoniaStatus(latestData.ammonia_status);
+                setTemperatureStatus(latestData.temperature_status);
+                setHumidityStatus(latestData.humidity_status);
+                setAmmoniaColor(latestData.ammonia_color);
+                setTemperatureColor(latestData.temperature_color);
+                setHumidityColor(latestData.humidity_color);
+                setOverallColor(latestData.color);
+                if (isSensorOffline) {
+                    setSensorDFRobotStatus("Mati");
+                    setSensorDHT22Status("Mati");
+                }
+
+                setSensorDFRobotStatus(statusDFRobot ? "Aktif" : "Mati");
+                setSensorDHT22Status(statusDHT22 ? "Aktif" : "Mati");
+            }
+        };
+
+        fetchData();
+        const interval = setInterval(fetchData, 300000);
+        return () => clearInterval(interval);
     }, []);
+
 
     const getStatusAndColor = (score: number): { status: string; color: string } => {
         if (score >= 90) {
@@ -326,6 +351,10 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                 setHumidityColor,
                 overallColor,
                 setOverallColor,
+
+                // Device status
+                sensorDFRobotStatus,
+                sensorDHT22Status,
 
                 // Statuses for each parameter
                 ammoniaStatus,

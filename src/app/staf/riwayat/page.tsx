@@ -75,7 +75,7 @@ export default function Riwayat() {
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full">
-                        <RiwayatTable></RiwayatTable>
+                        <RiwayatTable/>
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>

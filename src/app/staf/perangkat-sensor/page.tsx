@@ -18,6 +18,7 @@ import PrivateRoute from '@/components/PrivateRoute';
 import TopMenu from '../top-menu';
 
 export default function PerangkatSensor() {
+
     return (
         <PrivateRoute>
             <main className="w-full bg-white dark:bg-zinc-900 relative">

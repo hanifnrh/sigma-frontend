@@ -1,30 +1,54 @@
-import React from "react";
+import { cn } from "@/lib/utils";
+import React, { useState } from "react";
 
 interface StatCardProps {
     label: string;
     value: string | number;
+    unit: string
     icon: React.ReactNode;
     statusColor?: string;
     warning?: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ label, value, icon, statusColor, warning }) => (
-    <div className="h-44 relative flex flex-grow flex-col items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white shadow-md p-7">
-        <div className="flex items-center">
-            <div className="flex h-[90px] w-auto items-center">
-                <div className="rounded-full bg-lightPrimary dark:bg-navy-700">
-                    <span className="flex items-center text-brand-500 dark:text-white text-4xl">
-                        {icon}
-                    </span>
+const StatCard: React.FC<StatCardProps> = ({ label, value, unit, icon, statusColor, warning }) => {
+    const [isHovering, setIsHovering] = useState<string | null>(null);
+    const colorMap: Record<string, string> = {
+        "text-red-500": "border-red-500",
+        "text-green-500": "border-green-500",
+        "text-yellow-500": "border-yellow-500",
+    };
+    const borderClass = statusColor && colorMap[statusColor] ? colorMap[statusColor] : "border-gray-500";
+    
+    return (
+        <div className="w-full grid grid-cols-1 gap-4 items-center justify-center">
+            <div
+                className="relative flex flex-col items-center"
+                onMouseEnter={() => setIsHovering(label)}
+                onMouseLeave={() => setIsHovering(null)}
+            >
+                <div className="relative w-32 h-32">
+                    <div className="absolute inset-0 z-0 rounded-full border-4 border-zinc-200 dark:border-zinc-800/50" />
+                    <div
+                        className={cn(
+                            "absolute inset-0 rounded-full border-4 transition-all duration-500",
+                            borderClass,
+                            isHovering === label && "scale-105"
+                        )}
+                        style={{
+                            clipPath: `polygon(0 0, 100% 0, 100% ${Number(value) || 0}%, 0 ${Number(value) || 0}%)`
+                        }}
+                    />
+
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className={`text-xl font-bold ${statusColor}`}>{value}</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">{unit}</span>
+                    </div>
                 </div>
-            </div>
-            <div className="ml-4 flex flex-col justify-center">
-                <p className="font-dm text-xl font-medium text-gray-600 dark:text-white">{label}</p>
-                <h4 className={`text-3xl body-bold ${statusColor}`}>{value}</h4>
+                <span className="mt-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">{label}</span>
+                {warning && <p className={`${statusColor} text-sm text-center`}>{warning}</p>}
             </div>
         </div>
-        {warning && <p className={`${statusColor} text-sm text-center`}>{warning}</p>}
-    </div>
-);
+    );
+};
 
 export default StatCard;
