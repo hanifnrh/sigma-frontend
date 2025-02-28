@@ -9,13 +9,22 @@ import { GiRooster } from "react-icons/gi";
 
 type Status = { text: string; color: string };
 
-interface HistoryRecord {
-    data_ayam_details: any;
-    timestamp: Date;
+interface DataAyamDetails {
     jumlah_ayam: number;
     mortalitas: number;
     usia_ayam: number;
+    tanggal_mulai: string; // Bisa diubah ke Date jika diparsing
+    jumlah_ayam_awal: number;
+    tanggal_panen: string; // Bisa diubah ke Date jika diparsing
 }
+
+interface HistoryRecord {
+    id: number;
+    data_ayam: number;
+    data_ayam_details: DataAyamDetails;
+    timestamp: string; // Bisa diubah ke Date jika diparsing
+}
+
 
 interface DataAyamContextType {
     // CURRENT DATA
