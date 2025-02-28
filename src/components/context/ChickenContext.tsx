@@ -10,6 +10,7 @@ import { GiRooster } from "react-icons/gi";
 type Status = { text: string; color: string };
 
 interface HistoryRecord {
+    data_ayam_details: any;
     timestamp: Date;
     jumlah_ayam: number;
     mortalitas: number;

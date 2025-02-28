@@ -203,7 +203,10 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
         const processSensorData = (data: ParameterData[]) => {
             if (data.length) {
-                const latestData = data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+                const sortedData = data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+                // Ambil data terbaru untuk pengecekan sensor
+                const latestData = sortedData[0];
                 const lastUpdated = new Date(latestData.timestamp).getTime();
                 const now = new Date().getTime();
                 const isSensorOffline = now - lastUpdated > 20 * 60 * 1000;
@@ -211,7 +214,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                 const statusDHT22 = latestData.temperature !== null && latestData.humidity !== null;
                 const statusDFRobot = latestData.ammonia !== null;
 
-                setHistoryParameter(data);
+                setHistoryParameter(sortedData);
                 setLatestData(latestData);
                 setAmmonia(latestData.ammonia);
                 setTemperature(latestData.temperature);

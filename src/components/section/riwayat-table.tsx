@@ -26,54 +26,33 @@ type CombinedHistory = {
 
 // Helper function to round timestamp to the nearest 5 minutes
 const roundToNearest5Minutes = (timestamp: Date) => {
-    const minutes = Math.floor(timestamp.getMinutes() / 5) * 5;
-    timestamp.setMinutes(minutes, 0, 0);
-    return timestamp;
+    const newTimestamp = new Date(timestamp.getTime()); // Buat salinan objek Date
+    const minutes = Math.floor(newTimestamp.getMinutes() / 5) * 5;
+    newTimestamp.setMinutes(minutes, 0, 0);
+    return newTimestamp;
 };
+
 
 export function RiwayatTable() {
     const { historyParameter } = useParameterContext();
     const { historyData } = useChickenContext();
 
-    // State for combined history
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
 
     useEffect(() => {
         const mergeData = () => {
-            const dataMap = new Map<string, CombinedHistory>(); // Gunakan CombinedHistory sebagai tipe
-            let lastData: CombinedHistory = {
-                timestamp: "",
-                temperature: null,
-                humidity: null,
-                ammonia: null,
-                score: null,
-                status: null,
-                jumlah_ayam: null,
-                mortalitas: null,
-                usia_ayam: null,
-            };
+            const dataMap = new Map<string, CombinedHistory>();
 
-            // Process parameter data
+            // Urutkan historyParameter terbaru ke terlama
+            historyParameter.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+            // Simpan data parameter duluan biar gak ketimpa
             historyParameter.forEach((param) => {
-                const roundedTimestamp = roundToNearest5Minutes(new Date(param.timestamp));
-                const key = roundedTimestamp.toISOString();
+                const roundedTimestamp = roundToNearest5Minutes(new Date(param.timestamp)).toISOString();
 
-                if (!dataMap.has(key)) {
-                    dataMap.set(key, {
-                        timestamp: key,
-                        temperature: param.temperature,
-                        humidity: param.humidity,
-                        ammonia: param.ammonia,
-                        score: param.score,
-                        status: param.status,
-                        jumlah_ayam: lastData.jumlah_ayam,
-                        mortalitas: lastData.mortalitas,
-                        usia_ayam: lastData.usia_ayam,
-                    });
-                } else {
-                    const existingData = dataMap.get(key)!;
-                    dataMap.set(key, {
-                        ...existingData,
+                if (!dataMap.has(roundedTimestamp)) {
+                    dataMap.set(roundedTimestamp, {
+                        timestamp: roundedTimestamp,
                         temperature: param.temperature,
                         humidity: param.humidity,
                         ammonia: param.ammonia,
@@ -81,40 +60,33 @@ export function RiwayatTable() {
                         status: param.status,
                     });
                 }
-
-                lastData = { ...dataMap.get(key)! };
             });
 
-            // Process chicken data
+            // Gabungkan data ayam
             historyData.forEach((ayam) => {
-                const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp));
-                const key = roundedTimestamp.toISOString();
+                const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp)).toISOString();
 
-                if (!dataMap.has(key)) {
-                    dataMap.set(key, {
-                        timestamp: key,
-                        temperature: lastData.temperature,
-                        humidity: lastData.humidity,
-                        ammonia: lastData.ammonia,
-                        score: lastData.score,
-                        status: lastData.status,
-                        jumlah_ayam: ayam.jumlah_ayam,
-                        mortalitas: ayam.mortalitas,
-                        usia_ayam: ayam.usia_ayam,
+                // Kalau timestamp ada di dataMap, tambahin data ayam tanpa overwrite data parameter
+                if (dataMap.has(roundedTimestamp)) {
+                    const existingData = dataMap.get(roundedTimestamp)!;
+                    dataMap.set(roundedTimestamp, {
+                        ...existingData,
+                        jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                        mortalitas: ayam.data_ayam_details.mortalitas,
+                        usia_ayam: ayam.data_ayam_details.usia_ayam,
                     });
                 } else {
-                    const existingData = dataMap.get(key)!;
-                    dataMap.set(key, {
-                        ...existingData,
-                        jumlah_ayam: ayam.jumlah_ayam,
-                        mortalitas: ayam.mortalitas,
-                        usia_ayam: ayam.usia_ayam,
+                    // Kalau gak ada, tambahin data ayam sebagai entry baru
+                    dataMap.set(roundedTimestamp, {
+                        timestamp: roundedTimestamp,
+                        jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                        mortalitas: ayam.data_ayam_details.mortalitas,
+                        usia_ayam: ayam.data_ayam_details.usia_ayam,
                     });
                 }
-
-                lastData = { ...dataMap.get(key)! };
             });
 
+            // Convert Map ke array dan urutkan dari terbaru ke terlama
             const mergedArray = Array.from(dataMap.values()).sort(
                 (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
             );
@@ -174,13 +146,13 @@ export function RiwayatTable() {
                                     {item.ammonia !== undefined && item.ammonia !== null ? `${item.ammonia.toFixed(2)} ppm` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
-                                    {item.jumlah_ayam ? `${item.jumlah_ayam} ekor` : '-'}
+                                    {item.jumlah_ayam !== undefined && item.usia_ayam !== null ? `${item.jumlah_ayam} ekor` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
                                     {item.mortalitas !== undefined && item.mortalitas !== null ? `${item.mortalitas.toFixed(2)} %` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
-                                    {item.usia_ayam ? `${item.usia_ayam} hari` : '-'}
+                                    {item.usia_ayam !== undefined && item.usia_ayam !== null ? `${item.usia_ayam} hari` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
                                     {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : '-'}

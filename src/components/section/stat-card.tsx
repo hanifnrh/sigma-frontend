@@ -15,10 +15,11 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, unit, icon, statusCol
     const colorMap: Record<string, string> = {
         "text-red-500": "border-red-500",
         "text-green-500": "border-green-500",
+        "text-blue-500": "border-blue-500",
         "text-yellow-500": "border-yellow-500",
     };
     const borderClass = statusColor && colorMap[statusColor] ? colorMap[statusColor] : "border-gray-500";
-    
+
     return (
         <div className="w-full grid grid-cols-1 gap-4 items-center justify-center">
             <div
