@@ -1,9 +1,13 @@
-import { getCookie, setCookie } from "cookies-next";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST() {
     try {
-        const refreshToken = getCookie("refreshToken");
+        // ✅ Ambil refresh token dari cookies
+        const cookieStore = await cookies();
+        const refreshToken = cookieStore.get("refreshToken")?.value;
+
+        console.log("Refresh Token from Cookie:", refreshToken); // 🔍 Log untuk debugging
 
         if (!refreshToken) {
             return NextResponse.json({ error: "No refresh token available." }, { status: 401 });
@@ -20,9 +24,12 @@ export async function POST() {
         }
 
         const data = await response.json();
+        console.log("New Access Token:", data.access); // 🔍 Debugging
 
-        // Simpan accessToken baru di cookies
-        setCookie("accessToken", data.access, {
+        // ✅ Set accessToken baru di cookies
+        (await
+            // ✅ Set accessToken baru di cookies
+            cookies()).set("accessToken", data.access, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
@@ -30,6 +37,7 @@ export async function POST() {
 
         return NextResponse.json({ accessToken: data.access }, { status: 200 });
     } catch (error) {
+        console.error("Error in /api/refresh:", error);
         return NextResponse.json({ error: "Internal server error." }, { status: 500 });
     }
 }

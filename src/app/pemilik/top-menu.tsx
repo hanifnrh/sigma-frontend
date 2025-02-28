@@ -92,7 +92,7 @@ const TopMenu = () => {
                 <ModeToggle />
                 <div className="flex items-center border-l ml-3 pl-5 gap-2">
                     <p className="body text-base">
-                        {role} | {username}
+                        {role} - {username}
                     </p>
                     <Image
                         src="/profile.png" alt="Profile Picture" className='w-8 h-auto' width={500} height={500}

@@ -36,6 +36,11 @@ export async function POST(req: Request) {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
         });
+        cookieStore.set("username", data.user.username, {
+            path: "/",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+        });
 
         console.log("Tokens saved successfully.");
         return new Response(JSON.stringify({ success: true, role: data.user.role }), { status: 200 });

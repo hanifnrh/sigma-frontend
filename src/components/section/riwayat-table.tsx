@@ -33,7 +33,7 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 
 export function RiwayatTable() {
     const { historyParameter } = useParameterContext();
-    const { allChickenData } = useChickenContext();
+    const { historyData } = useChickenContext();
 
     // State for combined history
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
@@ -86,7 +86,7 @@ export function RiwayatTable() {
             });
 
             // Process chicken data
-            allChickenData.forEach((ayam) => {
+            historyData.forEach((ayam) => {
                 const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp));
                 const key = roundedTimestamp.toISOString();
 
@@ -123,7 +123,7 @@ export function RiwayatTable() {
         };
 
         mergeData();
-    }, [historyParameter, allChickenData]);
+    }, [historyParameter, historyData]);
 
 
     const getButtonVariant = (status: string) => {
@@ -161,19 +161,33 @@ export function RiwayatTable() {
                     <TableBody>
                         {combinedHistory.map((item, index) => (
                             <TableRow key={index}>
-                                <TableCell className="font-medium">{new Date(item.timestamp).toLocaleString()}</TableCell>
-                                <TableCell className="font-medium">{item.temperature?.toFixed(2)} °C</TableCell>
-                                <TableCell className="font-medium">{item.humidity?.toFixed(2)} %</TableCell>
-                                <TableCell className="font-medium">{item.ammonia?.toFixed(2)} ppm</TableCell>
-                                <TableCell className="font-medium">{item.jumlah_ayam} ekor</TableCell>
-                                <TableCell className="font-medium">{item.mortalitas?.toFixed(2)} %</TableCell>
-                                <TableCell className="font-medium">{item.usia_ayam} hari</TableCell>
                                 <TableCell className="font-medium">
-                                    {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : 'N/A'}
+                                    {item.timestamp ? new Date(item.timestamp).toLocaleString() : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.temperature !== undefined && item.temperature !== null ? `${item.temperature.toFixed(2)} °C` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.humidity !== undefined && item.humidity !== null ? `${item.humidity.toFixed(2)} %` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.ammonia !== undefined && item.ammonia !== null ? `${item.ammonia.toFixed(2)} ppm` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.jumlah_ayam ? `${item.jumlah_ayam} ekor` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.mortalitas !== undefined && item.mortalitas !== null ? `${item.mortalitas.toFixed(2)} %` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {item.usia_ayam ? `${item.usia_ayam} hari` : '-'}
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : '-'}
                                 </TableCell>
                                 <TableCell>
                                     <Button variant={getButtonVariant(item.status ?? "default")}>
-                                        {item.status}
+                                        {item.status ?? '-'}
                                     </Button>
                                 </TableCell>
                             </TableRow>

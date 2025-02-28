@@ -9,7 +9,7 @@ import { GiRooster } from "react-icons/gi";
 
 type Status = { text: string; color: string };
 
-interface DataRecord {
+interface HistoryRecord {
     timestamp: Date;
     jumlah_ayam: number;
     mortalitas: number;
@@ -46,7 +46,7 @@ interface DataAyamContextType {
     handleHarvest: () => void;
     confirmHarvest: () => Promise<void>;
     updateAgeInDays: (ageInDays: number) => Promise<void>;
-    postJumlahAyam: (jumlahAyam: number, targetTanggal: Date, startDate: Date) => Promise<void>;
+    postStartFarming: (jumlahAyam: number, targetTanggal: Date, startDate: Date) => Promise<void>;
     updateJumlahAyam: (jumlahAyamAwal: number, jumlahAyamBaru: number) => Promise<void>;
     updateMortalitas: (JumlahAwalAyam: number, ayamMati: number) => Promise<void>;
     handleStartFarming: (initialCount: number, targetDate: Date | null) => Promise<void>;
@@ -56,8 +56,8 @@ interface DataAyamContextType {
     countdown: string;
     setCountdown: (color: string) => void;
     // HISTORY
-    allChickenData: DataRecord[];
-    setAllChickenData: (historyData: DataRecord[]) => void;
+    historyData: HistoryRecord[];
+    setHistoryData: (historyData: HistoryRecord[]) => void;
 }
 
 type Notification = {
@@ -85,8 +85,6 @@ interface ChickenProviderProps {
 
 export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) => {
     const { addNotification } = useNotifications();
-    const [latestChickenData, setLatestChickenData] = useState(null);
-    const [allChickenData, setAllChickenData] = useState<DataRecord[]>([]);
 
     // Chicken data states
     const [jumlahAyam, setJumlahAyam] = useState<number>(0);
@@ -98,6 +96,8 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     const [farmingStarted, setFarmingStarted] = useState<boolean>(false);
     const [ayamId, setAyamId] = useState<number>(0);
 
+    // Chicken data history states
+    const [historyData, setHistoryData] = useState<HistoryRecord[]>([]);
 
     // Functions handle
     const [countdown, setCountdown] = useState<string>('');
@@ -114,7 +114,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const token = getCookie("accessToken");
+    let token = getCookie("accessToken");
 
     const fetchAccessToken = async () => {
         try {
@@ -135,124 +135,69 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         }
     };
 
-    const fetchDataChicken = useCallback(async () => {
-        setLoading(true);
-        setError(null);
+    if (!token) {
+        token = fetchAccessToken();
+        if (!token) throw new Error("Failed to obtain new access token.");
+        setCookie("accessToken", token, { path: "/" });
+    }
 
-        let token = getCookie("accessToken");
-
-        if (!token) {
-            token = await fetchAccessToken();
-            if (!token) throw new Error("Failed to obtain new access token.");
-            setCookie("accessToken", token, { path: "/" });
-        }
-
+    const fetchAyamHistory = async () => {
         try {
+            // Fetch data ayam
             const response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
-                credentials: "include",
+                credentials: "include", // Penting agar cookies dikirim ke backend
                 headers: {
-                    "Authorization": token ? `Bearer ${token}` : "",
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (Array.isArray(data) && data.length > 0) {
-                const latestData = data[0];
-
-                setJumlahAwalAyam(latestData.jumlah_ayam_awal);
-                setTanggalMulai(new Date(latestData.tanggal_mulai));
-                setTargetTanggal(new Date(latestData.tanggal_panen));
-                setJumlahAyam(latestData.jumlah_ayam);
-                setMortalitas(latestData.mortalitas);
-                setAgeInDays(latestData.usia_ayam);
-                setAyamId(latestData.id);
-                setFarmingStarted(true);
-                setAllChickenData(data);
-            } else {
-                setFarmingStarted(false);
-                setJumlahAwalAyam(0);
-                setTanggalMulai(null);
-                setTargetTanggal(null);
-                setJumlahAyam(0);
-                setMortalitas(0);
-                setAgeInDays(0);
-                setAyamId(0);
-                setAllChickenData([]);
-            }
-        } catch (error) {
-            console.error("Error fetching ayam data:", error);
-            if (error instanceof Error) {
-                setError(error.message);
-            } else {
-                setError(String(error)); // Fallback for unknown error types
-            }
-        } finally {
-            setLoading(false);
-        }
-    }, [token]);
-
-    useEffect(() => {
-        fetchDataChicken();
-    }, [fetchDataChicken]);
-
-
-    const postDataChicken = async (newData: {
-        tanggal_mulai: string;
-        jumlah_ayam_awal: number;
-        tanggal_panen: string;
-        jumlah_ayam: number;
-        mortalitas: number;
-        usia_ayam: number;
-    }) => {
-        setLoading(true);
-        setError(null);
-    
-        let token = getCookie("accessToken");
-    
-        if (!token) {
-            token = await fetchAccessToken();
-            if (!token) throw new Error("Failed to obtain new access token.");
-            setCookie("accessToken", token, { path: "/" });
-        }
-    
-        try {
-            const response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
                     "Authorization": token ? `Bearer ${token}` : "",
                 },
-                body: JSON.stringify(newData),
             });
-    
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Failed to fetch ayam data: ${response.statusText}`);
             }
-    
-            const responseData = await response.json();
-            console.log("Data berhasil dikirim:", responseData);
-    
-            // Fetch ulang data ayam biar state selalu update
-            fetchDataChicken();
-        } catch (error) {
-            console.error("Error posting ayam data:", error);
-            if (error instanceof Error) {
-                setError(error.message);
+
+            const allData = await response.json();
+
+            if (allData.length === 0) {
+                console.log("No ayam data found.");
+                setHistoryData([]); // Set history data ke array kosong
+                return;
+            }
+
+            // Ambil data pertama
+            const record = allData[0];
+            const ayamId = record.id;
+            setAyamId(ayamId);
+
+            // Fetch history data berdasarkan ayamId (jika diperlukan)
+            const historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
+                credentials: "include", // Penting agar cookies dikirim ke backend
+                headers: {
+                    "Authorization": token ? `Bearer ${token}` : "",
+                },
+            });
+
+            if (!historyResponse.ok) {
+                throw new Error(`Failed to fetch history for ayam ID: ${ayamId}`);
+            }
+
+            const history = await historyResponse.json();
+
+            if (Array.isArray(history)) {
+                setHistoryData(history); // Set history data untuk grafik
             } else {
-                setError(String(error));
+                setHistoryData([]);
+                console.log("No history data found.");
             }
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching ayam history:", error);
+            setHistoryData([]); // Set history data ke array kosong jika terjadi error
         }
     };
 
-    
+    useEffect(() => {
+        fetchAyamHistory();
+    }, []);
+
     const handleParameterPanen = async () => {
         setLoading(true);
         setError(null); // Reset error before making the request
@@ -281,6 +226,53 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         }
     };
 
+    // Fetch chicken data
+    const fetchDataChicken = useCallback(async () => {
+        try {
+            const response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
+                credentials: "include", // Penting agar cookies dikirim ke backend
+                headers: {
+                    "Authorization": token ? `Bearer ${token}` : "",
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (Array.isArray(data) && data.length > 0) {
+                const latestData = data[0];
+                setJumlahAwalAyam(latestData.jumlah_ayam_awal);
+                setTanggalMulai(new Date(latestData.tanggal_mulai));
+                setTargetTanggal(new Date(latestData.tanggal_panen));
+                setJumlahAyam(latestData.jumlah_ayam);
+                setMortalitas(latestData.mortalitas);
+                setAgeInDays(latestData.usia_ayam);
+                setFarmingStarted(true);
+            } else {
+                setFarmingStarted(false);
+                setJumlahAwalAyam(0);
+                setTanggalMulai(new Date());
+                setTargetTanggal(new Date());
+                setJumlahAyam(0);
+                setMortalitas(0);
+                setAgeInDays(0);
+            }
+        } catch (error) {
+            console.error('Error fetching ayam data:', error);
+            setFarmingStarted(false);
+            setJumlahAwalAyam(0);
+            setTanggalMulai(new Date());
+            setTargetTanggal(new Date());
+            setJumlahAyam(0);
+            setMortalitas(0);
+            setAgeInDays(0);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchDataChicken();
+    }, [fetchDataChicken]);
+
     const updateAgeInDays = useCallback(async (ageInDays: number) => {
         const data = {
             usia_ayam: ageInDays,  // Send the updated age
@@ -305,7 +297,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 const record = allData[0];  // Assuming there's only one record, we take the first one
 
                 // Send the PATCH request to update the age in the record
-                const updateResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/`, {
+                const updateResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${record.id}/`, {
                     credentials: "include", // Penting agar cookies dikirim ke backend
                     method: 'PATCH',
                     headers: {
@@ -331,13 +323,13 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         }
     }, []);
 
-    const postJumlahAyam = async (jumlahAyam: number, targetTanggal: Date, startDate: Date) => {
+    const postStartFarming = async (jumlahAyam: number, targetTanggal: Date, startDate: Date) => {
         const data = {
             jumlah_ayam_awal: jumlahAyam, // Anggap jumlah ayam awal sama dengan jumlah ayam yang dikirim
             tanggal_mulai: startDate.toISOString().split('T')[0],
             tanggal_panen: targetTanggal.toISOString().split('T')[0], // Hanya ambil bagian tanggal saja
-            jumlah_ayam: jumlahAyam, // Jumlah ayam saat ini
-            mortalitas: 0, // Nilai default, misalnya 0 untuk awal
+            jumlah_ayam: jumlahAyam, // Jumlah ayam saat inipostStartFarming
+            mortalitas: 0, // Nilai default, misalnya 0 untuk awalz
             usia_ayam: 0 // Usia awal ayam, diisi 0 misalnya
         };
 
@@ -371,9 +363,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         };
 
         try {
-            // Fetch all data
             const response = await fetch('https://sigma-backend-production.up.railway.app/api/data-ayam/', {
-                method: "POST",
                 credentials: "include", // Penting agar cookies dikirim ke backend
                 headers: {
                     'Content-Type': 'application/json',
@@ -392,8 +382,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 const record = allData[0];  // Assuming there's only one record, we take the first one
 
                 // If record exists, we can patch the data
-                const updateResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/`, {
-                    credentials: "include",
+                const updateResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${record.id}/`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -409,31 +398,6 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 }
 
                 console.log('Chicken count updated:', result);
-                setJumlahAyam(jumlahAyamBaru);
-            } else {
-                // If no existing data, create new data
-                const createResponse = await fetch('https://sigma-backend-production.up.railway.app/api/data-ayam/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": token ? `Bearer ${token}` : "",
-                    },
-                    body: JSON.stringify({
-                        jumlah_ayam_awal: jumlahAyamAwal,  // Set initial count
-                        jumlah_ayam: jumlahAyamBaru,       // Set new chicken count
-                        tanggal_panen: new Date(),         // Set current harvest date
-                        mortalitas: 0,                     // Set initial mortalitas (0)
-                        usia_ayam: 0                       // Set initial age (0)
-                    }),
-                });
-
-                const result = await createResponse.json();
-                if (!createResponse.ok) {
-                    console.error('Server response error:', result);
-                    throw new Error('Failed to create new ayam data');
-                }
-
-                console.log('New chicken data created:', result);
                 setJumlahAyam(jumlahAyamBaru);
             }
 
@@ -468,7 +432,6 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         try {
             // Ambil data ayam yang ada
             const response = await fetch('https://sigma-backend-production.up.railway.app/api/data-ayam/', {
-                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": token ? `Bearer ${token}` : "",
@@ -480,33 +443,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
 
             const allData = await response.json();
             if (allData.length === 0) {
-                console.log('Data ayam tidak ada, kemungkinan panen sudah selesai atau data sudah dihapus.');
-                // Buat data baru jika tidak ada data yang ditemukan
-                const createResponse = await fetch('http://sigma-backend-production.up.railway.app/api/data-ayam/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": token ? `Bearer ${token}` : "",
-                    },
-                    body: JSON.stringify({
-                        mortalitas: parseFloat(mortalityPercentage) || 0,  // Pastikan mortalitas adalah angka
-                        jumlah_ayam: jumlahAyam,                 // Jumlah ayam saat ini
-                        jumlah_ayam_awal: JumlahAwalAyam,        // Jumlah ayam awal
-                        tanggal_panen: new Date(),               // Tanggal panen sekarang
-                        usia_ayam: 0                             // Usia ayam (0 untuk awal)
-                    }),
-                });
-
-                if (!createResponse.ok) {
-                    const errorData = await createResponse.json();
-                    console.error('Server response error:', errorData);
-                    throw new Error('Failed to create new ayam data');
-                }
-
-                const result = await createResponse.json();
-                console.log('New mortalitas data created:', result);
-                setMortalitas(parseFloat(mortalityPercentage));
-                return;  // Keluar dari fungsi setelah membuat data baru
+                alert('Data ayam tidak ada, kemungkinan panen sudah selesai atau data sudah dihapus.');
             }
 
             // Jika data ada, pastikan kita hanya memperbarui jika mortalitas berubah
@@ -515,7 +452,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             // Cek apakah mortalitas perlu diupdate
             if (record.mortalitas !== data.mortalitas) {
                 // Jika mortalitas berbeda, lakukan pembaruan
-                const updateResponse = await fetch(`http://sigma-backend-production.up.railway.app/api/data-ayam/`, {
+                const updateResponse = await fetch(`http://sigma-backend-production.up.railway.app/api/data-ayam/${record.id}/`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -546,7 +483,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     async function handleDeleteData() {
         try {
             // Ambil semua data ayam
-            const response = await fetch(`http://sigma-backend-production.up.railway.app/api/data-ayam/`, {
+            const response = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/`, {
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": token ? `Bearer ${token}` : "",
@@ -562,7 +499,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 const record = allData[0];  // Misalnya Anda ingin menghapus record pertama
 
                 // Kirim permintaan DELETE berdasarkan ID
-                const deleteResponse = await fetch(`http://sigma-backend-production.up.railway.app/api/data-ayam/`, {
+                const deleteResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${record.id}/`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -570,8 +507,10 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                     },
                 });
 
+                console.log("ID yang akan dihapus:", record?.id);
+
                 if (deleteResponse.ok) {
-                    console.log('Data ayam berhasil dihapus');
+                    alert('Data ayam berhasil dihapus');
 
                     // Setelah penghapusan, set mortalitas ke 0
                     await updateMortalitas(0, 0); // Reset mortalitas karena ayam sudah dihapus
@@ -581,7 +520,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                     throw new Error('Failed to delete chicken data');
                 }
             } else {
-                console.log('Tidak ada data ayam untuk dihapus');
+                alert('Tidak ada data ayam untuk dihapus');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -646,7 +585,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         setDialogOpen(false);
 
         // Panggil fungsi untuk menyimpan data ke API
-        await postJumlahAyam(initialCount, target, now);
+        await postStartFarming(initialCount, target, now);
 
         // Set timer countdown untuk menghitung sisa hari hingga panen
         const countdownInterval = setInterval(() => {
@@ -816,7 +755,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 handleHarvest,
                 confirmHarvest,
                 updateAgeInDays,
-                postJumlahAyam,
+                postStartFarming,
                 updateJumlahAyam,
                 updateMortalitas,
                 handleStartFarming,
@@ -827,8 +766,8 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 setCountdown,
 
                 // Chicken history
-                allChickenData,
-                setAllChickenData,
+                historyData,
+                setHistoryData,
             }}
         >
             {children}

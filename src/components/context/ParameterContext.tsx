@@ -132,6 +132,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
         try {
             const response = await fetch("/api/refresh", {
                 method: "POST",
+                credentials: "include", // 🛠️ Pastikan cookies dikirim!
             });
 
             const data = await response.json();
