@@ -26,16 +26,16 @@ export default function UmpanBalik() {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2  w-full h-full mt-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2  w-full h-full">
                     <div className="heading-hero p-4">
                         <ContactForm></ContactForm>
                     </div>
-                    <div className="wrapper flex justify-start lg:justify-center w-full p-4">
+                    <div className="wrapper flex justify-start lg:justify-center w-full p-4 gap-3">
                         <div className="heading-hero text-center flex flex-col justify-center">
-                            <h1 className={`bg-[linear-gradient(107deg,#16CC53_8.32%,#108496_60.18%,#35B6CA_105.75%)] cliptext text-transparent text-3xl title-head lg:text-6xl text-center md:text-start relative font-normal tracking-[-0.04em] col-span-12 lg:col-span-6 lg:leading-[60px] xl:col-span-4`}>
+                            <h1 className={`bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)] text-3xl body-bold lg:text-6xl text-center md:text-start relative font-normal tracking-[-0.04em] col-span-12 lg:col-span-6 lg:leading-[60px] xl:col-span-4`}>
                                 Umpan Balik
                             </h1>
-                            <p className='body-light text-center md:text-start text-sm lg:text-xl pt-5 lg:pt-10'>
+                            <p className='body-light text-center md:text-start text-sm lg:text-xl'>
                                 Berikan umpan balik terkait sistem SIGMA. Segala kritik dan masukan akan diterima dan dipertimbangkan.
                             </p>
                         </div>

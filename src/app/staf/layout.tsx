@@ -1,6 +1,7 @@
 import { ChickenProvider } from "@/components/context/ChickenContext";
 import { NotificationProvider } from "@/components/context/NotificationContext";
-import { ParameterProvider } from "@/components/context/ParameterContext";
+import { ParameterProvider2 } from "@/components/context/lantai-dua/ParameterContext2";
+import { ParameterProvider } from "@/components/context/lantai-satu/ParameterContext";
 
 export default function StafLayout({
     children,
@@ -10,9 +11,11 @@ export default function StafLayout({
     return (
         <NotificationProvider>
             <ParameterProvider>
-                <ChickenProvider>
-                    {children}
-                </ChickenProvider>
+                <ParameterProvider2>
+                    <ChickenProvider>
+                        {children}
+                    </ChickenProvider>
+                </ParameterProvider2>
             </ParameterProvider>
         </NotificationProvider>
     );

@@ -3,7 +3,6 @@
 // UI Components
 import { SensorBattery2 } from '@/components/section/sensor-battery-2';
 import { SensorStatus } from '@/components/section/sensor-status';
-import { Button } from '@/components/ui/button';
 import Navbar from "../navbar";
 
 // Libraries
@@ -15,6 +14,7 @@ import { TbAtom2Filled } from "react-icons/tb";
 
 // Private route for disallow unauthenticated users
 import PrivateRoute from '@/components/PrivateRoute';
+import ButtonDownload from '@/components/ui/buttons/button-download';
 import TopMenu from '../top-menu';
 
 export default function PerangkatSensor() {
@@ -31,10 +31,10 @@ export default function PerangkatSensor() {
                                 Perangkat Sensor
                             </div>
                             <div className="flex justify-center items-center text-4xl">
-                                <Button variant={"green"}>
+                                <ButtonDownload>
                                     <MdOutlineFileDownload className='text-4xl pr-2' />
                                     Unduh data
-                                </Button>
+                                </ButtonDownload>
                             </div>
                         </div>
                     </div>

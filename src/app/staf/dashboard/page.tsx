@@ -2,17 +2,21 @@
 
 // Context for data fetching
 import { useChickenContext } from "@/components/context/ChickenContext";
-import { useParameterContext } from "@/components/context/ParameterContext";
+import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterContext2";
+import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
 import GrafikCard from "@/components/section/grafik-card";
 import { SensorBattery } from '@/components/section/sensor-battery-1';
 import { SensorStatus } from "@/components/section/sensor-status";
 import StatCard from '@/components/section/stat-card';
-import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import StatusIndicator from '@/components/ui/status-indicator';
+import Navbar from "../navbar";
+import TopMenu from "../top-menu";
 
 // Libraries
+import { useState } from "react";
 import { utils, writeFile } from "xlsx";
 
 // Icons
@@ -21,27 +25,21 @@ import { FaRegCalendarAlt, FaTemperatureHigh, FaTemperatureLow } from "react-ico
 import { GiRooster } from "react-icons/gi";
 import { IoWater } from "react-icons/io5";
 import { MdOutlineFileDownload } from "react-icons/md";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { TbAtom2Filled } from "react-icons/tb";
 
 // Private route for disallow unauthenticated users
 import PrivateRoute from "@/components/PrivateRoute";
-import Navbar from "../navbar";
-import TopMenu from "../top-menu";
+import ButtonDownload from "@/components/ui/buttons/button-download";
 
 export default function Dashboard() {
+    const [lantai, setLantai] = useState<1 | 2>(1);
     const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
     const {
-        averageScore,
-        ammonia,
-        temperature,
-        humidity,
-        overallStatus,
-        warnings,
-        ammoniaColor,
-        temperatureColor,
-        humidityColor,
-        overallColor
-    } = useParameterContext();
+        averageScore, ammonia, temperature, humidity,
+        overallStatus, warnings, ammoniaColor, temperatureColor,
+        humidityColor, overallColor
+    } = lantai === 1 ? useParameterContext() : useParameterContext2();
 
     const grafikData = [
         {
@@ -182,11 +180,24 @@ export default function Dashboard() {
                             <div className='flex body-bold text-2xl'>
                                 Dasbor
                             </div>
-                            <div className="flex justify-center items-center text-4xl">
-                                <Button variant={"green"} onClick={handleDownload}>
-                                    <MdOutlineFileDownload className='text-4xl pr-2' />
-                                    Unduh data
-                                </Button>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-4xl">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                        Lantai {lantai}
+                                        <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className='body-light'>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <div className="flex justify-center items-center text-4xl">
+                                    <ButtonDownload onClick={handleDownload}>
+                                        <MdOutlineFileDownload className='text-4xl pr-2' />
+                                        Unduh data
+                                    </ButtonDownload>
+                                </div>
                             </div>
                         </div>
                     </div>

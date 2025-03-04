@@ -1,10 +1,10 @@
 "use client";
 
 // Context for data fetching
-import { useParameterContext } from "@/components/context/ParameterContext";
+import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/buttons/button';
 import Dynamic from "@/components/ui/dynamic";
 import withIconStyles from "@/components/ui/withIconStyles";
 import { deleteCookie } from "cookies-next";

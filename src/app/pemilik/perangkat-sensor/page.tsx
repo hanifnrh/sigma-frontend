@@ -3,7 +3,7 @@
 // UI Components
 import { SensorBattery2 } from '@/components/section/sensor-battery-2';
 import { SensorStatus } from '@/components/section/sensor-status';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/buttons/button';
 import Navbar from "../navbar";
 
 // Libraries

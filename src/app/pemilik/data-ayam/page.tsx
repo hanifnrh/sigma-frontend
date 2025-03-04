@@ -8,7 +8,7 @@ import { useChickenContext } from "@/components/context/ChickenContext";
 import AyamCounter from '@/components/section/ayam-counter';
 import DataAyamCard from '@/components/section/data-ayam-card';
 import GrafikCard from "@/components/section/grafik-card";
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/buttons/button';
 import { Calendar } from "@/components/ui/calendar";
 import {
     Dialog,

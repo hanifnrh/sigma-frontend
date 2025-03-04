@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { useChickenContext } from "../context/ChickenContext";
-import { useParameterContext } from "../context/ParameterContext";
-import { Button } from "../ui/button";
+import { useParameterContext } from "../context/lantai-satu/ParameterContext";
+import { Button } from "../ui/buttons/button";
 
 type CombinedHistory = {
     timestamp: string; // Ubah dari Date | undefined ke string
@@ -42,6 +42,7 @@ export function RiwayatTable() {
     useEffect(() => {
         const mergeData = () => {
             const dataMap = new Map<string, CombinedHistory>();
+            let lastChickenData: { jumlah_ayam?: number; mortalitas?: number; usia_ayam?: number } | null = null;
 
             // Urutkan historyParameter terbaru ke terlama
             historyParameter.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
@@ -62,27 +63,47 @@ export function RiwayatTable() {
                 }
             });
 
-            // Gabungkan data ayam
+            // Urutkan historyData dari terbaru ke terlama
+            historyData.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
             historyData.forEach((ayam) => {
                 const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp)).toISOString();
 
-                // Kalau timestamp ada di dataMap, tambahin data ayam tanpa overwrite data parameter
+                lastChickenData = {
+                    jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                    mortalitas: ayam.data_ayam_details.mortalitas,
+                    usia_ayam: ayam.data_ayam_details.usia_ayam,
+                };
+
                 if (dataMap.has(roundedTimestamp)) {
                     const existingData = dataMap.get(roundedTimestamp)!;
                     dataMap.set(roundedTimestamp, {
                         ...existingData,
-                        jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
-                        mortalitas: ayam.data_ayam_details.mortalitas,
-                        usia_ayam: ayam.data_ayam_details.usia_ayam,
+                        ...lastChickenData,
                     });
                 } else {
-                    // Kalau gak ada, tambahin data ayam sebagai entry baru
                     dataMap.set(roundedTimestamp, {
                         timestamp: roundedTimestamp,
-                        jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
-                        mortalitas: ayam.data_ayam_details.mortalitas,
-                        usia_ayam: ayam.data_ayam_details.usia_ayam,
+                        ...lastChickenData,
                     });
+                }
+            });
+
+            // Terapkan carry forward jika ada data parameter yang belum punya data ayam
+            let lastKnownChickenData: Pick<CombinedHistory, 'jumlah_ayam' | 'mortalitas' | 'usia_ayam'> | undefined = undefined;
+
+            Array.from(dataMap.entries()).reverse().forEach(([timestamp, data]) => {
+                if (!data.jumlah_ayam && lastKnownChickenData) {
+                    dataMap.set(timestamp, {
+                        ...data,
+                        ...lastKnownChickenData,
+                    });
+                } else if (data.jumlah_ayam) {
+                    lastKnownChickenData = {
+                        jumlah_ayam: data.jumlah_ayam,
+                        mortalitas: data.mortalitas,
+                        usia_ayam: data.usia_ayam,
+                    };
                 }
             });
 
@@ -96,7 +117,6 @@ export function RiwayatTable() {
 
         mergeData();
     }, [historyParameter, historyData]);
-
 
     const getButtonVariant = (status: string) => {
         switch (status) {

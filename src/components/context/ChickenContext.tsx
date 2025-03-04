@@ -687,7 +687,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                     timestamp: new Date(),
                     message: "Segera tinjau kandang!",
                     icon: <GiRooster />,
-                    color: updatedStatusAyam.mortalitas.color,
+                    color: updatedStatusAyam.ayamDecreasePercentage.color,
                 });
             }
         }

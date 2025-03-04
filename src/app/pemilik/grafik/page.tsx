@@ -1,12 +1,12 @@
 "use client";
 
 // Context for data fetching
-import { useParameterContext } from "@/components/context/ParameterContext";
+import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
 import Navbar from "@/app/pemilik/navbar";
 import GrafikCard from "@/components/section/grafik-card";
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/buttons/button';
 import {
     DropdownMenu,
     DropdownMenuContent,

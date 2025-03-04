@@ -2,7 +2,7 @@
 
 
 // UI Components
-import ButtonLogin from "@/components/ui/button-login";
+import ButtonLogin from "@/components/ui/buttons/button-login";
 import { Input } from "@/components/ui/input";
 
 // Libraries

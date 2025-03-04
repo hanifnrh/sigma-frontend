@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import React, { ChangeEvent, useState } from "react";
 import { FaUndo } from "react-icons/fa";
-import { Button } from "../ui/button";
+import { Button } from "../ui/buttons/button";
 
 interface AyamCounterProps {
     jumlahAyam: number;

@@ -1,12 +1,12 @@
 "use client";
 
 // Context for data fetching
-import { useParameterContext } from "@/components/context/ParameterContext";
+import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterContext2";
+import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
 import Navbar from "@/app/staf/navbar";
 import GrafikCard from "@/components/section/grafik-card";
-import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -23,6 +23,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
 import PrivateRoute from "@/components/PrivateRoute";
+import ButtonDownload from "@/components/ui/buttons/button-download";
+import { useState } from "react";
 import { utils, writeFile } from "xlsx";
 import TopMenu from "../top-menu";
 
@@ -40,16 +42,17 @@ interface ParameterData {
 }
 
 export default function Grafik() {
-    const { ammonia, temperature, humidity, overallStatus, overallColor, averageScore, ammoniaColor, humidityColor, temperatureColor, ammoniaStatus, humidityStatus, temperatureStatus } = useParameterContext();
+    const [lantai, setLantai] = useState<1 | 2>(1);
+    const { ammonia, temperature, humidity, overallStatus, overallColor, averageScore, ammoniaColor, humidityColor, temperatureColor, ammoniaStatus, humidityStatus, temperatureStatus } = lantai === 1 ? useParameterContext() : useParameterContext2();
 
     const grafikData = [
         {
             title: "Skor Keseluruhan",
-            value: averageScore ?? 0, // Contoh rata-rata
+            value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/",
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
             dataType: "score",
         },
         {
@@ -58,7 +61,7 @@ export default function Grafik() {
             statusColor: ammoniaColor || "text-gray-500",
             statusText: ammoniaStatus || "N/A",
             chartId: "ammonia",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/",
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
             dataType: "ammonia",
         },
         {
@@ -67,7 +70,7 @@ export default function Grafik() {
             statusColor: temperatureColor || "text-gray-500",
             statusText: temperatureStatus || "N/A",
             chartId: "temperature",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/",
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
             dataType: "temperature",
         },
         {
@@ -76,27 +79,22 @@ export default function Grafik() {
             statusColor: humidityColor || "text-gray-500",
             statusText: humidityStatus || "N/A",
             chartId: "humidity",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/",
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
             dataType: "humidity",
         },
     ];
 
     const handleDownload = async () => {
         try {
-            const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/");
+            const response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`);
             const data: ParameterData[] = await response.json();
-
+    
             if (!data.length) {
                 alert("Data kosong!");
                 return;
             }
-
-            // Mapping data untuk dihapus properti yang tidak perlu
-            const formattedData = data.map(({
-                id, timestamp, ammonia, temperature, humidity,
-                ammonia_status, temperature_status, humidity_status,
-                status, score
-            }) => ({
+    
+            const formattedData = data.map(({ id, timestamp, ammonia, temperature, humidity, ammonia_status, temperature_status, humidity_status, status, score }) => ({
                 ID: id,
                 Timestamp: timestamp,
                 Amonia: ammonia,
@@ -108,21 +106,18 @@ export default function Grafik() {
                 "Status Keseluruhan": status,
                 "Skor Keseluruhan": score
             }));
-
-            // Buat worksheet dan workbook
+    
             const ws = utils.json_to_sheet(formattedData);
             const wb = utils.book_new();
-            utils.book_append_sheet(wb, ws, "Parameter Data");
-
-            // Simpan file XLSX
-            writeFile(wb, "DataGrafik.xlsx");
+            utils.book_append_sheet(wb, ws, `Parameter Data Lantai ${lantai}`);
+    
+            writeFile(wb, `DataGrafik_Lantai${lantai}.xlsx`);
         } catch (error) {
             console.error("Error downloading data:", error);
             alert("Gagal mengunduh data!");
         }
     };
-
-
+    
     return (
         <PrivateRoute>
             <main className="bg-white dark:bg-zinc-900 w-full relative">
@@ -134,7 +129,18 @@ export default function Grafik() {
                             <div className='flex body-bold text-2xl'>
                                 Grafik
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-4xl">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-4xl">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                        Lantai {lantai}
+                                        <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className='body-light'>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                         30 menit
@@ -150,10 +156,10 @@ export default function Grafik() {
                                         <DropdownMenuItem>1 Kelompok</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <Button variant={"green"} onClick={handleDownload}>
+                                <ButtonDownload onClick={handleDownload}>
                                     <MdOutlineFileDownload className='text-4xl pr-2' />
                                     Unduh data
-                                </Button>
+                                </ButtonDownload>
                             </div>
                         </div>
                     </div>

@@ -2,14 +2,14 @@
 
 // Context for data fetching
 import { useChickenContext } from "@/components/context/ChickenContext";
-import { useParameterContext } from "@/components/context/ParameterContext";
+import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
 import GrafikCard from "@/components/section/grafik-card";
 import { SensorBattery } from '@/components/section/sensor-battery-1';
 import { SensorStatus } from "@/components/section/sensor-status";
 import StatCard from '@/components/section/stat-card';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/buttons/button';
 import StatusIndicator from '@/components/ui/status-indicator';
 
 // Libraries
