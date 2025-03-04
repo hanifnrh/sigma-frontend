@@ -4,7 +4,7 @@
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import { Button } from '@/components/ui/buttons/button';
+import ButtonLogout from "@/components/ui/buttons/button-logout";
 import Dynamic from "@/components/ui/dynamic";
 import withIconStyles from "@/components/ui/withIconStyles";
 import { deleteCookie } from "cookies-next";
@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
     const MenuItem = ({ href, Icon, label }: { href: string; Icon: React.ComponentType; label: string }) => (
         <li>
-            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-600 text-white' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-600/40 hover:text-white group`}>
+            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-600 text-white' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-100 hover:text-indigo-600 group`}>
                 <Icon />
                 <span>{label}</span>
             </Link>
@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
                                     <Dynamic />
                                 </div>
                             </div>
-                            <Button variant="outline" className='w-full mt-5 body-bold' onClick={handleLogout}>Log Out</Button>
+                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout}/>
                         </div>
                     </div>
                 </aside>

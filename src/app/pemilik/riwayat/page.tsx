@@ -8,7 +8,6 @@ import Navbar from "@/app/pemilik/navbar";
 import { Aktivitas } from "@/components/section/aktivitas";
 import GrafikCard from "@/components/section/grafik-card";
 import { RiwayatTable } from '@/components/section/riwayat-table';
-import { Button } from '@/components/ui/buttons/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,6 +19,7 @@ import {
 // Libraries
 
 // Icons
+import ButtonDownload from "@/components/ui/buttons/button-download";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import TopMenu from "../top-menu";
@@ -65,17 +65,17 @@ export default function Riwayat() {
                                     <DropdownMenuItem>1 Kelompok</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button variant={"green"}>
+                            <ButtonDownload>
                                 <MdOutlineFileDownload className='text-4xl pr-2' />
                                 Unduh data
-                            </Button>
+                            </ButtonDownload>
                         </div>
                     </div>
                 </div>
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full">
-                        <RiwayatTable />
+                        <RiwayatTable/>
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>

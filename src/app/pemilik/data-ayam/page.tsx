@@ -113,7 +113,7 @@ export default function DataAyam() {
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
-                        <TopMenu/>
+                        <TopMenu />
                         <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
                             <div className='flex body-bold text-2xl'>
                                 Data Ayam
@@ -123,8 +123,8 @@ export default function DataAyam() {
                     <div className="page flex items-center justify-between p-4 w-full">
                         <div className="flex flex-col justify-between items-center w-full">
                             <div className='grid grid-cols-1 xl:grid-cols-2 gap-y-10 w-full'>
-                                <div className='grid grid-cols-2 gap-y-4 w-full xl:w-96'>
-                                    <div className='flex flex-col justify-center sm:justify-start sm:items-start items-center w-full xl:w-44 h-full'>
+                                <div className='grid grid-cols-2 gap-y-4 w-fit'>
+                                    <div className='flex flex-col justify-center sm:justify-start sm:items-start items-center w-full xl:w-48 h-full'>
                                         <div className='h-full flex justify-center items-center text-xl'>
                                             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                                                 <DialogTrigger disabled={farmingStarted}>
@@ -211,7 +211,7 @@ export default function DataAyam() {
                                             <p className="text-black mt-2 text-sm sm:text-md text-center">Ternak belum dimulai</p>
                                         )}
                                     </div>
-                                    <div className='flex flex-col justify-start sm:items-end 2xl:items-start items-center w-full xl:w-44 h-full'>
+                                    <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
                                         <Dialog open={harvestDialogOpen} onOpenChange={setHarvestDialogOpen}>
                                             <DialogTrigger disabled={!farmingStarted} >
                                                 <div className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
@@ -247,6 +247,9 @@ export default function DataAyam() {
                                             </DialogContent>
                                         </Dialog>
                                         {harvested && <p className='mt-2 text-sm sm:text-md text-center'>Sudah panen.</p>}
+                                        {farmingStarted && (
+                                            <p className={`${getAgeStatusColor} mt-2 text-sm sm:text-md text-center`}>{countdown}</p>
+                                        )}
                                     </div>
 
                                     <Dialog open={showConfirmHarvestDialog} onOpenChange={setShowConfirmHarvestDialog}>
@@ -271,19 +274,21 @@ export default function DataAyam() {
                                     </Dialog>
                                 </div>
                                 <div className='flex flex-col sm:flex-row justify-center xl:justify-end items-center sm:items-start w-full'>
-                                    {!harvested && countdown && <div className='flex sm:justify-start justify-center items-start w-full lg:w-72 mb-2 sm:mb-0'>
-                                        <div className='text-sm sm:text-xl flex justify-center items-center text-center px-4 py-2'>
-                                            {countdown}
-                                        </div>
-                                    </div>}
 
-                                    <div className='flex justify-end items-start'>
-                                        <Button variant={"jumlahAyam"} className='w-full lg:w-72'>
-                                            <div className='text-sm sm:text-xl'>
-                                                Jumlah ayam awal: {jumlahAwalAyam}
-                                            </div>
-                                        </Button>
+                                    <div className='flex justify-end items-start gap-2'>
+                                        <div className='border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                            Jumlah ayam awal: {jumlahAwalAyam}
+                                        </div>
+
+                                        <div className='border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                            Tanggal panen: {targetTanggal ? targetTanggal.toLocaleDateString('id-ID', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric'
+                                            }) : 'Belum ditentukan'}
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                             <div className="flex justify-between items-center w-full mt-10">

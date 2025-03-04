@@ -41,10 +41,10 @@ const Navbar: React.FC = () => {
                                 <Link href="/login" className={currentPath === "/login" ? "block py-2 px-3 body-bold text-dark-500 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 " : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 "}>Dasbor</Link>
                             </li>
                             <li>
-                                <Link href="/about" className={currentPath === "/about" ? "block py-2 px-3 body-bold text-dark-500 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 " : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 "}>Tentang</Link>
+                                <Link href="/tentang" className={currentPath === "/tentang" ? "block py-2 px-3 body-bold text-dark-500 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 " : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 "}>Tentang</Link>
                             </li>
                             <li>
-                                <Link href="/credits" className={currentPath === "/credits" ? "block py-2 px-3 body-bold text-dark-500 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 " : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 "}>Bantuan</Link>
+                                <Link href="/bantuan" className={currentPath === "/bantuan" ? "block py-2 px-3 body-bold text-dark-500 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 " : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 "}>Bantuan</Link>
                             </li>
                             <li>
                                 <Link href="/login">

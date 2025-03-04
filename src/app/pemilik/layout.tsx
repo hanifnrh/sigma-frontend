@@ -16,6 +16,7 @@ export default function PemilikLayout({
                         {children}
                     </ChickenProvider>
                 </ParameterProvider2>
+            </ParameterProvider>
         </NotificationProvider>
     );
 }
