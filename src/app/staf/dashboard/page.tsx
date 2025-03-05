@@ -35,11 +35,15 @@ import ButtonDownload from "@/components/ui/buttons/button-download";
 export default function Dashboard() {
     const [lantai, setLantai] = useState<1 | 2>(1);
     const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
-    const {
-        averageScore, ammonia, temperature, humidity,
-        overallStatus, warnings, ammoniaColor, temperatureColor,
-        humidityColor, overallColor
-    } = lantai === 1 ? useParameterContext() : useParameterContext2();
+const parameterLantai1 = useParameterContext();
+const parameterLantai2 = useParameterContext2();
+
+const {
+    averageScore, ammonia, temperature, humidity,
+    overallStatus, warnings, ammoniaColor, temperatureColor,
+    humidityColor, overallColor
+} = lantai === 1 ? parameterLantai1 : parameterLantai2;
+
 
     const grafikData = [
         {

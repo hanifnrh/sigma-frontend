@@ -43,7 +43,9 @@ interface ParameterData {
 
 export default function Grafik() {
     const [lantai, setLantai] = useState<1 | 2>(1);
-    const { ammonia, temperature, humidity, overallStatus, overallColor, averageScore, ammoniaColor, humidityColor, temperatureColor, ammoniaStatus, humidityStatus, temperatureStatus } = lantai === 1 ? useParameterContext() : useParameterContext2();
+    const parameterLantai1 = useParameterContext();
+    const parameterLantai2 = useParameterContext2();
+    const { ammonia, temperature, humidity, overallStatus, overallColor, averageScore, ammoniaColor, humidityColor, temperatureColor, ammoniaStatus, humidityStatus, temperatureStatus } = lantai === 1 ? parameterLantai1 : parameterLantai2;
 
     const grafikData = [
         {
@@ -88,12 +90,12 @@ export default function Grafik() {
         try {
             const response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`);
             const data: ParameterData[] = await response.json();
-    
+
             if (!data.length) {
                 alert("Data kosong!");
                 return;
             }
-    
+
             const formattedData = data.map(({ id, timestamp, ammonia, temperature, humidity, ammonia_status, temperature_status, humidity_status, status, score }) => ({
                 ID: id,
                 Timestamp: timestamp,
@@ -106,18 +108,18 @@ export default function Grafik() {
                 "Status Keseluruhan": status,
                 "Skor Keseluruhan": score
             }));
-    
+
             const ws = utils.json_to_sheet(formattedData);
             const wb = utils.book_new();
             utils.book_append_sheet(wb, ws, `Parameter Data Lantai ${lantai}`);
-    
+
             writeFile(wb, `DataGrafik_Lantai${lantai}.xlsx`);
         } catch (error) {
             console.error("Error downloading data:", error);
             alert("Gagal mengunduh data!");
         }
     };
-    
+
     return (
         <PrivateRoute>
             <main className="bg-white dark:bg-zinc-900 w-full relative">
