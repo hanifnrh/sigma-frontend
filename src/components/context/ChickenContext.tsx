@@ -213,7 +213,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         setError(null); // Reset error before making the request
 
         try {
-            const response = await fetch('https://sigma-backend-production.up.railway.app/api/parameters/', {
+            const response = await fetch('https://sigma-backend-production.up.railway.app/api/parameters/floor/1/', {
                 method: 'DELETE',
                 credentials: "include", // Penting agar cookies dikirim ke backend
                 headers: {

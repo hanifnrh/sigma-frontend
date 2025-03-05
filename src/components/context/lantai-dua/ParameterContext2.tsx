@@ -160,7 +160,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
                     setCookie("accessToken", token, { path: "/" });
                 }
 
-                const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
+                const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/floor/2/", {
                     credentials: "include",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -174,7 +174,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
 
                     setCookie("accessToken", newToken, { path: "/" });
 
-                    const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
+                    const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/floor/2/", {
                         credentials: "include",
                         headers: {
                             "Authorization": `Bearer ${newToken}`,

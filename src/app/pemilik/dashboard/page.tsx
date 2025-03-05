@@ -52,7 +52,7 @@ export default function Dashboard() {
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/",
+            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/floor/1/",
             dataType: "score",
         }
     ];
