@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
     const MenuItem = ({ href, Icon, label }: { href: string; Icon: React.ComponentType; label: string }) => (
         <li>
-            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-600 text-white' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-100 hover:text-indigo-600 group`}>
+            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-100 text-indigo-600' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-50 hover:text-indigo-400 group`}>
                 <Icon />
                 <span>{label}</span>
             </Link>
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
                             <MenuItem href="/pemilik/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
                             <MenuItem href="/pemilik/grafik" Icon={StyledGraphIcon} label="Grafik" />
                             <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
-                            <MenuItem href="/pemilik/perangkat-sensor" Icon={StyledSensorsIcon} label="Perangkat Keras" />
+                            <MenuItem href="/pemilik/perangkat-keras" Icon={StyledSensorsIcon} label="Perangkat Keras" />
                             <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
                         </ul>
 

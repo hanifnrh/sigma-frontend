@@ -6,7 +6,6 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 
 // UI Components
 import Navbar from "@/app/pemilik/navbar";
-import GrafikCard from "@/components/section/grafik-card";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -23,7 +22,9 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
 import PrivateRoute from "@/components/PrivateRoute";
+import GrafikParameterCard from "@/components/section/grafik-parameter-card";
 import ButtonDownload from "@/components/ui/buttons/button-download";
+import { getCookie, setCookie } from "cookies-next";
 import { useState } from "react";
 import { utils, writeFile } from "xlsx";
 import TopMenu from "../top-menu";
@@ -54,7 +55,7 @@ export default function Grafik() {
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`,
             dataType: "score",
         },
         {
@@ -63,7 +64,7 @@ export default function Grafik() {
             statusColor: ammoniaColor || "text-gray-500",
             statusText: ammoniaStatus || "N/A",
             chartId: "ammonia",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`,
             dataType: "ammonia",
         },
         {
@@ -72,7 +73,7 @@ export default function Grafik() {
             statusColor: temperatureColor || "text-gray-500",
             statusText: temperatureStatus || "N/A",
             chartId: "temperature",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`,
             dataType: "temperature",
         },
         {
@@ -81,44 +82,120 @@ export default function Grafik() {
             statusColor: humidityColor || "text-gray-500",
             statusText: humidityStatus || "N/A",
             chartId: "humidity",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`,
+            apiUrl: `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`,
             dataType: "humidity",
         },
     ];
 
-    const handleDownload = async () => {
-        try {
-            const response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters${lantai === 2 ? "2" : ""}/`);
-            const data: ParameterData[] = await response.json();
+    const durationMap: Record<string, string> = {
+        "30 Menit": "30m",
+        "1 Jam": "1h",
+        "1 Hari": "1d",
+        "1 Minggu": "1w",
+        "1 Bulan": "1mo",
+        "1 Kelompok": "all" // Sesuaikan dengan backend
+    };
 
-            if (!data.length) {
-                alert("Data kosong!");
-                return;
+    const fetchAccessToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+                credentials: "include", // 🛠️ Pastikan cookies dikirim!
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to refresh token.");
             }
 
-            const formattedData = data.map(({ id, timestamp, ammonia, temperature, humidity, ammonia_status, temperature_status, humidity_status, status, score }) => ({
-                ID: id,
-                Timestamp: timestamp,
-                Amonia: ammonia,
-                Suhu: temperature,
-                Kelembapan: humidity,
-                "Status Amonia": ammonia_status,
-                "Status Suhu": temperature_status,
-                "Status Kelembapan": humidity_status,
-                "Status Keseluruhan": status,
-                "Skor Keseluruhan": score
-            }));
+            return data.accessToken;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            return null;
+        }
+    };
 
-            const ws = utils.json_to_sheet(formattedData);
-            const wb = utils.book_new();
-            utils.book_append_sheet(wb, ws, `Parameter Data Lantai ${lantai}`);
+    const [durasi, setDurasi] = useState("30 Menit"); // Default ke "30 Menit"
 
-            writeFile(wb, `DataGrafik_Lantai${lantai}.xlsx`);
+    const handleDownload = async () => {
+        try {
+            const durationParam = durationMap[durasi] || "30m";
+            const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?duration=${durationParam}`;
+
+            let token = getCookie("accessToken");
+
+            // Kalau token kosong atau kadaluarsa, refresh dulu
+            if (!token) {
+                token = await fetchAccessToken();
+                if (!token) throw new Error("Gagal mendapatkan token baru.");
+                setCookie("accessToken", token, { path: "/" });
+            }
+
+            console.log("Fetching data from:", apiUrl);
+
+            const response = await fetch(apiUrl, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+
+            // Kalau token expired, coba refresh token dan ulang request
+            if (response.status === 401) {
+                const newToken = await fetchAccessToken();
+                if (!newToken) throw new Error("Gagal refresh token.");
+                setCookie("accessToken", newToken, { path: "/" });
+
+                const newResponse = await fetch(apiUrl, {
+                    headers: {
+                        "Authorization": `Bearer ${newToken}`,
+                    },
+                });
+
+                if (!newResponse.ok) throw new Error(`HTTP error! Status: ${newResponse.status}`);
+                const newData = await newResponse.json();
+                return processDownload(newData);
+            }
+
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const data: ParameterData[] = await response.json();
+
+            processDownload(data);
         } catch (error) {
             console.error("Error downloading data:", error);
             alert("Gagal mengunduh data!");
         }
     };
+
+    // Fungsi buat memproses data jadi Excel
+    const processDownload = (data: ParameterData[]) => {
+        if (typeof window === "undefined") return;
+
+        if (!data.length) {
+            alert("Data kosong!");
+            return;
+        }
+
+        const formattedData = data.map(({ id, timestamp, ammonia, temperature, humidity, ammonia_status, temperature_status, humidity_status, status, score }) => ({
+            ID: id,
+            Timestamp: timestamp,
+            Amonia: ammonia,
+            Suhu: temperature,
+            Kelembapan: humidity,
+            "Status Amonia": ammonia_status,
+            "Status Suhu": temperature_status,
+            "Status Kelembapan": humidity_status,
+            "Status Keseluruhan": status,
+            "Skor Keseluruhan": score
+        }));
+
+        const ws = utils.json_to_sheet(formattedData);
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, `Parameter Data Lantai ${lantai}`);
+
+        writeFile(wb, `DataGrafik_Lantai${lantai}_${durationMap[durasi]}.xlsx`);
+    };
+
 
     return (
         <PrivateRoute>
@@ -145,17 +222,16 @@ export default function Grafik() {
                                 </DropdownMenu>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                                        30 menit
+                                        {durasi}
                                         <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className='body-light'>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem>30 Menit</DropdownMenuItem>
-                                        <DropdownMenuItem>1 Jam</DropdownMenuItem>
-                                        <DropdownMenuItem>1 Hari</DropdownMenuItem>
-                                        <DropdownMenuItem>1 Minggu</DropdownMenuItem>
-                                        <DropdownMenuItem>1 Bulan</DropdownMenuItem>
-                                        <DropdownMenuItem>1 Kelompok</DropdownMenuItem>
+                                        {Object.keys(durationMap).map((key) => (
+                                            <DropdownMenuItem key={key} onClick={() => setDurasi(key)}>
+                                                {key}
+                                            </DropdownMenuItem>
+                                        ))}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <ButtonDownload onClick={handleDownload}>
@@ -170,13 +246,16 @@ export default function Grafik() {
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 p-4 w-full">
                             {grafikData.map((grafik) => (
                                 <div key={grafik.chartId}>
-                                    <GrafikCard {...grafik} />
+                                    <GrafikParameterCard
+                                        {...grafik}
+                                        lantai={lantai}
+                                        durasi={durasi}
+                                    />
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-
 
             </main>
         </PrivateRoute>

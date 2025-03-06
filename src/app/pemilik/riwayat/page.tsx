@@ -5,7 +5,7 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 
 // UI Components
 import Navbar from "@/app/pemilik/navbar";
-import { RiwayatTable } from '@/app/staf/riwayat/riwayat-table';
+import { RiwayatTable } from '@/app/pemilik/riwayat/riwayat-table';
 import { Aktivitas } from "@/components/section/aktivitas";
 import GrafikCard from "@/components/section/grafik-card";
 import {
@@ -20,6 +20,7 @@ import {
 
 // Icons
 import ButtonDownload from "@/components/ui/buttons/button-download";
+import { useState } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import TopMenu from "../top-menu";
@@ -39,6 +40,13 @@ export default function Riwayat() {
             dataType: "score",
         }
     ];
+
+    const [selectedFloor, setSelectedFloor] = useState(1); // Default lantai 1
+
+    const handleFloorChange = (floor: number) => {
+        setSelectedFloor(floor);
+    };
+
     return (
         <main className="w-full bg-white dark:bg-zinc-900 relative">
             <Navbar />
@@ -49,7 +57,19 @@ export default function Riwayat() {
                         <div className='flex body-bold text-2xl'>
                             Riwayat
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-4xl">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-4xl">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                    {`Lantai ${selectedFloor}`}
+                                    <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className='body-light'>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => handleFloorChange(1)}>Lantai 1</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleFloorChange(2)}>Lantai 2</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     30 menit
@@ -65,6 +85,7 @@ export default function Riwayat() {
                                     <DropdownMenuItem>1 Kelompok</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
+
                             <ButtonDownload>
                                 <MdOutlineFileDownload className='text-4xl pr-2' />
                                 Unduh data
@@ -75,7 +96,7 @@ export default function Riwayat() {
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full">
-                        <RiwayatTable/>
+                        <RiwayatTable selectedFloor={selectedFloor} />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>
@@ -98,8 +119,6 @@ export default function Riwayat() {
                     </div>
                 </div>
             </div>
-
-
 
         </main>
     );

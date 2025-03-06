@@ -52,10 +52,13 @@ export default function Dashboard() {
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/floor/1/",
+            apiUrl: lantai === 1
+                ? "https://sigma-backend-production.up.railway.app/api/parameters/floor/1/"
+                : "https://sigma-backend-production.up.railway.app/api/parameters/floor/2/",
             dataType: "score",
         }
     ];
+
 
     const getTemperatureIcon = (temp: number) =>
         temp > 32 ? <FaTemperatureHigh /> : <FaTemperatureLow />;
