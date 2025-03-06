@@ -8,9 +8,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
-import { useChickenContext } from "../context/ChickenContext";
-import { useParameterContext } from "../context/lantai-satu/ParameterContext";
-import { Button } from "../ui/buttons/button";
+import { useChickenContext } from "../../../components/context/ChickenContext";
+import { useParameterContext } from "../../../components/context/lantai-satu/ParameterContext";
+import { Button } from "../../../components/ui/buttons/button";
 
 type CombinedHistory = {
     timestamp: string; // Ubah dari Date | undefined ke string

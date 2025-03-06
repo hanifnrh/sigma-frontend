@@ -254,8 +254,6 @@ export default function Grafik() {
                         </div>
                     </div>
                 </div>
-
-
             </main>
         </PrivateRoute>
     );

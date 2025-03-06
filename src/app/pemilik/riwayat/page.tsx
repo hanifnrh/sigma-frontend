@@ -5,9 +5,9 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 
 // UI Components
 import Navbar from "@/app/pemilik/navbar";
+import { RiwayatTable } from '@/app/staf/riwayat/riwayat-table';
 import { Aktivitas } from "@/components/section/aktivitas";
 import GrafikCard from "@/components/section/grafik-card";
-import { RiwayatTable } from '@/components/section/riwayat-table';
 import {
     DropdownMenu,
     DropdownMenuContent,
