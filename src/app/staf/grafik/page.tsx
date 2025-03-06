@@ -169,6 +169,8 @@ export default function Grafik() {
 
     // Fungsi buat memproses data jadi Excel
     const processDownload = (data: ParameterData[]) => {
+        if (typeof window === "undefined") return;
+
         if (!data.length) {
             alert("Data kosong!");
             return;
@@ -254,6 +256,7 @@ export default function Grafik() {
                         </div>
                     </div>
                 </div>
+
             </main>
         </PrivateRoute>
     );

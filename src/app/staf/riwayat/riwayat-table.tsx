@@ -1,3 +1,4 @@
+import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterContext2";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Table,
@@ -11,6 +12,10 @@ import { useEffect, useState } from "react";
 import { useChickenContext } from "../../../components/context/ChickenContext";
 import { useParameterContext } from "../../../components/context/lantai-satu/ParameterContext";
 import { Button } from "../../../components/ui/buttons/button";
+
+type RiwayatTableProps = {
+    selectedFloor: number;
+};
 
 type CombinedHistory = {
     timestamp: string; // Ubah dari Date | undefined ke string
@@ -33,13 +38,16 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 };
 
 
-export function RiwayatTable() {
-    const { historyParameter } = useParameterContext();
+export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
+    const { historyParameter: historyParameter1 } = useParameterContext();
+    const { historyParameter: historyParameter2 } = useParameterContext2();
     const { historyData } = useChickenContext();
 
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
 
     useEffect(() => {
+        const historyParameter = selectedFloor === 1 ? historyParameter1 : historyParameter2;
+
         const mergeData = () => {
             const dataMap = new Map<string, CombinedHistory>();
             let lastChickenData: { jumlah_ayam?: number; mortalitas?: number; usia_ayam?: number } | null = null;
@@ -116,7 +124,7 @@ export function RiwayatTable() {
         };
 
         mergeData();
-    }, [historyParameter, historyData]);
+    }, [historyParameter1, historyParameter2, selectedFloor, historyData]);
 
     const getButtonVariant = (status: string) => {
         switch (status) {
