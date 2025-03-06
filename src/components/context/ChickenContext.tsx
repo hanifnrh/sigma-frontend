@@ -441,21 +441,20 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             } else {
                 console.error('No ayam data found to update.');
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('Error updating age:', error);
 
-            // Check if the error is an instance of Error
             if (error instanceof Error) {
                 console.error('Error message:', error.message);
             }
 
-            // Check if the error has a 'response' property
             if (typeof error === 'object' && error !== null && 'response' in error) {
-                console.error('Server response:', (error as any).response);
+                console.error('Server response:', (error as { response: unknown }).response);
             }
 
             alert('Terjadi kesalahan saat memperbarui usia ayam.');
         }
+
     }, [token]); // Add token as a dependency
 
     const postStartFarming = async (jumlahAyam: number, targetTanggal: Date, startDate: Date) => {
