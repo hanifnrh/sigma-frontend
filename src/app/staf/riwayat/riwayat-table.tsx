@@ -1,6 +1,14 @@
 import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterContext2";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
     Table,
     TableBody,
     TableCell,
@@ -15,6 +23,7 @@ import { Button } from "../../../components/ui/buttons/button";
 
 type RiwayatTableProps = {
     selectedFloor: number;
+    selectedTime: string;
 };
 
 type CombinedHistory = {
@@ -38,12 +47,15 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 };
 
 
-export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
+export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps) {
     const { historyParameter: historyParameter1 } = useParameterContext();
     const { historyParameter: historyParameter2 } = useParameterContext2();
     const { historyData } = useChickenContext();
 
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
+
+    const [currentPage, setCurrentPage] = useState(1); // Halaman saat ini
+    const itemsPerPage = 10; // Jumlah item per halaman
 
     useEffect(() => {
         const historyParameter = selectedFloor === 1 ? historyParameter1 : historyParameter2;
@@ -126,6 +138,56 @@ export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
         mergeData();
     }, [historyParameter1, historyParameter2, selectedFloor, historyData]);
 
+    const filterDataByTime = (data: CombinedHistory[]) => {
+        const now = new Date();
+        let timeAgo = new Date(now);
+
+        // Gunakan selectedTime atau "30 Menit" sebagai fallback
+        const timeFilter = selectedTime || "30 Menit";
+
+        switch (timeFilter) {
+            case "30 Menit":
+                timeAgo.setMinutes(now.getMinutes() - 30);
+                break;
+            case "1 Jam":
+                timeAgo.setHours(now.getHours() - 1);
+                break;
+            case "1 Hari":
+                timeAgo.setDate(now.getDate() - 1);
+                break;
+            case "1 Minggu":
+                timeAgo.setDate(now.getDate() - 7);
+                break;
+            case "1 Bulan":
+                timeAgo.setMonth(now.getMonth() - 1);
+                break;
+            case "1 Kelompok":
+                // Implementasikan logika untuk "1 Kelompok" jika diperlukan
+                break;
+            default:
+                // Default ke 30 menit jika selectedTime tidak valid
+                timeAgo.setMinutes(now.getMinutes() - 30);
+                break;
+        }
+
+        return data.filter(item => new Date(item.timestamp) >= timeAgo);
+    };
+
+    const filteredHistory = filterDataByTime(combinedHistory);
+
+    // Hitung data yang akan ditampilkan berdasarkan halaman saat ini
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Hitung total halaman
+    const totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
+
+    // Fungsi untuk mengubah halaman
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     const getButtonVariant = (status: string) => {
         switch (status) {
             case "Sangat Baik":
@@ -159,7 +221,7 @@ export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {combinedHistory.map((item, index) => (
+                        {currentItems.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell className="font-medium">
                                     {item.timestamp ? new Date(item.timestamp).toLocaleString() : '-'}
@@ -194,6 +256,43 @@ export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
                         ))}
                     </TableBody>
                 </Table>
+                <Pagination className="mt-4">
+                    <PaginationContent>
+                        {/* Tombol Previous */}
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                aria-disabled={currentPage === 1}
+                                className={currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                size={undefined}
+                            />
+                        </PaginationItem>
+
+                        {/* Nomor Halaman */}
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <PaginationItem key={index + 1}>
+                                <PaginationLink
+                                    onClick={() => handlePageChange(index + 1)}
+                                    isActive={currentPage === index + 1}
+                                    className="cursor-pointer"
+                                    size={undefined}
+                                >
+                                    {index + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+
+                        {/* Tombol Next */}
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                aria-disabled={currentPage === totalPages}
+                                className={currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                size={undefined}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </CardContent>
         </Card>
     );

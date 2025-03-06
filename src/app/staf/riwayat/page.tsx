@@ -28,7 +28,10 @@ import TopMenu from "../top-menu";
 // Private route for disallow unauthenticated users
 
 export default function Riwayat() {
+    const [selectedTime, setSelectedTime] = useState("30 menit"); // Default waktu 30 menit
+
     const { overallColor, overallStatus, averageScore } = useParameterContext();
+
     const grafikData = [
         {
             title: "Skor Keseluruhan",
@@ -41,7 +44,7 @@ export default function Riwayat() {
         }
     ];
 
-    const [selectedFloor, setSelectedFloor] = useState(1); // Default lantai 1
+    const [selectedFloor, setSelectedFloor] = useState(1);
 
     const handleFloorChange = (floor: number) => {
         setSelectedFloor(floor);
@@ -72,17 +75,17 @@ export default function Riwayat() {
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                                    30 menit
+                                    {selectedTime}
                                     <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className='body-light'>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem>30 Menit</DropdownMenuItem>
-                                    <DropdownMenuItem>1 Jam</DropdownMenuItem>
-                                    <DropdownMenuItem>1 Hari</DropdownMenuItem>
-                                    <DropdownMenuItem>1 Minggu</DropdownMenuItem>
-                                    <DropdownMenuItem>1 Bulan</DropdownMenuItem>
-                                    <DropdownMenuItem>1 Kelompok</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("30 Menit")}>30 Menit</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("1 Jam")}>1 Jam</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("1 Hari")}>1 Hari</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("1 Minggu")}>1 Minggu</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("1 Bulan")}>1 Bulan</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSelectedTime("1 Kelompok")}>1 Kelompok</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
@@ -96,7 +99,7 @@ export default function Riwayat() {
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full">
-                        <RiwayatTable selectedFloor={selectedFloor} />
+                        <RiwayatTable selectedFloor={selectedFloor} selectedTime={selectedTime} />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>

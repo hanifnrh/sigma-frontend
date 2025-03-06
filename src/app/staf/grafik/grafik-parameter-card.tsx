@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const ParameterChart = dynamic(() => import("@/components/ui/parameter-chart"), { ssr: false });
+const ParameterChart = dynamic(() => import("@/app/staf/grafik/parameter-chart"), { ssr: false });
 
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",

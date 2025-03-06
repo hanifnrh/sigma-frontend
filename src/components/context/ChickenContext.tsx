@@ -198,7 +198,14 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             setAyamId(ayamId);
 
             // Fetch history data berdasarkan ayamId (jika diperlukan)
-            let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
+            // let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
+            //     credentials: "include", // Penting agar cookies dikirim ke backend
+            //     headers: {
+            //         "Authorization": token ? `Bearer ${token}` : "",
+            //     },
+            // });
+
+            let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/history-all/`, {
                 credentials: "include", // Penting agar cookies dikirim ke backend
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
@@ -212,7 +219,15 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 setCookie("accessToken", newToken, { path: "/" });
 
                 // Coba request lagi dengan token baru
+
                 historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
+                    credentials: "include",
+                    headers: {
+                        "Authorization": `Bearer ${newToken}`,
+                    },
+                });
+
+                historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/history-all/`, {
                     credentials: "include",
                     headers: {
                         "Authorization": `Bearer ${newToken}`,
@@ -379,6 +394,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 if (!newToken) throw new Error("Failed to refresh token.");
 
                 setCookie("accessToken", newToken, { path: "/" });
+                token = newToken; // Update the token variable
 
                 // Coba request lagi dengan token baru
                 response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
@@ -402,6 +418,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             // If there's existing data, update it using the first (or only) record
             if (allData.length > 0) {
                 const record = allData[0];  // Assuming there's only one record, we take the first one
+                console.log('Updating record ID:', record.id, 'with data:', data);
 
                 // Send the PATCH request to update the age in the record
                 const updateResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${record.id}/`, {
@@ -426,9 +443,20 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             }
         } catch (error) {
             console.error('Error updating age:', error);
+
+            // Check if the error is an instance of Error
+            if (error instanceof Error) {
+                console.error('Error message:', error.message);
+            }
+
+            // Check if the error has a 'response' property
+            if (typeof error === 'object' && error !== null && 'response' in error) {
+                console.error('Server response:', (error as any).response);
+            }
+
             alert('Terjadi kesalahan saat memperbarui usia ayam.');
         }
-    }, []);
+    }, [token]); // Add token as a dependency
 
     const postStartFarming = async (jumlahAyam: number, targetTanggal: Date, startDate: Date) => {
         const data = {

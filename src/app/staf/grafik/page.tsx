@@ -21,8 +21,8 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
+import GrafikParameterCard from "@/app/staf/grafik/grafik-parameter-card";
 import PrivateRoute from "@/components/PrivateRoute";
-import GrafikParameterCard from "@/components/section/grafik-parameter-card";
 import ButtonDownload from "@/components/ui/buttons/button-download";
 import { getCookie, setCookie } from "cookies-next";
 import { useState } from "react";
@@ -121,7 +121,7 @@ export default function Grafik() {
     const handleDownload = async () => {
         try {
             const durationParam = durationMap[durasi] || "30m";
-            const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?duration=${durationParam}`;
+            const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationParam}`;
 
             let token = getCookie("accessToken");
 

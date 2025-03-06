@@ -38,7 +38,7 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, la
         "1 Kelompok": "all"
     };
 
-    const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?duration=${durationMap[durasi]}`;
+    const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationMap[durasi]}`;
 
     const dataTypeMapping: Record<string, string> = {
         ammonia: "Amonia",
