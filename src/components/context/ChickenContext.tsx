@@ -604,7 +604,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
 
         try {
             // Ambil data ayam yang ada
-            let response = await fetchWithTokenRefresh('https://sigma-backend-production.up.railway.app/api/data-ayam/', {
+            const response = await fetchWithTokenRefresh('https://sigma-backend-production.up.railway.app/api/data-ayam/', {
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": token ? `Bearer ${token}` : "",
