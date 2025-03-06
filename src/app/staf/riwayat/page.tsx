@@ -57,7 +57,7 @@ export default function Riwayat() {
                         <div className='flex body-bold text-2xl'>
                             Riwayat
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-4xl">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-4xl">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     {`Lantai ${selectedFloor}`}
@@ -119,8 +119,6 @@ export default function Riwayat() {
                     </div>
                 </div>
             </div>
-
-
 
         </main>
     );

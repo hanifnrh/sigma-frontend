@@ -294,7 +294,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
             // Send notifications only when warnings are updated
             if (newWarnings.ammonia) {
                 sendNotification({
-                    data: "Amonia",
+                    data: "Amonia Lt. 1",
                     status: ammoniaStatus,
                     timestamp: new Date(),
                     message: newWarnings.ammonia,
@@ -304,7 +304,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
             }
             if (newWarnings.temperature) {
                 sendNotification({
-                    data: "Suhu",
+                    data: "Suhu Lt. 1",
                     status: temperatureStatus,
                     timestamp: new Date(),
                     message: newWarnings.temperature,
@@ -314,7 +314,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
             }
             if (newWarnings.humidity) {
                 sendNotification({
-                    data: "Kelembapan",
+                    data: "Kelembapan Lt. 1",
                     status: humidityStatus,
                     timestamp: new Date(),
                     message: newWarnings.humidity,
