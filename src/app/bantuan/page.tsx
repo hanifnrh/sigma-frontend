@@ -24,12 +24,12 @@ export default function Bantuan() {
             <li>Login menggunakan akun yang telah didaftarkan.</li>
             <li>Akses dashboard untuk melihat parameter kandang secara real-time.</li>
             <li>Gunakan fitur riwayat untuk melihat data yang telah tersimpan.</li>
-            <li>Pastikan perangkat sensor berfungsi dengan baik agar data yang diterima akurat.</li>
+            <li>Pastikan perangkat keras berfungsi dengan baik agar data yang diterima akurat.</li>
           </ul>
           <p className="text-lg dark:text-neutral-200 font-semibold">Troubleshooting:</p>
           <ul className="text-lg dark:text-neutral-200 list-disc list-inside">
             <li><span className="font-semibold">Tidak bisa login?</span> Pastikan email dan password sudah benar atau reset password jika lupa.</li>
-            <li><span className="font-semibold">Data tidak muncul?</span> Periksa koneksi internet dan pastikan perangkat sensor terhubung dengan baik.</li>
+            <li><span className="font-semibold">Data tidak muncul?</span> Periksa koneksi internet dan pastikan perangkat keras terhubung dengan baik.</li>
             <li><span className="font-semibold">Notifikasi error?</span> Cek pesan error yang muncul atau hubungi tim teknis.</li>
           </ul>
           <p className="text-lg dark:text-neutral-200">

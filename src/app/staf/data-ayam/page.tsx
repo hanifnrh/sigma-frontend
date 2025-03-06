@@ -229,18 +229,18 @@ export default function DataAyam() {
                                                     </DialogDescription>
                                                 </DialogHeader>
                                                 <Button
-                                                    variant={"blue"}
                                                     onClick={() => {
                                                         handleHarvest(); // This will call confirmHarvest if the date has arrived
                                                         setHarvestDialogOpen(false); // Close the dialog
                                                     }}
                                                     type="submit"
                                                     disabled={!farmingStarted}
+                                                    className="w-full bg-blue-100 text-blue-600 border-blue-300 hover:bg-blue-200  transition-all"
                                                 >
                                                     Ya, saya yakin
                                                 </Button>
                                                 <DialogClose asChild>
-                                                    <Button type="button" variant="secondary">
+                                                    <Button type="button" className="bg-red-100 text-red-600 border-red-300 hover:bg-red-200  transition-all">
                                                         Tutup
                                                     </Button>
                                                 </DialogClose>
@@ -261,12 +261,12 @@ export default function DataAyam() {
                                                 </DialogDescription>
                                             </DialogHeader>
                                             <div className="flex justify-between items-center">
-                                                <Button variant={"blue"} onClick={confirmHarvest} className='w-full' type="submit">
+                                                <Button onClick={confirmHarvest} className='w-full bg-blue-100 text-blue-600 border-blue-300 hover:bg-blue-200  transition-all' type="submit">
                                                     Ya, Panen
                                                 </Button>
                                             </div>
                                             <DialogClose asChild>
-                                                <Button type="button" variant="secondary">
+                                                <Button type="button" className='w-full bg-red-100 text-red-600 border-red-300 hover:bg-red-200  transition-all'>
                                                     Tutup
                                                 </Button>
                                             </DialogClose>

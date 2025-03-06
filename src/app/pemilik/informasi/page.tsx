@@ -42,11 +42,11 @@ export default function Informasi() {
                     </section>
 
                     <section>
-                        <h2 className="text-lg body">3. Perangkat Sensor</h2>
+                        <h2 className="text-lg body">3. Perangkat Keras</h2>
                         <ul className="list-disc list-inside body-light">
-                            <li>Menampilkan status sensor yang digunakan dalam kandang.</li>
-                            <li>Informasi mengenai daya baterai dan apakah sensor dalam keadaan aktif atau mati.</li>
-                            <li>Memberikan peringatan jika ada sensor yang tidak berfungsi.</li>
+                            <li>Menampilkan status perangkat yang digunakan dalam kandang.</li>
+                            <li>Informasi mengenai daya baterai dan apakah perangkat dalam keadaan aktif atau mati.</li>
+                            <li>Memberikan peringatan jika ada perangkat yang tidak berfungsi.</li>
                         </ul>
                     </section>
 

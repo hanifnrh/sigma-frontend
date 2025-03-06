@@ -9,15 +9,13 @@ import Navbar from "../navbar";
 
 // Icons
 import { FaTemperatureLow } from "react-icons/fa";
-import { MdOutlineFileDownload } from "react-icons/md";
 import { TbAtom2Filled } from "react-icons/tb";
 
 // Private route for disallow unauthenticated users
 import PrivateRoute from '@/components/PrivateRoute';
-import ButtonDownload from '@/components/ui/buttons/button-download';
 import TopMenu from '../top-menu';
 
-export default function PerangkatSensor() {
+export default function PerangkatKeras() {
 
     return (
         <PrivateRoute>
@@ -28,13 +26,7 @@ export default function PerangkatSensor() {
                         <TopMenu />
                         <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
                             <div className='flex body-bold text-2xl w-32 lg:w-56'>
-                                Perangkat Sensor
-                            </div>
-                            <div className="flex justify-center items-center text-4xl">
-                                <ButtonDownload>
-                                    <MdOutlineFileDownload className='text-4xl pr-2' />
-                                    Unduh data
-                                </ButtonDownload>
+                                Perangkat Keras
                             </div>
                         </div>
                     </div>

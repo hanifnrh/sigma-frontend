@@ -14,18 +14,31 @@ interface DataItem {
     [key: string]: string | number | undefined;
 }
 
-interface AreaChartProps {
+interface ParameterChartProps {
     id: string;
     color: string;
     apiUrl: string;
-    dataType: keyof Omit<DataItem, "timestamp">; // Hanya mengizinkan properti numerik
+    dataType: keyof Omit<DataItem, "timestamp">;
+    lantai: number;
+    durasi: string;
 }
 
-const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) => {
+const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, lantai, durasi }) => {
     const [chartData, setChartData] = useState<{ seriesData: number[]; categories: string[] }>({
         seriesData: [],
         categories: [],
     });
+
+    const durationMap: Record<string, string> = {
+        "30 Menit": "30m",
+        "1 Jam": "1h",
+        "1 Hari": "1d",
+        "1 Minggu": "1w",
+        "1 Bulan": "1mo",
+        "1 Kelompok": "all"
+    };
+
+    const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?duration=${durationMap[durasi]}`;
 
     const dataTypeMapping: Record<string, string> = {
         ammonia: "Amonia",
@@ -113,12 +126,12 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
         const processChartData = (data: DataItem[]) => {
             console.log("Fetched data:", data);
 
+            // Urutkan data berdasarkan timestamp
             const sortedData = data.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-            const lastFiveData = sortedData.slice(-5);
 
-            // Pastikan nilai yang diambil adalah number
-            const seriesData = lastFiveData.map((item) => (typeof item[dataType] === "number" ? item[dataType] as number : 0));
-            const categories = lastFiveData.map((item) => new Date(item.timestamp).toLocaleString());
+            // Ambil semua data
+            const seriesData = sortedData.map((item) => (typeof item[dataType] === "number" ? item[dataType] as number : 0));
+            const categories = sortedData.map((item) => new Date(item.timestamp).toLocaleString());
 
             setChartData({ seriesData, categories });
         };
@@ -195,4 +208,4 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
     return <div id={id} className="h-full" />;
 };
 
-export default AreaChart;
+export default ParameterChart;

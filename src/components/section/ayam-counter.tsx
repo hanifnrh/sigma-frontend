@@ -56,15 +56,14 @@ const AyamCounter: React.FC<AyamCounterProps> = ({ jumlahAyam, jumlahAwalAyam, o
                     disabled={!farmingStarted}
                     variant={'blue'}
                     onClick={handleUpdateAyamMati}
-                    className="mb-2 w-full"
+                    className="mb-2 w-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all"
                 >
                     Kurangi Jumlah Ayam
                 </Button>
                 <Button
                     disabled={!farmingStarted}
-                    variant={'baik'}
                     onClick={handleUndo}
-                    className="w-full"
+                    className="w-full bg-red-100 text-red-600 hover:bg-red-200 transition-all"
                 >
                     <FaUndo className="mr-2" />
                     Undo

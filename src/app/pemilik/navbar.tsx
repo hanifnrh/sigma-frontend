@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
                             <MenuItem href="/pemilik/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
                             <MenuItem href="/pemilik/grafik" Icon={StyledGraphIcon} label="Grafik" />
                             <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
-                            <MenuItem href="/pemilik/perangkat-sensor" Icon={StyledSensorsIcon} label="Perangkat Sensor" />
+                            <MenuItem href="/pemilik/perangkat-sensor" Icon={StyledSensorsIcon} label="Perangkat Keras" />
                             <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
                         </ul>
 

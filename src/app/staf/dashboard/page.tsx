@@ -35,14 +35,14 @@ import ButtonDownload from "@/components/ui/buttons/button-download";
 export default function Dashboard() {
     const [lantai, setLantai] = useState<1 | 2>(1);
     const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal } = useChickenContext();
-const parameterLantai1 = useParameterContext();
-const parameterLantai2 = useParameterContext2();
+    const parameterLantai1 = useParameterContext();
+    const parameterLantai2 = useParameterContext2();
 
-const {
-    averageScore, ammonia, temperature, humidity,
-    overallStatus, warnings, ammoniaColor, temperatureColor,
-    humidityColor, overallColor
-} = lantai === 1 ? parameterLantai1 : parameterLantai2;
+    const {
+        averageScore, ammonia, temperature, humidity,
+        overallStatus, warnings, ammoniaColor, temperatureColor,
+        humidityColor, overallColor
+    } = lantai === 1 ? parameterLantai1 : parameterLantai2;
 
 
     const grafikData = [
@@ -52,10 +52,13 @@ const {
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
-            apiUrl: "https://sigma-backend-production.up.railway.app/api/parameters/floor/1/",
+            apiUrl: lantai === 1
+                ? "https://sigma-backend-production.up.railway.app/api/parameters/floor/1/"
+                : "https://sigma-backend-production.up.railway.app/api/parameters/floor/2/",
             dataType: "score",
         }
     ];
+
 
     const getTemperatureIcon = (temp: number) =>
         temp > 32 ? <FaTemperatureHigh /> : <FaTemperatureLow />;
