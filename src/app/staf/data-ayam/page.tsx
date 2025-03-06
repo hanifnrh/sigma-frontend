@@ -5,9 +5,9 @@
 import { useChickenContext } from "@/components/context/ChickenContext";
 
 // UI Components
-import AyamCounter from '@/components/section/ayam-counter';
-import DataAyamCard from '@/components/section/data-ayam-card';
-import GrafikCard from "@/components/section/grafik-card";
+import AyamCounter from '@/components/pages/data-ayam/ayam-counter';
+import DataAyamCard from '@/components/pages/data-ayam/data-ayam-card';
+import GrafikCard from "@/components/pages/grafik/grafik-card";
 import { Button } from '@/components/ui/buttons/button';
 import { Calendar } from "@/components/ui/calendar";
 import {

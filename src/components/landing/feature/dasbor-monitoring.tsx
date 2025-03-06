@@ -6,7 +6,7 @@ import React, { forwardRef, useRef } from "react";
 import { FaTemperatureHigh } from "react-icons/fa";
 import { IoWater } from "react-icons/io5";
 import { TbAtom2Filled } from "react-icons/tb";
-import { AnimatedBeam } from "../magicui/animated-beam";
+import { AnimatedBeam } from "../../ui/animated-beam";
 
 const Circle = forwardRef<
     HTMLDivElement,

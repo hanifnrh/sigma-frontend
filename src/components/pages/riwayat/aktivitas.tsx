@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
-import { useChickenContext } from "../context/ChickenContext";
+import { useChickenContext } from "../../context/ChickenContext";
 
 type Aktivitas = {
     timestamp: string;

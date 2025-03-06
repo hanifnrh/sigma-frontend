@@ -7,8 +7,8 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { useParameterContext } from "../context/lantai-satu/ParameterContext";
-import { Button } from "../ui/buttons/button";
+import { useParameterContext } from "../../context/lantai-satu/ParameterContext";
+import { Button } from "../../ui/buttons/button";
 
 export function SensorStatus() {
     const { sensorDFRobotStatus, sensorDHT22Status } = useParameterContext();

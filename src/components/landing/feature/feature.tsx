@@ -1,8 +1,8 @@
+import { DasborMonitoring } from "./dasbor-monitoring";
+import { EvaluasiMortalitas } from "./evaluasimortalitas";
+import { Notifikasi } from "./notifikasi";
+import { PenyesuaianParameter } from "./penyesuaianparameter";
 
-import { DasborMonitoring } from "../section/dasbor-monitoring";
-import { EvaluasiMortalitas } from "../section/evaluasimortalitas";
-import { Notifikasi } from "../section/notifikasi";
-import { PenyesuaianParameter } from "../section/penyesuaianparameter";
 
 
 export function Feature() {

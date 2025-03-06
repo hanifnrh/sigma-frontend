@@ -1,7 +1,7 @@
 "use client";
 
 // UI Components
-import Navbar from "@/components/section/navbar-home";
+import Navbar from "@/components/landing/navbar-home";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function Tentang() {

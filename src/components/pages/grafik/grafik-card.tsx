@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const ParameterChart = dynamic(() => import("@/app/staf/grafik/parameter-chart"), { ssr: false });
+const AreaChart = dynamic(() => import("@/components/pages/grafik/area-chart"), { ssr: false });
 
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",
@@ -10,7 +10,7 @@ const tailwindColorMap: { [key: string]: string } = {
     "text-red-500": "#EF4444",
 };
 
-interface GrafikParameterCardProps {
+interface GrafikCardProps {
     title: string;
     value: number;
     statusColor: string;
@@ -18,11 +18,9 @@ interface GrafikParameterCardProps {
     chartId: string;
     apiUrl: string;
     dataType: string;
-    lantai: number;
-    durasi: string;
 }
 
-export default function GrafikParameterCard({
+export default function GrafikCard({
     title,
     value,
     statusColor,
@@ -30,9 +28,7 @@ export default function GrafikParameterCard({
     chartId,
     apiUrl,
     dataType,
-    lantai,
-    durasi,
-}: GrafikParameterCardProps) {
+}: GrafikCardProps) {
     const chartColor = tailwindColorMap[statusColor] || "#28A745";
     let unit = "";
     if (dataType === "ammonia") {
@@ -44,7 +40,7 @@ export default function GrafikParameterCard({
     } else if (dataType === "mortalitas") {
         unit = "%";
     } else if (dataType === "score") {
-        unit = ""; // Tidak ada satuan untuk keseluruhan
+        unit = "";
     }
     return (
         <main className="p-6 bg-white dark:bg-zinc-900 border rounded-lg w-full">
@@ -59,14 +55,7 @@ export default function GrafikParameterCard({
                     </div>
                 </div>
             </div>
-            <ParameterChart
-                id={chartId}
-                color={chartColor}
-                apiUrl={apiUrl}
-                dataType={dataType}
-                lantai={lantai} // Teruskan lantai
-                durasi={durasi}
-            />
+            <AreaChart id={chartId} color={chartColor} apiUrl={apiUrl} dataType={dataType} />
         </main>
     );
 }

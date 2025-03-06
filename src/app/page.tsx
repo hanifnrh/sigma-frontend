@@ -1,14 +1,14 @@
 "use client";
 
 // UI Components
-import { BentoDemo } from '@/components/landing/bento';
-import { Feature } from '@/components/landing/feature';
+import { BentoDemo } from '@/components/landing/bento/bento';
+import { Feature } from '@/components/landing/feature/feature';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import SwipeButton from '../components/ui/swipe-button';
 
 // Libraries
 
-import Navbar from '@/components/section/navbar-home';
+import Navbar from '@/components/landing/navbar-home';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 

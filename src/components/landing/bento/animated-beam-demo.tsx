@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useRef } from "react";
 
-import { AnimatedBeam } from "@/components/magicui/animated-beam";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 

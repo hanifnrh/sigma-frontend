@@ -17,9 +17,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
-import { useChickenContext } from "../../../components/context/ChickenContext";
-import { useParameterContext } from "../../../components/context/lantai-satu/ParameterContext";
-import { Button } from "../../../components/ui/buttons/button";
+import { useChickenContext } from "../../context/ChickenContext";
+import { useParameterContext } from "../../context/lantai-satu/ParameterContext";
+import { Button } from "../../ui/buttons/button";
 
 type RiwayatTableProps = {
     selectedFloor: number;
@@ -140,7 +140,7 @@ export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps)
 
     const filterDataByTime = (data: CombinedHistory[]) => {
         const now = new Date();
-        let timeAgo = new Date(now);
+        const timeAgo = new Date(now);
 
         // Gunakan selectedTime atau "30 Menit" sebagai fallback
         const timeFilter = selectedTime || "30 Menit";

@@ -1,8 +1,8 @@
 "use client";
 
 // UI Components
-import { SensorBattery2 } from '@/components/section/sensor-battery-2';
-import { SensorStatus } from '@/components/section/sensor-status';
+import { SensorBattery2 } from '@/components/pages/perangkat-keras/sensor-battery-2';
+import { SensorStatus } from '@/components/pages/perangkat-keras/sensor-status';
 import Navbar from "../navbar";
 
 // Libraries

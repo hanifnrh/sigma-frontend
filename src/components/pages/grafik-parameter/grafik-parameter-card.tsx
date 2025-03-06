@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const AreaChart = dynamic(() => import("@/components/ui/area-chart"), { ssr: false });
+const ParameterChart = dynamic(() => import("@/components/pages/grafik-parameter/parameter-chart"), { ssr: false });
 
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",
@@ -10,7 +10,7 @@ const tailwindColorMap: { [key: string]: string } = {
     "text-red-500": "#EF4444",
 };
 
-interface GrafikCardProps {
+interface GrafikParameterCardProps {
     title: string;
     value: number;
     statusColor: string;
@@ -18,9 +18,11 @@ interface GrafikCardProps {
     chartId: string;
     apiUrl: string;
     dataType: string;
+    lantai: number;
+    durasi: string;
 }
 
-export default function GrafikCard({
+export default function GrafikParameterCard({
     title,
     value,
     statusColor,
@@ -28,7 +30,9 @@ export default function GrafikCard({
     chartId,
     apiUrl,
     dataType,
-}: GrafikCardProps) {
+    lantai,
+    durasi,
+}: GrafikParameterCardProps) {
     const chartColor = tailwindColorMap[statusColor] || "#28A745";
     let unit = "";
     if (dataType === "ammonia") {
@@ -40,7 +44,7 @@ export default function GrafikCard({
     } else if (dataType === "mortalitas") {
         unit = "%";
     } else if (dataType === "score") {
-        unit = "";
+        unit = ""; // Tidak ada satuan untuk keseluruhan
     }
     return (
         <main className="p-6 bg-white dark:bg-zinc-900 border rounded-lg w-full">
@@ -55,7 +59,14 @@ export default function GrafikCard({
                     </div>
                 </div>
             </div>
-            <AreaChart id={chartId} color={chartColor} apiUrl={apiUrl} dataType={dataType} />
+            <ParameterChart
+                id={chartId}
+                color={chartColor}
+                apiUrl={apiUrl}
+                dataType={dataType}
+                lantai={lantai} // Teruskan lantai
+                durasi={durasi}
+            />
         </main>
     );
 }

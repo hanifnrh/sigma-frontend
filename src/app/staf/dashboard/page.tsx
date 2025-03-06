@@ -6,10 +6,10 @@ import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterC
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import GrafikCard from "@/components/section/grafik-card";
-import { SensorBattery } from '@/components/section/sensor-battery-1';
-import { SensorStatus } from "@/components/section/sensor-status";
-import StatCard from '@/components/section/stat-card';
+import StatCard from '@/components/pages/dashboard/stat-card';
+import GrafikCard from "@/components/pages/grafik/grafik-card";
+import { SensorBattery } from '@/components/pages/perangkat-keras/sensor-battery-1';
+import { SensorStatus } from "@/components/pages/perangkat-keras/sensor-status";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import StatusIndicator from '@/components/ui/status-indicator';
 import Navbar from "../navbar";
