@@ -41,8 +41,6 @@ export default function GrafikParameterCard({
         unit = "%";
     } else if (dataType === "temperature") {
         unit = "°C";
-    } else if (dataType === "mortalitas") {
-        unit = "%";
     } else if (dataType === "score") {
         unit = ""; // Tidak ada satuan untuk keseluruhan
     }

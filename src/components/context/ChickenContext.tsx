@@ -43,6 +43,7 @@ interface DataAyamContextType {
     farmingStarted: boolean;
     setFarmingStarted: (farmingStarted: boolean) => void;
     fetchDataChicken: () => Promise<void>;
+    fetchAyamHistory: () => Promise<void>;
     ayamDecreasePercentage: number;
     daysToTarget: number | null;
     statusAyam: { mortalitas: Status; daysToTarget: Status; ayamDecreasePercentage: Status };
@@ -198,14 +199,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             setAyamId(ayamId);
 
             // Fetch history data berdasarkan ayamId (jika diperlukan)
-            // let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
-            //     credentials: "include", // Penting agar cookies dikirim ke backend
-            //     headers: {
-            //         "Authorization": token ? `Bearer ${token}` : "",
-            //     },
-            // });
-
-            let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/history-all/`, {
+            let historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
                 credentials: "include", // Penting agar cookies dikirim ke backend
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
@@ -221,13 +215,6 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 // Coba request lagi dengan token baru
 
                 historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`, {
-                    credentials: "include",
-                    headers: {
-                        "Authorization": `Bearer ${newToken}`,
-                    },
-                });
-
-                historyResponse = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/history-all/`, {
                     credentials: "include",
                     headers: {
                         "Authorization": `Bearer ${newToken}`,
@@ -970,6 +957,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 ayamId,
 
                 // FUNCTIONS
+                fetchAyamHistory,
                 harvested,
                 showConfirmHarvestDialog,
                 setHarvested,

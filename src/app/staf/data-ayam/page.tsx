@@ -7,7 +7,7 @@ import { useChickenContext } from "@/components/context/ChickenContext";
 // UI Components
 import AyamCounter from '@/components/pages/data-ayam/ayam-counter';
 import DataAyamCard from '@/components/pages/data-ayam/data-ayam-card';
-import GrafikCard from "@/components/pages/grafik/grafik-card";
+import GrafikMortalitasCard from "@/components/pages/grafik-mortalitas/grafik-mortalitas-card";
 import { Button } from '@/components/ui/buttons/button';
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -46,6 +46,9 @@ export default function DataAyam() {
     const [harvested] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [harvestDialogOpen, setHarvestDialogOpen] = useState(false);
+
+    const [ayamId, setAyamId] = useState<string | null>(null); // State to store ayamId
+    const [historyData, setHistoryData] = useState<any[]>([]);
 
     const grafikData = [
         {
@@ -305,7 +308,7 @@ export default function DataAyam() {
                                     </p>
                                     {grafikData.map((grafik) => (
                                         <div key={grafik.chartId}>
-                                            <GrafikCard {...grafik} />
+                                            <GrafikMortalitasCard ayamId={ayamId} {...grafik} />
                                         </div>
                                     ))}
                                 </div>
