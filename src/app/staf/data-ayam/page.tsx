@@ -48,7 +48,6 @@ export default function DataAyam() {
     const [harvestDialogOpen, setHarvestDialogOpen] = useState(false);
 
     const [ayamId, setAyamId] = useState<string | null>(null); // State to store ayamId
-    const [historyData, setHistoryData] = useState<any[]>([]);
 
     const grafikData = [
         {
