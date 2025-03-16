@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
     Pagination,
     PaginationContent,
+    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -268,18 +269,63 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                         </PaginationItem>
 
                         {/* Nomor Halaman */}
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <PaginationItem key={index + 1}>
-                                <PaginationLink
-                                    onClick={() => handlePageChange(index + 1)}
-                                    isActive={currentPage === index + 1}
-                                    className="cursor-pointer"
-                                    size={undefined}
-                                >
-                                    {index + 1}
-                                </PaginationLink>
-                            </PaginationItem>
-                        ))}
+                        {totalPages > 1 && (
+                            <>
+                                {/* Halaman pertama selalu tampil */}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => handlePageChange(1)}
+                                        isActive={currentPage === 1}
+                                    >
+                                        1
+                                    </PaginationLink>
+                                </PaginationItem>
+
+                                {/* Ellipsis jika currentPage lebih dari 3 */}
+                                {currentPage > 3 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+
+                                {/* 2 halaman sebelum & setelah halaman aktif */}
+                                {Array.from({ length: totalPages }, (_, index) => index + 1)
+                                    .filter(
+                                        (page) =>
+                                            page !== 1 &&
+                                            page !== totalPages &&
+                                            Math.abs(currentPage - page) <= 2
+                                    )
+                                    .map((page) => (
+                                        <PaginationItem key={page}>
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(page)}
+                                                isActive={currentPage === page}
+                                            >
+                                                {page}
+                                            </PaginationLink>
+                                        </PaginationItem>
+                                    ))}
+
+                                {/* Ellipsis sebelum halaman terakhir */}
+                                {currentPage < totalPages - 2 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+
+                                {/* Halaman terakhir selalu tampil */}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => handlePageChange(totalPages)}
+                                        isActive={currentPage === totalPages}
+                                    >
+                                        {totalPages}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            </>
+                        )}
+
 
                         {/* Tombol Next */}
                         <PaginationItem>
