@@ -62,31 +62,31 @@ export default function GrafikMortalitasCard({
     return (
         <main className="p-6 bg-white dark:bg-zinc-900 border rounded-lg w-full">
             <div className="w-full bg-white rounded-lg dark:bg-zinc-900">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-start">
                     <div>
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">{title}</p>
                         <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>
                             {value.toFixed(2)} {unit}
                         </h5>
+                        <p className={`flex items-center py-0.5 text-base body ${statusColor} text-center`}>
+                            {statusText}
+                        </p>
                     </div>
-                    <div className={`flex items-center px-2.5 py-0.5 text-base body ${statusColor} text-center`}>
-                        {statusText}
-                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                            {selectedDurasi}
+                            <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className='body-light'>
+                            <DropdownMenuSeparator />
+                            {Object.keys(durationMap).map((key) => (
+                                <DropdownMenuItem key={key} onClick={() => handleDurasiChange(key)}>
+                                    {key}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                        {selectedDurasi}
-                        <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className='body-light'>
-                        <DropdownMenuSeparator />
-                        {Object.keys(durationMap).map((key) => (
-                            <DropdownMenuItem key={key} onClick={() => handleDurasiChange(key)}>
-                                {key}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
             <MortalitasChart
                 id={chartId}
