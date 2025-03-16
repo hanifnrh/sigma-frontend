@@ -93,7 +93,7 @@ export default function Grafik() {
         "1 Hari": "1d",
         "1 Minggu": "1w",
         "1 Bulan": "1mo",
-        "1 Kelompok": "all" // Sesuaikan dengan backend
+        "Semua": "all"
     };
 
     const fetchAccessToken = async () => {
@@ -116,13 +116,15 @@ export default function Grafik() {
         }
     };
 
-    const [durasi, setDurasi] = useState("30 Menit"); // Default ke "30 Menit"
+    const [durasi, setDurasi] = useState("Semua");
 
     const handleDownload = async () => {
         try {
-            const durationParam = durationMap[durasi] || "30m";
-            const apiUrl = `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationParam}`;
 
+            const apiUrl = durasi === "Semua"
+            ? `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`
+            : `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationMap[durasi]}`;
+            
             let token = getCookie("accessToken");
 
             // Kalau token kosong atau kadaluarsa, refresh dulu

@@ -570,7 +570,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     useEffect(() => {
 
         if (jumlahAyam !== jumlahAwalAyam) {
-            const mortalityPercentage = (((jumlahAwalAyam - jumlahAyam) / jumlahAwalAyam) * 100).toFixed(1);
+            const mortalityPercentage = (((jumlahAwalAyam - jumlahAyam) / jumlahAwalAyam) * 100);
             setMortalitas(Number(mortalityPercentage));
 
 
@@ -582,11 +582,11 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
     const updateMortalitas = useCallback(async (JumlahAwalAyam: number, ayamMati: number) => {
         // Pastikan perhitungan mortalitas tidak menghasilkan nilai yang tidak valid
         const mortalityPercentage = (JumlahAwalAyam > 0 && jumlahAyam > 0)
-            ? (((JumlahAwalAyam - jumlahAyam) / JumlahAwalAyam) * 100).toFixed(1)
-            : '0'; // Set ke 0 jika perhitungan tidak valid
+            ? (((JumlahAwalAyam - jumlahAyam) / JumlahAwalAyam) * 100)
+            : 0; // Set ke 0 jika perhitungan tidak valid
 
         const data = {
-            mortalitas: parseFloat(mortalityPercentage), // Pastikan nilai mortalitas adalah angka
+            mortalitas: mortalityPercentage, // Pastikan nilai mortalitas adalah angka
         };
 
         const fetchWithTokenRefresh = async (url: string, options: RequestInit) => {
@@ -658,7 +658,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
 
                 const result = await updateResponse.json();
                 console.log('Mortalitas updated:', result);
-                setMortalitas(parseFloat(mortalityPercentage));
+                setMortalitas(mortalityPercentage);
             } else {
                 console.log('Mortalitas tidak berubah, tidak perlu update');
             }

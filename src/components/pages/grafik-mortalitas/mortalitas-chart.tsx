@@ -5,36 +5,31 @@ import { getCookie, setCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
 interface DataItem {
-    timestamp: string | number; // Ensure timestamp is always defined
-    mortalitas?: number;
-    [key: string]: string | number | undefined; // Other properties can still be undefined
+    id: number;
+    data_ayam_id: number;
+    data_ayam_details: {
+        jumlah_ayam: number;
+        mortalitas: number;
+        usia_ayam: number;
+        tanggal_mulai: string;
+        jumlah_ayam_awal: number;
+        tanggal_panen: string;
+    };
+    timestamp: string | number;
 }
 
 interface MortalitasChartProps {
     id: string;
     color: string;
     apiUrl: string;
-    dataType: keyof Omit<DataItem, "timestamp">;
-    durasi: string;
-    ayamId: string | null; // Add ayamId
+    dataType: keyof DataItem["data_ayam_details"];
 }
 
-const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, durasi, ayamId }) => {
+const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, apiUrl }) => {
     const [chartData, setChartData] = useState<{ seriesData: number[]; categories: string[] }>({
         seriesData: [],
         categories: [],
     });
-
-    const durationMap: Record<string, string> = {
-        "30 Menit": "30m",
-        "1 Jam": "1h",
-        "1 Hari": "1d",
-        "1 Minggu": "1w",
-        "1 Bulan": "1mo",
-        "1 Kelompok": "all"
-    };
-
-    const apiUrlWithDurasi = `https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history?time_range=${durationMap[durasi]}`;
 
     const dataTypeMapping: Record<string, string> = {
         mortalitas: "mortalitas",
@@ -74,7 +69,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                     setCookie("accessToken", token, { path: "/" });
                 }
 
-                const response = await fetch(apiUrlWithDurasi, {
+                const response = await fetch(apiUrl, {
                     credentials: "include",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -88,7 +83,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
 
                     setCookie("accessToken", newToken, { path: "/" });
 
-                    const newResponse = await fetch(apiUrlWithDurasi, {
+                    const newResponse = await fetch(apiUrl, {
                         credentials: "include",
                         headers: {
                             "Authorization": `Bearer ${newToken}`,
@@ -131,15 +126,22 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
             });
 
             // Ambil semua data
-            const seriesData = sortedData.map((item) => (typeof item[dataType] === "number" ? item[dataType] as number : 0));
+            const seriesData = sortedData.map((item) => {
+                // Akses mortalitas dari data_ayam_details
+                const mortalitasValue = item.data_ayam_details[dataType as keyof typeof item.data_ayam_details];
+                if (typeof mortalitasValue === "number" && !isNaN(mortalitasValue)) {
+                    return mortalitasValue * 100; // Kalikan dengan 100
+                }
+                return 0; // Jika nilai tidak valid, kembalikan 0
+            });
+
             const categories = sortedData.map((item) => new Date(item.timestamp as string | number).toLocaleString());
 
             setChartData({ seriesData, categories });
         };
 
         fetchData();
-    }, [apiUrlWithDurasi, dataType]);
-
+    }, [apiUrl, dataType]);
 
     useEffect(() => {
         const label = dataTypeMapping[dataType] || "Data";
@@ -156,8 +158,8 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                 enabled: true,
                 x: { show: false },
                 y: {
-                    formatter: (value: number) => value.toFixed(2),
-                },
+                    formatter: (value: number) => `${value.toFixed(2)}%`, // Nilai sudah dikalikan 100 di processChartData
+                }
             },
             fill: {
                 type: "gradient",

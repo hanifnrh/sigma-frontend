@@ -1,7 +1,7 @@
 "use client";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 const MortalitasChart = dynamic(() => import("@/components/pages/grafik-mortalitas/mortalitas-chart"), { ssr: false });
@@ -19,9 +19,8 @@ interface GrafikMortalitasCardProps {
     statusColor: string;
     statusText: string;
     chartId: string;
-    apiUrl: string;
     dataType: string;
-    ayamId: string | null;
+    ayamId: number;
 }
 
 const durationMap: Record<string, string> = {
@@ -30,7 +29,7 @@ const durationMap: Record<string, string> = {
     "1 Hari": "1d",
     "1 Minggu": "1w",
     "1 Bulan": "1mo",
-    "1 Kelompok": "all"
+    "Semua": "all"
 };
 
 export default function GrafikMortalitasCard({
@@ -39,16 +38,22 @@ export default function GrafikMortalitasCard({
     statusColor,
     statusText,
     chartId,
-    apiUrl,
     dataType,
     ayamId,
 }: GrafikMortalitasCardProps) {
-    const [selectedDurasi, setSelectedDurasi] = useState("1 Hari");
+    const [selectedDurasi, setSelectedDurasi] = useState("Semua");
+    const [apiUrl, setApiUrl] = useState("");
+
     const chartColor = tailwindColorMap[statusColor] || "#28A745";
-    let unit = "";
-    if (dataType === "mortalitas") {
-        unit = "%";
-    }
+    const unit = dataType === "mortalitas" ? "%" : "";
+
+    useEffect(() => {
+        const url =
+            selectedDurasi === "Semua"
+                ? `https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/`
+                : `https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/history/?time_range=${durationMap[selectedDurasi]}`;
+        setApiUrl(url);
+    }, [selectedDurasi, ayamId]);
 
     const handleDurasiChange = (key: string) => {
         setSelectedDurasi(key);
@@ -60,7 +65,9 @@ export default function GrafikMortalitasCard({
                 <div className="flex justify-between">
                     <div>
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">{title}</p>
-                        <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>{value.toFixed(1)} {unit}</h5>
+                        <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>
+                            {value.toFixed(2)} {unit}
+                        </h5>
                     </div>
                     <div className={`flex items-center px-2.5 py-0.5 text-base body ${statusColor} text-center`}>
                         {statusText}
@@ -85,9 +92,7 @@ export default function GrafikMortalitasCard({
                 id={chartId}
                 color={chartColor}
                 apiUrl={apiUrl}
-                dataType={dataType}
-                durasi={selectedDurasi}
-                ayamId={ayamId}
+                dataType="mortalitas"
             />
         </main>
     );

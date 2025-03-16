@@ -32,10 +32,18 @@ const AyamCounter: React.FC<AyamCounterProps> = ({ jumlahAyam, jumlahAwalAyam, o
     };
 
     const handleUndo = () => {
-        const lastValue = history.pop();
-        if (lastValue !== undefined) {
-            onUpdateJumlahAyam(1, jumlahAyam + lastValue);
-            setHistory([...history]);  // Update history after undo
+        if (history.length > 0) {
+            const lastValue = history[history.length - 1];
+            const newHistory = history.slice(0, -1);
+    
+            // Kembalikan jumlah ayam ke nilai sebelumnya
+            onUpdateJumlahAyam(jumlahAyam, jumlahAyam + lastValue);
+    
+            // Kembalikan data mortalitas ke API
+            updateMortalitas(jumlahAwalAyam, -lastValue);  // Mengurangi mortalitas dengan nilai yang di-undo
+    
+            // Perbarui state history
+            setHistory(newHistory);
         }
     };
 

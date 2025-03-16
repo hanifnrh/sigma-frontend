@@ -6,7 +6,7 @@ export const Loader = () => (
         {[...Array(3)].map((_, index) => (
             <motion.span
                 key={index}
-                className="size-3.5 rounded-full bg-current"
+                className="size-3.5 rounded-full bg-indigo-600"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{

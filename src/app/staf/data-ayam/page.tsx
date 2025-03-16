@@ -1,6 +1,5 @@
 
 "use client";
-
 // Context for data fetching
 import { useChickenContext } from "@/components/context/ChickenContext";
 
@@ -40,14 +39,12 @@ import TopMenu from "../top-menu";
 
 export default function DataAyam() {
     // Use context values
-    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal, setTargetTanggal, farmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, handleStartFarming, updateJumlahAyam, updateMortalitas, jumlahAyamInput, setJumlahAyamInput, countdown } = useChickenContext();
+    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal, setTargetTanggal, farmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, handleStartFarming, updateJumlahAyam, updateMortalitas, jumlahAyamInput, setJumlahAyamInput, countdown, ayamId } = useChickenContext();
 
     // Component-specific state
     const [harvested] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [harvestDialogOpen, setHarvestDialogOpen] = useState(false);
-
-    const [ayamId, setAyamId] = useState<string | null>(null); // State to store ayamId
 
     const grafikData = [
         {
@@ -56,7 +53,6 @@ export default function DataAyam() {
             statusColor: statusAyam.mortalitas.color || "text-gray-500",
             statusText: statusAyam.mortalitas.text || "N/A",
             chartId: "mortalitas",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/data-ayam/`,
             dataType: "mortalitas",
         }
     ];
@@ -75,7 +71,7 @@ export default function DataAyam() {
         {
             title: "MORTALITAS AYAM",
             label: "Mortalitas Ayam",
-            value: `${mortalitas}%`,
+            value: `${(mortalitas).toFixed(8)}%`,
             icon: <BsHeartPulse />,
             statusColor: mortalitas > 5 ? "text-red-500" : "text-green-500",
             warning: mortalitas > 5 ? "Bahaya, mortalitas ayam sudah melewati batas!" : "",

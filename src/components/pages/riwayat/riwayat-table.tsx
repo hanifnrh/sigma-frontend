@@ -239,7 +239,7 @@ export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps)
                                     {item.jumlah_ayam !== undefined && item.usia_ayam !== null ? `${item.jumlah_ayam} ekor` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
-                                    {item.mortalitas !== undefined && item.mortalitas !== null ? `${item.mortalitas.toFixed(2)} %` : '-'}
+                                    {item.mortalitas !== undefined && item.mortalitas !== null ? `${((item.mortalitas) * 100).toFixed(2)} %` : '-'}
                                 </TableCell>
                                 <TableCell className="font-medium">
                                     {item.usia_ayam !== undefined && item.usia_ayam !== null ? `${item.usia_ayam} hari` : '-'}
