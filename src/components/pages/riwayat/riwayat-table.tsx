@@ -22,7 +22,7 @@ import { useParameterContext } from "../../context/lantai-satu/ParameterContext"
 import { Button } from "../../ui/buttons/button";
 
 type RiwayatTableProps = {
-    selectedFloor: number;
+    lantai: number;
     selectedTime: string;
 };
 
@@ -47,7 +47,7 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 };
 
 
-export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps) {
+export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
     const { historyParameter: historyParameter1 } = useParameterContext();
     const { historyParameter: historyParameter2 } = useParameterContext2();
     const { historyData } = useChickenContext();
@@ -58,7 +58,7 @@ export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps)
     const itemsPerPage = 10; // Jumlah item per halaman
 
     useEffect(() => {
-        const historyParameter = selectedFloor === 1 ? historyParameter1 : historyParameter2;
+        const historyParameter = lantai === 1 ? historyParameter1 : historyParameter2;
 
         const mergeData = () => {
             const dataMap = new Map<string, CombinedHistory>();
@@ -136,7 +136,7 @@ export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps)
         };
 
         mergeData();
-    }, [historyParameter1, historyParameter2, selectedFloor, historyData]);
+    }, [historyParameter1, historyParameter2, lantai, historyData]);
 
     const filterDataByTime = (data: CombinedHistory[]) => {
         const now = new Date();
@@ -161,12 +161,11 @@ export function RiwayatTable({ selectedFloor, selectedTime }: RiwayatTableProps)
             case "1 Bulan":
                 timeAgo.setMonth(now.getMonth() - 1);
                 break;
-            case "1 Kelompok":
-                // Implementasikan logika untuk "1 Kelompok" jika diperlukan
+            case "Semua":
+                return data;
                 break;
             default:
-                // Default ke 30 menit jika selectedTime tidak valid
-                timeAgo.setMinutes(now.getMinutes() - 30);
+                return data;
                 break;
         }
 

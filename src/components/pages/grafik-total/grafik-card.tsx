@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const AreaChart = dynamic(() => import("@/components/pages/grafik/area-chart"), { ssr: false });
+const AreaChart = dynamic(() => import("@/components/pages/grafik-total/area-chart"), { ssr: false });
 
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",

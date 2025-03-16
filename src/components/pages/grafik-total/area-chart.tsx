@@ -18,7 +18,7 @@ interface AreaChartProps {
     id: string;
     color: string;
     apiUrl: string;
-    dataType: keyof Omit<DataItem, "timestamp">; // Hanya mengizinkan properti numerik
+    dataType: keyof Omit<DataItem, "timestamp">;
 }
 
 const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) => {
@@ -28,11 +28,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
     });
 
     const dataTypeMapping: Record<string, string> = {
-        ammonia: "Amonia",
-        temperature: "Suhu",
-        humidity: "Kelembapan",
         score: "Skor",
-        mortalitas: "Mortalitas",
     };
 
     const dataTypeLabel = dataTypeMapping[dataType] || "Data";
@@ -114,11 +110,10 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
             console.log("Fetched data:", data);
 
             const sortedData = data.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-            const lastFiveData = sortedData.slice(-5);
 
             // Pastikan nilai yang diambil adalah number
-            const seriesData = lastFiveData.map((item) => (typeof item[dataType] === "number" ? item[dataType] as number : 0));
-            const categories = lastFiveData.map((item) => new Date(item.timestamp).toLocaleString());
+            const seriesData = sortedData.map((item) => (typeof item[dataType] === "number" ? item[dataType] as number : 0));
+            const categories = sortedData.map((item) => new Date(item.timestamp).toLocaleString());
 
             setChartData({ seriesData, categories });
         };

@@ -26,7 +26,7 @@ export default function Informasi() {
                     <section>
                         <h2 className="text-lg body">1. Dasbor</h2>
                         <ul className="list-disc list-inside body-light">
-                            <li>Menampilkan data keseluruhan dari kandang.</li>
+                            <li>Menampilkan data total dari kandang.</li>
                             <li>Menyediakan grafik parameter utama seperti suhu, kelembaban, dan kadar amonia.</li>
                             <li>Notifikasi jika ada parameter yang berada di luar batas normal.</li>
                         </ul>

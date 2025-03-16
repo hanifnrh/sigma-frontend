@@ -50,7 +50,7 @@ export default function Grafik() {
 
     const grafikData = [
         {
-            title: "Skor Keseluruhan",
+            title: "Skor Total",
             value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
@@ -187,8 +187,8 @@ export default function Grafik() {
             "Status Amonia": ammonia_status,
             "Status Suhu": temperature_status,
             "Status Kelembapan": humidity_status,
-            "Status Keseluruhan": status,
-            "Skor Keseluruhan": score
+            "Status Total": status,
+            "Skor Total0": score
         }));
 
         const ws = utils.json_to_sheet(formattedData);

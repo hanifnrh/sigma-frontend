@@ -253,11 +253,10 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         setError(null); // Reset error sebelum membuat request
 
         try {
-            // Fungsi untuk melakukan DELETE request dengan handle 401
-            const deleteParameters = async () => {
-                let response = await fetch('https://sigma-backend-production.up.railway.app/api/parameters/delete/', {
+            const deleteParameters = async (floor: number) => {
+                let response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/floor/${floor}/`, {
                     method: 'DELETE',
-                    credentials: "include", // Penting agar cookies dikirim ke backend
+                    credentials: "include",
                     headers: {
                         "Authorization": token ? `Bearer ${token}` : "",
                     }
@@ -271,7 +270,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                     setCookie("accessToken", newToken, { path: "/" });
 
                     // Coba request lagi dengan token baru
-                    response = await fetch('https://sigma-backend-production.up.railway.app/api/parameters/delete', {
+                    response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/floor/${floor}/`, {
                         method: 'DELETE',
                         credentials: "include",
                         headers: {
@@ -287,19 +286,18 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 return response;
             };
 
-            // Panggil fungsi deleteParameters
-            const response = await deleteParameters();
+            // Jalankan dua request DELETE secara paralel
+            const [response1, response2] = await Promise.all([
+                deleteParameters(1),
+                deleteParameters(2)
+            ]);
 
-            // Cek apakah request berhasil
-            if (!response.ok) {
-                throw new Error('Failed to delete parameters');
+            // Pastikan kedua request berhasil
+            if (!response1.ok || !response2.ok) {
+                throw new Error('Failed to delete parameters for one or both floors');
             }
 
-            // Ambil response dari server (jika diperlukan)
-            const data = await response.json();
-
             alert('All parameters for both floors have been deleted!');
-            console.log('Response:', data); // Response dari server
         } catch (err) {
             setError('Failed to delete parameters');
             console.error('Error deleting parameters:', err);
@@ -307,6 +305,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
             setLoading(false);
         }
     };
+
 
     // Fetch chicken data
     const fetchDataChicken = useCallback(async () => {

@@ -14,7 +14,7 @@ import { useParameterContext } from "../../../components/context/lantai-satu/Par
 import { Button } from "../../../components/ui/buttons/button";
 
 type RiwayatTableProps = {
-    selectedFloor: number;
+    lantai: number;
 };
 
 type CombinedHistory = {
@@ -38,7 +38,7 @@ const roundToNearest5Minutes = (timestamp: Date) => {
 };
 
 
-export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
+export function RiwayatTable({ lantai }: RiwayatTableProps) {
     const { historyParameter: historyParameter1 } = useParameterContext();
     const { historyParameter: historyParameter2 } = useParameterContext2();
     const { historyData } = useChickenContext();
@@ -46,7 +46,7 @@ export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
     const [combinedHistory, setCombinedHistory] = useState<CombinedHistory[]>([]);
 
     useEffect(() => {
-        const historyParameter = selectedFloor === 1 ? historyParameter1 : historyParameter2;
+        const historyParameter = lantai === 1 ? historyParameter1 : historyParameter2;
 
         const mergeData = () => {
             const dataMap = new Map<string, CombinedHistory>();
@@ -124,7 +124,7 @@ export function RiwayatTable({ selectedFloor }: RiwayatTableProps) {
         };
 
         mergeData();
-    }, [historyParameter1, historyParameter2, selectedFloor, historyData]);
+    }, [historyParameter1, historyParameter2, lantai, historyData]);
 
     const getButtonVariant = (status: string) => {
         switch (status) {

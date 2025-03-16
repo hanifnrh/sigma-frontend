@@ -7,7 +7,7 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 
 // UI Components
 import StatCard from '@/components/pages/dashboard/stat-card';
-import GrafikCard from "@/components/pages/grafik/grafik-card";
+import GrafikCard from "@/components/pages/grafik-total/grafik-card";
 import { SensorBattery } from '@/components/pages/perangkat-keras/sensor-battery-1';
 import { SensorStatus } from "@/components/pages/perangkat-keras/sensor-status";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -47,7 +47,7 @@ export default function Dashboard() {
 
     const grafikData = [
         {
-            title: "Skor Keseluruhan",
+            title: "Skor Total",
             value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
@@ -217,7 +217,7 @@ export default function Dashboard() {
                                         className={`text-2xl md:text-4xl body-bold ${getStatusGradient(overallStatus)
                                             } cliptext text-transparent`}
                                     >
-                                        Status Keseluruhan: {overallStatus || "-"}
+                                        Status Total: {overallStatus || "-"}
                                     </span>
                                 </div>
                                 <div className='border-l px-5'>
@@ -264,7 +264,7 @@ export default function Dashboard() {
                                 </div>
                                 <div className='w-full'>
                                     <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
-                                        GRAFIK KESELURUHAN
+                                        GRAFIK TOTAL
                                     </p>
                                     {grafikData.map((grafik) => (
                                         <div key={grafik.chartId}>
