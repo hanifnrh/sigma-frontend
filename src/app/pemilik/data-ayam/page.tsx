@@ -1,13 +1,12 @@
 
 "use client";
-
 // Context for data fetching
 import { useChickenContext } from "@/components/context/ChickenContext";
 
 // UI Components
 import AyamCounter from '@/components/pages/data-ayam/ayam-counter';
 import DataAyamCard from '@/components/pages/data-ayam/data-ayam-card';
-import GrafikCard from "@/components/pages/grafik-total/grafik-card";
+import GrafikMortalitasCard from "@/components/pages/grafik-mortalitas/grafik-mortalitas-card";
 import { Button } from '@/components/ui/buttons/button';
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -29,7 +28,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 
 // Icons
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CalendarRange } from "lucide-react";
 import { BsHeartPulse } from "react-icons/bs";
 import { FaPlay, FaRegCalendarAlt, FaStop } from "react-icons/fa";
 import { GiRooster } from "react-icons/gi";
@@ -40,12 +39,17 @@ import TopMenu from "../top-menu";
 
 export default function DataAyam() {
     // Use context values
-    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal, setTargetTanggal, farmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, handleStartFarming, updateJumlahAyam, updateMortalitas, jumlahAyamInput, setJumlahAyamInput, countdown } = useChickenContext();
+    const { jumlahAyam, mortalitas, ageInDays, jumlahAwalAyam, targetTanggal, setTargetTanggal, farmingStarted, ayamDecreasePercentage, daysToTarget, statusAyam, handleHarvest, confirmHarvest, showConfirmHarvestDialog, setShowConfirmHarvestDialog, handleStartFarming, updateJumlahAyam, updateMortalitas, updateTanggalPanen, jumlahAyamInput, setJumlahAyamInput, countdown, ayamId } = useChickenContext();
 
     // Component-specific state
     const [harvested] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [harvestDialogOpen, setHarvestDialogOpen] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [newTanggal, setNewTanggal] = useState<Date | null>(targetTanggal);
+    const [editTanggalOpen, setEditTanggalOpen] = useState(false);
+    const [selectedTanggal, setSelectedTanggal] = useState<Date | null>(targetTanggal || null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const grafikData = [
         {
@@ -54,7 +58,6 @@ export default function DataAyam() {
             statusColor: statusAyam.mortalitas.color || "text-gray-500",
             statusText: statusAyam.mortalitas.text || "N/A",
             chartId: "mortalitas",
-            apiUrl: `https://sigma-backend-production.up.railway.app/api/data-ayam/`,
             dataType: "mortalitas",
         }
     ];
@@ -73,7 +76,7 @@ export default function DataAyam() {
         {
             title: "MORTALITAS AYAM",
             label: "Mortalitas Ayam",
-            value: `${mortalitas}%`,
+            value: `${(mortalitas).toFixed(2)}%`,
             icon: <BsHeartPulse />,
             statusColor: mortalitas > 5 ? "text-red-500" : "text-green-500",
             warning: mortalitas > 5 ? "Bahaya, mortalitas ayam sudah melewati batas!" : "",
@@ -280,12 +283,122 @@ export default function DataAyam() {
                                             Jumlah ayam awal: {jumlahAwalAyam}
                                         </div>
 
-                                        <div className='border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
-                                            Tanggal panen: {targetTanggal ? targetTanggal.toLocaleDateString('id-ID', {
-                                                day: 'numeric',
-                                                month: 'long',
-                                                year: 'numeric'
-                                            }) : 'Belum ditentukan'}
+                                        <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                            {editMode ? (
+                                                <div className="flex gap-2 items-center">
+                                                    <input
+                                                        type="date"
+                                                        value={newTanggal ? newTanggal.toISOString().split('T')[0] : ''}
+                                                        onChange={(e) => setNewTanggal(new Date(e.target.value))}
+                                                        className="border rounded px-2 py-1"
+                                                    />
+                                                    <button
+                                                        className="text-sm text-white bg-blue-500 px-2 py-1 rounded"
+                                                        onClick={() => {
+                                                            if (newTanggal && ayamId) {
+                                                                updateTanggalPanen(ayamId, newTanggal);
+                                                                setEditMode(false);
+                                                            }
+                                                        }}
+                                                    >
+                                                        Simpan
+                                                    </button>
+                                                    <button className="text-sm text-gray-600" onClick={() => setEditMode(false)}>Batal</button>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div
+                                                        className="text-indigo-600 flex justify-between items-center cursor-pointer"
+                                                        onClick={() => setEditTanggalOpen(true)}
+                                                    >
+                                                        <span>
+                                                            Tanggal panen:{' '}
+                                                            {targetTanggal
+                                                                ? targetTanggal.toLocaleDateString('id-ID', {
+                                                                    day: 'numeric',
+                                                                    month: 'long',
+                                                                    year: 'numeric',
+                                                                })
+                                                                : 'Belum ditentukan'}
+                                                        </span>
+                                                        <div className="text-sm ml-2">
+                                                            <CalendarRange />
+                                                        </div>
+                                                    </div>
+
+                                                    {/* DIALOG DIPISAH DARI DIV ATAS */}
+                                                    <Dialog open={editTanggalOpen} onOpenChange={setEditTanggalOpen}>
+                                                        <DialogContent className="sm:max-w-md">
+                                                            <DialogHeader>
+                                                                <DialogTitle>Edit Tanggal Panen</DialogTitle>
+                                                                <DialogDescription>
+                                                                    Pilih tanggal panen ayam sesuai perencanaan.
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+
+                                                            <div className="py-2">
+                                                                <Popover>
+                                                                    <PopoverTrigger asChild>
+                                                                        <Button
+                                                                            variant={"outline"}
+                                                                            className={cn(
+                                                                                "w-full justify-start text-left font-normal",
+                                                                                !selectedTanggal && "text-muted-foreground"
+                                                                            )}
+                                                                        >
+                                                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                            {selectedTanggal
+                                                                                ? format(selectedTanggal, "PPP")
+                                                                                : <span>Pilih tanggal panen</span>}
+                                                                        </Button>
+                                                                    </PopoverTrigger>
+                                                                    <PopoverContent className="w-auto p-0" align="start">
+                                                                        <Calendar
+                                                                            mode="single"
+                                                                            selected={selectedTanggal || undefined}
+                                                                            onSelect={(date) => {
+                                                                                setSelectedTanggal(date || null);
+                                                                                setErrorMessage(null);
+                                                                            }}
+                                                                            initialFocus
+                                                                        />
+                                                                    </PopoverContent>
+                                                                </Popover>
+                                                                {errorMessage && (
+                                                                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex justify-end gap-2 mt-4">
+                                                                <Button
+                                                                    variant="outline"
+                                                                    onClick={() => {
+                                                                        setEditTanggalOpen(false);
+                                                                        setErrorMessage(null);
+                                                                    }}
+                                                                >
+                                                                    Batal
+                                                                </Button>
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        if (selectedTanggal && ayamId) {
+                                                                            updateTanggalPanen(ayamId, selectedTanggal);
+                                                                            setEditTanggalOpen(false);
+                                                                            setErrorMessage(null);
+                                                                        } else {
+                                                                            setErrorMessage("Harap pilih tanggal panen.");
+                                                                        }
+                                                                    }}
+                                                                    className="bg-green-600 hover:bg-green-700"
+                                                                >
+                                                                    Simpan
+                                                                </Button>
+                                                            </div>
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                </>
+
+                                            )}
                                         </div>
                                     </div>
 
@@ -305,7 +418,7 @@ export default function DataAyam() {
                                     </p>
                                     {grafikData.map((grafik) => (
                                         <div key={grafik.chartId}>
-                                            <GrafikCard {...grafik} />
+                                            <GrafikMortalitasCard ayamId={ayamId} {...grafik} />
                                         </div>
                                     ))}
                                 </div>

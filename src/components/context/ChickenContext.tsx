@@ -13,16 +13,16 @@ interface DataAyamDetails {
     jumlah_ayam: number;
     mortalitas: number;
     usia_ayam: number;
-    tanggal_mulai: string; // Bisa diubah ke Date jika diparsing
+    tanggal_mulai: string;
     jumlah_ayam_awal: number;
-    tanggal_panen: string; // Bisa diubah ke Date jika diparsing
+    tanggal_panen: string;
 }
 
 interface HistoryRecord {
     id: number;
     data_ayam: number;
     data_ayam_details: DataAyamDetails;
-    timestamp: string; // Bisa diubah ke Date jika diparsing
+    timestamp: string;
 }
 
 
@@ -59,6 +59,7 @@ interface DataAyamContextType {
     updateAgeInDays: (ageInDays: number) => Promise<void>;
     postStartFarming: (jumlahAyam: number, targetTanggal: Date, startDate: Date) => Promise<void>;
     updateJumlahAyam: (jumlahAyamAwal: number, jumlahAyamBaru: number) => Promise<void>;
+    updateTanggalPanen: (ayamId: number, tanggalPanen: Date) => Promise<void>;
     updateMortalitas: (JumlahAwalAyam: number, ayamMati: number) => Promise<void>;
     handleStartFarming: (initialCount: number, targetDate: Date | null) => Promise<void>;
     jumlahAyamInput: number;
@@ -668,6 +669,39 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         }
     }, [token, jumlahAyam]);
 
+    const updateTanggalPanen = async (ayamId: number, newTanggalPanen: Date) => {
+        const data = {
+            tanggal_panen: newTanggalPanen.toISOString().split('T')[0], // format YYYY-MM-DD
+        };
+
+        try {
+            const response = await fetch(`https://sigma-backend-production.up.railway.app/api/data-ayam/${ayamId}/`, {
+                method: 'PATCH',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : '',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                console.error('Gagal update tanggal panen:', result);
+                throw new Error('Gagal update tanggal panen');
+            }
+
+            const result = await response.json();
+            console.log('Tanggal panen berhasil diupdate:', result);
+            setTargetTanggal(newTanggalPanen); // update context juga
+
+        } catch (error) {
+            console.error('Error update tanggal panen:', error);
+            alert('Gagal mengubah tanggal panen.');
+        }
+    };
+
+
     async function handleDeleteData() {
         try {
             // Ambil semua data ayam
@@ -967,6 +1001,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 postStartFarming,
                 updateJumlahAyam,
                 updateMortalitas,
+                updateTanggalPanen,
                 handleStartFarming,
                 jumlahAyamInput,
                 setJumlahAyamInput,

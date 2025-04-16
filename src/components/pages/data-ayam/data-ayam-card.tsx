@@ -14,7 +14,7 @@ const DataAyam: React.FC<DataAyamProps> = ({ title, label, value, icon, statusCo
         <div className="navbar-title body-bold text-sm sm:text-xs mb-2">
             {title}
         </div>
-        <div className="h-44 relative flex flex-grow flex-col items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white shadow-md p-7">
+        <div className="h-44 relative flex flex-grow flex-col items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white p-7">
             <div className="flex items-center">
                 <div className="flex h-[90px] w-auto items-center">
                     <div className="rounded-full bg-lightPrimary dark:bg-navy-700">
