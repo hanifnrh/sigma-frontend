@@ -15,8 +15,10 @@ import {
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
 // Libraries
+import { deleteCookie } from "cookies-next";
 
 // Icons
+import { LogOut, UserRoundPen } from "lucide-react";
 import { GrMapLocation } from "react-icons/gr";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -90,15 +92,52 @@ const TopMenu = () => {
                     </DropdownMenu>
                 </div>
                 <ModeToggle />
-                <div className="flex items-center border-l ml-3 pl-5 gap-2">
-                    <p className="body text-base">
-                        {role} - {username}
-                    </p>
-                    <Image
-                        src="/profile.png" alt="Profile Picture" className='w-8 h-auto' width={500} height={500}
-                    />
-                </div>
-                <RiArrowDropDownLine className="dark:text-white mx-1" />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
+                            <div className="flex items-center body text-base gap-2">
+                                <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                    {role}
+                                </p>
+                                <p className="capitalize">
+                                    {username}
+                                </p>
+                            </div>
+                            <Image
+                                src="/profile.png"
+                                alt="Profile Picture"
+                                className="w-8 h-auto rounded-full"
+                                width={500}
+                                height={500}
+                            />
+                            <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="body-light w-48">
+                        <DropdownMenuLabel>Profil</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>
+                            <div className="flex items-center gap-2">
+                                <UserRoundPen />
+                                Edit Profil
+                            </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                            deleteCookie("accessToken");
+                            deleteCookie("refreshToken");
+                            deleteCookie("role");
+                            deleteCookie("username");
+                            window.location.href = '/login';
+                        }}
+                            className="text-red-500 "
+                        >
+                            <div className="flex items-center gap-2">
+                                <LogOut />
+                                Keluar
+                            </div>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );

@@ -29,6 +29,7 @@ const buttonVariants = cva(
         baik: "text-blue-600 bg-blue-100",
         buruk: "text-orange-600 bg-orange-100",
         bahaya: "text-red-600 bg-red-100",
+        empty: "bg-yellow-100 text-yellow-500"
       },
       size: {
         default: "h-10 px-4 py-2",

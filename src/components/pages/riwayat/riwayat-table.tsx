@@ -199,7 +199,7 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
             case "Bahaya":
                 return "bahaya";
             default:
-                return "default";
+                return "empty";
         }
     };
 
@@ -248,8 +248,8 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                                     {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : '-'}
                                 </TableCell>
                                 <TableCell>
-                                    <Button variant={getButtonVariant(item.status ?? "default")}>
-                                        {item.status ?? '-'}
+                                    <Button variant={getButtonVariant(item.status ?? "empty")}>
+                                        {item.status ?? 'N/A'}
                                     </Button>
                                 </TableCell>
                             </TableRow>
