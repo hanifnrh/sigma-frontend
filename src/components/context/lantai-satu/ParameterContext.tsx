@@ -37,7 +37,7 @@ type ParameterContextType = {
     averageScore: number | null;
     setAverageScore: (averageScore: number | null) => void;
 
-    // New states for colors
+    // New states for colorsgit a
     ammoniaColor: string;
     setAmmoniaColor: (color: string) => void;
     temperatureColor: string;
@@ -160,7 +160,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     setCookie("accessToken", token, { path: "/" });
                 }
 
-                const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
+                const response = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/floor/1/", {
                     credentials: "include",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -174,7 +174,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
                     setCookie("accessToken", newToken, { path: "/" });
 
-                    const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/", {
+                    const newResponse = await fetch("https://sigma-backend-production.up.railway.app/api/parameters/floor/1/", {
                         credentials: "include",
                         headers: {
                             "Authorization": `Bearer ${newToken}`,
