@@ -22,7 +22,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -40,14 +40,66 @@ const TopMenu = () => {
     const { notifications } = useNotifications();
     const [username, setUsername] = useState<string | null>(null);
     const [role, setRole] = useState<string | null>(null);
+    const [fullName, setFullName] = useState<string | null>(null);
+    const [avatar, setAvatar] = useState<string | null>(null);
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const user = getCookie("username") as string | undefined;
-            const userRole = getCookie("role") as string | undefined;
-            setUsername(user ?? null);
-            setRole(userRole ?? null);
-        }
+        const user = getCookie("username") as string | undefined;
+        const userRole = getCookie("role") as string | undefined;
+        setUsername(user ?? null);
+        setRole(userRole ?? null);
+
+        const fetchAccessToken = async () => {
+            try {
+                const res = await fetch("/api/refresh", {
+                    method: "POST",
+                    credentials: "include",
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                setCookie("accessToken", data.accessToken, { path: "/" });
+                return data.accessToken;
+            } catch (err) {
+                console.error("Gagal refresh token:", err);
+                return null;
+            }
+        };
+
+        const fetchProfile = async () => {
+            let token = getCookie("accessToken") as string | undefined;
+
+            if (!token) {
+                token = await fetchAccessToken();
+                if (!token) return;
+            }
+
+            const fetchWithToken = async (accessToken: string) => {
+                return await fetch("https://sigma-backend-production.up.railway.app/api/user/profile/update/", {
+                    credentials: "include",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+            };
+
+            try {
+                let res = await fetchWithToken(token);
+                if (res.status === 401) {
+                    const newToken = await fetchAccessToken();
+                    if (!newToken) return;
+                    res = await fetchWithToken(newToken);
+                }
+
+                if (!res.ok) throw new Error("Fetch profile gagal");
+                const data = await res.json();
+                setFullName(data.full_name ?? null);
+                setAvatar(data.profile_picture ?? null);
+            } catch (err) {
+                console.error("Error saat fetch profile:", err);
+            }
+        };
+
+        fetchProfile();
     }, []);
 
     return (
@@ -92,10 +144,14 @@ const TopMenu = () => {
                 <ModeToggle />
                 <div className="flex items-center border-l ml-3 pl-5 gap-2">
                     <p className="body text-base">
-                        {role} - {username}
+                        {role} - {fullName ?? username}
                     </p>
                     <Image
-                        src="/profile.png" alt="Profile Picture" className='w-8 h-auto' width={500} height={500}
+                        src={avatar ? `/profile/${avatar}.jpg` : "/profile.png"}
+                        alt="Profile Picture"
+                        className='w-8 h-8 object-cover rounded-full'
+                        width={32}
+                        height={32}
                     />
                 </div>
                 <RiArrowDropDownLine className="dark:text-white mx-1" />
