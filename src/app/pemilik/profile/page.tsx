@@ -2,7 +2,6 @@
 
 import ButtonLogout from "@/components/ui/buttons/button-logout";
 import ButtonSave from "@/components/ui/buttons/button-save";
-import { useToast } from "@/hooks/use-toast";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,6 @@ type AvatarKey = keyof typeof avatarMap;
 const avatarList = Object.keys(avatarMap) as AvatarKey[];
 
 export default function Profile() {
-    const { toast } = useToast();
     const [fullName, setFullName] = useState<string | null>(null);
     const [selectedAvatar, setSelectedAvatar] = useState<AvatarKey>("PP1");
     const [username, setUsername] = useState<string | null>(null);
@@ -162,17 +160,10 @@ export default function Profile() {
         if (res.ok) {
             setCookie("full_name", fullName ?? "", { path: "/" });
             setCookie("profile_picture", selectedAvatar, { path: "/" });
-            toast({
-                title: "Berhasil!",
-                description: "Profil berhasil diperbarui.",
-                variant: "success",
-            });
+            alert("Profil berhasil diperbarui!");
+            router.back();
         } else {
-            toast({
-                title: "Gagal",
-                description: "Gagal menyimpan perubahan.",
-                variant: "destructive",
-            });
+            alert("Gagal menyimpan perubahan.");
         }
     };
 
