@@ -86,7 +86,7 @@ export default function Register() {
                 )}
             >
                 <div className="w-full grid grid-cols-2 items-center gap-8">
-                    <div className="relative w-full">
+                    <div className="hidden lg:block relative w-full">
                         <div className="flex items-center gap-2 z-50 absolute top-10 left-10">
                             <Image
                                 src="/sigmalogonobg.png"
@@ -100,7 +100,7 @@ export default function Register() {
                             </p>
                         </div>
                         <div className="absolute top-32 left-10 z-50">
-                            <h1 className="font-bold text-white text-7xl">
+                            <h1 className="font-bold text-white text-5xl xl:text-7xl">
                                 Daftar Sekarang!
                             </h1>
                         </div>
