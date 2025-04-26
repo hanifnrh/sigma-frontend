@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -7,7 +9,7 @@ export async function POST() {
         const cookieStore = await cookies();
         const refreshToken = cookieStore.get("refreshToken")?.value;
 
-        console.log("Refresh Token from Cookie:", refreshToken); // 🔍 Log untuk debugging
+        console.log("Refresh Token from Cookie:", refreshToken);
 
         if (!refreshToken) {
             return NextResponse.json({ error: "No refresh token available." }, { status: 401 });
@@ -24,15 +26,14 @@ export async function POST() {
         }
 
         const data = await response.json();
-        console.log("New Access Token:", data.access); // 🔍 Debugging
+        console.log("New Access Token:", data.access);
 
-        // ✅ Set accessToken baru di cookies
-        (await
-            // ✅ Set accessToken baru di cookies
-            cookies()).set("accessToken", data.access, {
+        // ✅ Update accessToken di cookies
+        cookieStore.set("accessToken", data.access, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
+            httpOnly: false, // kalau mau bisa dibaca di client (misal buat Authorization)
         });
 
         return NextResponse.json({ accessToken: data.access }, { status: 200 });

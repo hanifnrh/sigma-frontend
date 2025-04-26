@@ -19,27 +19,32 @@ export async function POST(req: Request) {
         const data = await response.json();
         console.log("Response Data:", data);
 
-        // Simpan token di cookie
+        // ✅ HARUS pakai await cookies()
         const cookieStore = await cookies();
+
         cookieStore.set("accessToken", data.access, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
+            httpOnly: false, // kalau mau dibaca client
         });
         cookieStore.set("refreshToken", data.refresh, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
+            httpOnly: false,
         });
         cookieStore.set("role", data.user.role, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
+            httpOnly: false,
         });
         cookieStore.set("username", data.user.username, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
+            httpOnly: false,
         });
 
         console.log("Tokens saved successfully.");
