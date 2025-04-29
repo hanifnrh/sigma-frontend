@@ -124,6 +124,24 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
 
 
     // Functions handle
+
+    async function sendSMS(message: string) {
+        try {
+            await fetch('/api/smsinactive', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message,
+                    to: '+6285794202130',
+                }),
+            });
+        } catch (error) {
+            console.error('Failed to send SMS message:', error);
+        }
+    }
+
     const sendNotification = (notification: Notification) => {
         addNotification(notification);
     };
@@ -301,6 +319,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
                     icon: <TbAtom2Filled />,
                     color: ammoniaColor,
                 });
+                sendSMS(`🚨 Peringatan Amonia Lt. 2: Tingkat amonia ${ammonia} ppm. ${newWarnings.ammonia}`);
             }
             if (newWarnings.temperature) {
                 sendNotification({
@@ -311,6 +330,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
                     icon: getTemperatureIcon(temperature),
                     color: temperatureColor,
                 });
+                sendSMS(`🔥 Peringatan Suhu Lt. 2: Tingkat suhu ${temperature} °C. ${newWarnings.temperature}`);
             }
             if (newWarnings.humidity) {
                 sendNotification({
@@ -321,6 +341,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
                     icon: <IoWater />,
                     color: humidityColor,
                 });
+                sendSMS(`💧 Peringatan Kelembapan Lt. 1: Tingkat kelembapan ${humidity}%. ${newWarnings.humidity}`);
             }
         }
     }, [ammonia, temperature, humidity, ammoniaStatus, temperatureStatus, humidityStatus]);

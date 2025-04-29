@@ -125,20 +125,20 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
     // Functions handle
 
-    async function sendWhatsapp(message: string) {
+    async function sendSMS(message: string) {
         try {
-            await fetch('/api/whatsapp', {
+            await fetch('/api/smsinactive', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     message,
-                    to: 'YOUR_PHONE_NUMBER', // Example: "+6281234567890"
+                    to: '+6285794202130',
                 }),
             });
         } catch (error) {
-            console.error('Failed to send WhatsApp message:', error);
+            console.error('Failed to send SMS message:', error);
         }
     }
 
@@ -309,7 +309,8 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
         ) {
             setWarnings(newWarnings);
 
-            // Send notifications only when warnings are updated
+            let combinedMessage = ""; // <-- Gabung semua pesan di sini
+
             if (newWarnings.ammonia) {
                 sendNotification({
                     data: "Amonia Lt. 1",
@@ -319,8 +320,9 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <TbAtom2Filled />,
                     color: ammoniaColor,
                 });
-                sendWhatsapp(`🚨 Peringatan Amonia: ${newWarnings.ammonia}`);
+                combinedMessage += `🚨 Amonia Lt. 1: ${ammonia} ppm. ${newWarnings.ammonia}\n`;
             }
+
             if (newWarnings.temperature) {
                 sendNotification({
                     data: "Suhu Lt. 1",
@@ -330,8 +332,9 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: getTemperatureIcon(temperature),
                     color: temperatureColor,
                 });
-                sendWhatsapp(`🔥 Peringatan Suhu: ${newWarnings.temperature}`);
+                combinedMessage += `🔥 Suhu Lt. 1: ${temperature} °C. ${newWarnings.temperature}\n`;
             }
+
             if (newWarnings.humidity) {
                 sendNotification({
                     data: "Kelembapan Lt. 1",
@@ -341,7 +344,11 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <IoWater />,
                     color: humidityColor,
                 });
-                sendWhatsapp(`💧 Peringatan Kelembapan: ${newWarnings.humidity}`);
+                combinedMessage += `💧 Kelembapan Lt. 1: ${humidity}%. ${newWarnings.humidity}`;
+            }
+
+            if (combinedMessage) {
+                sendSMS(combinedMessage.trim()); // Kirim hanya 1 SMS berisi gabungan
             }
         }
     }, [ammonia, temperature, humidity, ammoniaStatus, temperatureStatus, humidityStatus]);

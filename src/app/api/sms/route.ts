@@ -3,7 +3,7 @@ import twilio from 'twilio';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID!;
 const authToken = process.env.TWILIO_AUTH_TOKEN!;
-const whatsappFrom = process.env.TWILIO_WHATSAPP_FROM!;
+const smsFrom = process.env.TWILIO_SMS_FROM!;
 const client = twilio(accountSid, authToken);
 
 export async function POST(req: Request) {
@@ -12,9 +12,10 @@ export async function POST(req: Request) {
     try {
         const response = await client.messages.create({
             body: message,
-            from: whatsappFrom,
-            to: `whatsapp:${to}`,
+            from: smsFrom,
+            to: to,
         });
+
         return NextResponse.json({ success: true, sid: response.sid });
     } catch (error) {
         console.error(error);
