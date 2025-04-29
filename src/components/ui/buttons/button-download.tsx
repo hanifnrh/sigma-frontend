@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/buttons/button";
 import { cn } from "@/lib/utils";
 import { Check, Download, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -65,12 +64,12 @@ export default function ButtonDownload({
     }
 
     return (
-        <Button
+        <button
             className={cn(
-                "min-w-40 relative group",
+                "relative group px-6 sm:px-8 lg:px-10 py-2 rounded-md",
                 "bg-green-50 dark:bg-green-950",
                 "hover:bg-green-100 dark:hover:bg-green-900",
-                "text-green-600 dark:text-green-300",
+                "text-sm text-green-600 dark:text-green-300",
                 "border border-green-200 dark:border-green-800",
                 "transition-all duration-300",
                 isProcessing && "cursor-wait",
@@ -111,6 +110,6 @@ export default function ButtonDownload({
                     </>
                 )}
             </div>
-        </Button>
+        </button>
     );
 }

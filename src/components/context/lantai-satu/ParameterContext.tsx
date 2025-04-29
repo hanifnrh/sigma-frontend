@@ -251,8 +251,8 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     setSensorDHT22Status("Mati");
                 }
 
-                setSensorDFRobotStatus(statusDFRobot ? "Aktif" : "Mati");
-                setSensorDHT22Status(statusDHT22 ? "Aktif" : "Mati");
+                setSensorDFRobotStatus((!statusDFRobot || isSensorOffline) ? "Mati" : "Aktif");
+                setSensorDHT22Status((!statusDHT22 || isSensorOffline) ? "Mati" : "Aktif");
             }
         };
 

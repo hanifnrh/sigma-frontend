@@ -66,10 +66,10 @@ export default function Riwayat() {
                 <div className="sticky top-10 sm:top-0 z-10">
                     <TopMenu />
                     <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                        <div className='flex body-bold text-2xl'>
+                        <div className='hidden md:flex body-bold text-xl md:text-2xl'>
                             Riwayat
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-4xl">
+                        <div className="w-full md:w-fit grid grid-cols-3 gap-2 justify-between">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     {`Lantai ${lantai}`}
@@ -107,7 +107,10 @@ export default function Riwayat() {
                 </div>
 
                 <div className="page flex items-center justify-between p-4">
-                    <div className="flex flex-col justify-between items-center w-full">
+                    <div className="flex flex-col justify-between items-center w-full gap-2">
+                        <div className="md:hidden body text-xl sm:text-2xl pb-2">
+                            Riwayat Kandang
+                        </div>
                         <RiwayatTable lantai={lantai} selectedTime={selectedTime} />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>

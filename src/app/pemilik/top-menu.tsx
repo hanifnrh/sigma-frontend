@@ -15,14 +15,16 @@ import {
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
 // Libraries
+import { deleteCookie, setCookie } from "cookies-next";
 
 // Icons
+import { LogOut, UserRoundPen } from "lucide-react";
 import { GrMapLocation } from "react-icons/gr";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 // Private route for disallow unauthenticated users
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -39,68 +41,164 @@ type Notification = {
 const TopMenu = () => {
     const { notifications } = useNotifications();
     const [username, setUsername] = useState<string | null>(null);
-    const [role, setRole] = useState<string | null>(null);
     const [fullName, setFullName] = useState<string | null>(null);
-    const [avatar, setAvatar] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>(null);
+    const [selectedAvatar, setSelectedAvatar] = useState<string>("PP1");
 
     useEffect(() => {
-        const user = getCookie("username") as string | undefined;
-        const userRole = getCookie("role") as string | undefined;
-        setUsername(user ?? null);
-        setRole(userRole ?? null);
+        if (typeof window !== "undefined") {
+            const user = getCookie("username") as string | undefined;
+            const userRole = getCookie("role") as string | undefined;
 
-        const fetchAccessToken = async () => {
-            try {
-                const res = await fetch("/api/refresh", {
-                    method: "POST",
-                    credentials: "include",
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error);
-                setCookie("accessToken", data.accessToken, { path: "/" });
-                return data.accessToken;
-            } catch (err) {
-                console.error("Gagal refresh token:", err);
-                return null;
-            }
-        };
+            setUsername(user ?? null);
+            setRole(userRole ?? null);
+        }
+    }, []);
 
+    useEffect(() => {
         const fetchProfile = async () => {
             let token = getCookie("accessToken") as string | undefined;
 
+            // Jika token tidak ada atau kadaluarsa, refresh token
             if (!token) {
                 token = await fetchAccessToken();
-                if (!token) return;
+                if (!token) {
+                    console.error("Gagal mendapatkan access token.");
+                    return;
+                }
+                setCookie("accessToken", token, { path: "/" });
             }
 
             const fetchWithToken = async (accessToken: string) => {
                 return await fetch("https://sigma-backend-production.up.railway.app/api/user/profile/update/", {
                     credentials: "include",
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        "Authorization": `Bearer ${accessToken}`,
+                    },
+                });
+            };
+
+            try {
+                const res = await fetchWithToken(token);
+                if (res.status === 401) {
+                    const newToken = await fetchAccessToken();
+                    if (!newToken) throw new Error("Gagal refresh token.");
+
+                    setCookie("accessToken", newToken, { path: "/" });
+                    const newRes = await fetchWithToken(newToken);
+                    if (newRes.ok) {
+                        const data = await newRes.json();
+                        setFullName(data.full_name || "");
+
+                        // Mapping profile_picture ID to the correct image
+                        const profilePictureMap: { [key: number]: string } = {
+                            1: "PP1",
+                            2: "PP2",
+                            3: "PP3",
+                            4: "PP4",
+                            5: "PP5",
+                        };
+
+                        const profilePicture = profilePictureMap[data.profile_picture] || "PP1"; // Default to PP1 if undefined
+                        setSelectedAvatar(profilePicture);
+                    }
+                } else if (res.ok) {
+                    const data = await res.json();
+                    setFullName(data.full_name || "");
+
+                    // Mapping profile_picture ID to the correct image
+                    const profilePictureMap: { [key: number]: string } = {
+                        1: "PP1",
+                        2: "PP2",
+                        3: "PP3",
+                        4: "PP4",
+                        5: "PP5",
+                    };
+
+                    const profilePicture = profilePictureMap[data.profile_picture] || "PP1"; // Default to PP1 if undefined
+                    setSelectedAvatar(profilePicture);
+                } else {
+                    throw new Error(`Gagal fetch profile. Status: ${res.status}`);
+                }
+            } catch (error) {
+                console.error("Error saat fetch profile:", error);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+    const fetchAccessToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+                credentials: "include",
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to refresh token.");
+            }
+
+            return data.accessToken;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            let token = getCookie("accessToken") as string | undefined;
+
+            // Jika token tidak ada atau kadaluarsa, refresh token
+            if (!token) {
+                token = await fetchAccessToken();
+                if (!token) {
+                    console.error("Gagal mendapatkan access token.");
+                    return;
+                }
+                setCookie("accessToken", token, { path: "/" });
+            }
+
+            const fetchWithToken = async (accessToken: string) => {
+                return await fetch("https://sigma-backend-production.up.railway.app/api/user/profile/update/", {
+                    credentials: "include",
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
                     },
                 });
             };
 
             try {
                 let res = await fetchWithToken(token);
+
+                // Coba refresh token jika 401
                 if (res.status === 401) {
                     const newToken = await fetchAccessToken();
-                    if (!newToken) return;
+                    if (!newToken) throw new Error("Gagal refresh token.");
+
+                    setCookie("accessToken", newToken, { path: "/" });
+
                     res = await fetchWithToken(newToken);
                 }
 
-                if (!res.ok) throw new Error("Fetch profile gagal");
+                if (!res.ok) {
+                    throw new Error(`Gagal fetch profile. Status: ${res.status}`);
+                }
+
                 const data = await res.json();
-                setFullName(data.full_name ?? null);
-                setAvatar(data.profile_picture ?? null);
-            } catch (err) {
-                console.error("Error saat fetch profile:", err);
+                setFullName(data.full_name || "");
+
+            } catch (error) {
+                console.error("Error saat fetch profile:", error);
             }
         };
 
         fetchProfile();
     }, []);
+
 
     return (
         <div className="flex header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
@@ -142,19 +240,52 @@ const TopMenu = () => {
                     </DropdownMenu>
                 </div>
                 <ModeToggle />
-                <div className="flex items-center border-l ml-3 pl-5 gap-2">
-                    <p className="body text-base">
-                        {role} - {fullName ?? username}
-                    </p>
-                    <Image
-                        src={avatar ? `/profile/${avatar}.jpg` : "/profile.png"}
-                        alt="Profile Picture"
-                        className='w-8 h-8 object-cover rounded-full'
-                        width={32}
-                        height={32}
-                    />
-                </div>
-                <RiArrowDropDownLine className="dark:text-white mx-1" />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
+                            <div className="flex items-center body text-base gap-2">
+                                <p className="body-light bg-purple-100 text-purple-600 rounded-md px-3 flex justify-center items-center">
+                                    {role}
+                                </p>
+                                <p className="">
+                                    {(fullName?.split(" ")[0]) || username || "User"}
+                                </p>
+                            </div>
+                            <Image
+                                src={`/profile/${selectedAvatar}.jpg`}
+                                alt="Profile Picture"
+                                className="w-8 h-8 rounded-full"
+                                width={32}
+                                height={32}
+                            />
+                            <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="body-light w-48">
+                        <DropdownMenuLabel>Profil</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => window.location.href = '/pemilik/profile'}>
+                            <div className="flex items-center gap-2">
+                                <UserRoundPen />
+                                Edit Profil
+                            </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                            deleteCookie("accessToken");
+                            deleteCookie("refreshToken");
+                            deleteCookie("role");
+                            deleteCookie("username");
+                            window.location.href = '/login';
+                        }}
+                            className="text-red-500 "
+                        >
+                            <div className="flex items-center gap-2">
+                                <LogOut />
+                                Keluar
+                            </div>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );

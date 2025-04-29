@@ -28,7 +28,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 
 // Icons
-import { CalendarIcon, CalendarRange } from "lucide-react";
+import { CalendarIcon, CalendarRange, ChartNoAxesCombined } from "lucide-react";
 import { BsHeartPulse } from "react-icons/bs";
 import { FaPlay, FaRegCalendarAlt, FaStop } from "react-icons/fa";
 import { GiRooster } from "react-icons/gi";
@@ -125,14 +125,14 @@ export default function DataAyam() {
                     </div>
                     <div className="page flex items-center justify-between p-4 w-full">
                         <div className="flex flex-col justify-between items-center w-full">
-                            <div className='grid grid-cols-1 xl:grid-cols-2 gap-y-10 w-full'>
-                                <div className='grid grid-cols-2 gap-y-4 w-fit'>
-                                    <div className='flex flex-col justify-center sm:justify-start sm:items-start items-center w-full xl:w-48 h-full'>
-                                        <div className='h-full flex justify-center items-center text-xl'>
+                            <div className='grid grid-cols-1 xl:grid-cols-2 gap-y-6 w-full'>
+                                <div className='w-full justify-start grid grid-cols-2 gap-4 xl:w-fit'>
+                                    <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
+                                        <div className='w-full flex text-xl'>
                                             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                                <DialogTrigger disabled={farmingStarted}>
-                                                    <div onClick={() => setDialogOpen(true)} className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                                                        <div className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customGreen opacity-50' : 'bg-customGreen'} mulaiTernak h-full px-4 py-2 rounded-lg text-sm sm:text-xl`}>
+                                                <DialogTrigger disabled={farmingStarted} className="w-full">
+                                                    <div onClick={() => setDialogOpen(true)} className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                                        <div className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customGreen opacity-50' : 'bg-customGreen'} mulaiTernak w-full h-full px-4 py-2 rounded-lg text-sm sm:text-xl`}>
                                                             <FaPlay className='mr-2' />
                                                             Mulai Ternak
                                                         </div>
@@ -216,9 +216,9 @@ export default function DataAyam() {
                                     </div>
                                     <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
                                         <Dialog open={harvestDialogOpen} onOpenChange={setHarvestDialogOpen}>
-                                            <DialogTrigger disabled={!farmingStarted} >
-                                                <div className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                                                    <div onClick={() => setHarvestDialogOpen(true)} className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customRed' : 'bg-customRed opacity-50'} panen h-full px-4 py-2 rounded-lg text-sm sm:text-xl`} >
+                                            <DialogTrigger disabled={!farmingStarted} className="w-full">
+                                                <div className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                                    <div onClick={() => setHarvestDialogOpen(true)} className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customRed' : 'bg-customRed opacity-50'} w-full panen h-full px-4 py-2 rounded-lg text-sm sm:text-xl`} >
                                                         <FaStop className='mr-2' />
                                                         Panen
                                                     </div>
@@ -251,7 +251,7 @@ export default function DataAyam() {
                                         </Dialog>
                                         {harvested && <p className='mt-2 text-sm sm:text-md text-center'>Sudah panen.</p>}
                                         {farmingStarted && (
-                                            <p className={`${getAgeStatusColor} mt-2 text-sm sm:text-md text-center`}>{countdown}</p>
+                                            <p className={`${getAgeStatusColor} mt-2 text-sm sm:text-md text-start`}>{countdown}</p>
                                         )}
                                     </div>
 
@@ -276,132 +276,128 @@ export default function DataAyam() {
                                         </DialogContent>
                                     </Dialog>
                                 </div>
-                                <div className='flex flex-col sm:flex-row justify-center xl:justify-end items-center sm:items-start w-full'>
-
-                                    <div className='flex justify-end items-start gap-2'>
-                                        <div className='border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
-                                            Jumlah ayam awal: {jumlahAwalAyam}
-                                        </div>
-
-                                        <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
-                                            {editMode ? (
-                                                <div className="flex gap-2 items-center">
-                                                    <input
-                                                        type="date"
-                                                        value={newTanggal ? newTanggal.toISOString().split('T')[0] : ''}
-                                                        onChange={(e) => setNewTanggal(new Date(e.target.value))}
-                                                        className="border rounded px-2 py-1"
-                                                    />
-                                                    <button
-                                                        className="text-sm text-white bg-blue-500 px-2 py-1 rounded"
-                                                        onClick={() => {
-                                                            if (newTanggal && ayamId) {
-                                                                updateTanggalPanen(ayamId, newTanggal);
-                                                                setEditMode(false);
-                                                            }
-                                                        }}
-                                                    >
-                                                        Simpan
-                                                    </button>
-                                                    <button className="text-sm text-gray-600" onClick={() => setEditMode(false)}>Batal</button>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <div
-                                                        className="text-indigo-600 flex justify-between items-center cursor-pointer"
-                                                        onClick={() => setEditTanggalOpen(true)}
-                                                    >
-                                                        <span>
-                                                            Tanggal panen:{' '}
-                                                            {targetTanggal
-                                                                ? targetTanggal.toLocaleDateString('id-ID', {
-                                                                    day: 'numeric',
-                                                                    month: 'long',
-                                                                    year: 'numeric',
-                                                                })
-                                                                : 'Belum ditentukan'}
-                                                        </span>
-                                                        <div className="text-sm ml-2">
-                                                            <CalendarRange />
-                                                        </div>
-                                                    </div>
-
-                                                    {/* DIALOG DIPISAH DARI DIV ATAS */}
-                                                    <Dialog open={editTanggalOpen} onOpenChange={setEditTanggalOpen}>
-                                                        <DialogContent className="sm:max-w-md">
-                                                            <DialogHeader>
-                                                                <DialogTitle>Edit Tanggal Panen</DialogTitle>
-                                                                <DialogDescription>
-                                                                    Pilih tanggal panen ayam sesuai perencanaan.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-
-                                                            <div className="py-2">
-                                                                <Popover>
-                                                                    <PopoverTrigger asChild>
-                                                                        <Button
-                                                                            variant={"outline"}
-                                                                            className={cn(
-                                                                                "w-full justify-start text-left font-normal",
-                                                                                !selectedTanggal && "text-muted-foreground"
-                                                                            )}
-                                                                        >
-                                                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                                                            {selectedTanggal
-                                                                                ? format(selectedTanggal, "PPP")
-                                                                                : <span>Pilih tanggal panen</span>}
-                                                                        </Button>
-                                                                    </PopoverTrigger>
-                                                                    <PopoverContent className="w-auto p-0" align="start">
-                                                                        <Calendar
-                                                                            mode="single"
-                                                                            selected={selectedTanggal || undefined}
-                                                                            onSelect={(date) => {
-                                                                                setSelectedTanggal(date || null);
-                                                                                setErrorMessage(null);
-                                                                            }}
-                                                                            initialFocus
-                                                                        />
-                                                                    </PopoverContent>
-                                                                </Popover>
-                                                                {errorMessage && (
-                                                                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
-                                                                )}
-                                                            </div>
-
-                                                            <div className="flex justify-end gap-2 mt-4">
-                                                                <Button
-                                                                    variant="outline"
-                                                                    onClick={() => {
-                                                                        setEditTanggalOpen(false);
-                                                                        setErrorMessage(null);
-                                                                    }}
-                                                                >
-                                                                    Batal
-                                                                </Button>
-                                                                <Button
-                                                                    onClick={() => {
-                                                                        if (selectedTanggal && ayamId) {
-                                                                            updateTanggalPanen(ayamId, selectedTanggal);
-                                                                            setEditTanggalOpen(false);
-                                                                            setErrorMessage(null);
-                                                                        } else {
-                                                                            setErrorMessage("Harap pilih tanggal panen.");
-                                                                        }
-                                                                    }}
-                                                                    className="bg-green-600 hover:bg-green-700"
-                                                                >
-                                                                    Simpan
-                                                                </Button>
-                                                            </div>
-                                                        </DialogContent>
-                                                    </Dialog>
-                                                </>
-
-                                            )}
-                                        </div>
+                                <div className='w-full grid grid-cols-2 justify-end items-start gap-2'>
+                                    <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                        Jumlah ayam awal: {jumlahAwalAyam} <ChartNoAxesCombined />
                                     </div>
 
+                                    <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                        {editMode ? (
+                                            <div className="flex gap-2 items-center">
+                                                <input
+                                                    type="date"
+                                                    value={newTanggal ? newTanggal.toISOString().split('T')[0] : ''}
+                                                    onChange={(e) => setNewTanggal(new Date(e.target.value))}
+                                                    className="border rounded px-2 py-1"
+                                                />
+                                                <button
+                                                    className="text-sm text-white bg-blue-500 px-2 py-1 rounded"
+                                                    onClick={() => {
+                                                        if (newTanggal && ayamId) {
+                                                            updateTanggalPanen(ayamId, newTanggal);
+                                                            setEditMode(false);
+                                                        }
+                                                    }}
+                                                >
+                                                    Simpan
+                                                </button>
+                                                <button className="text-sm text-gray-600" onClick={() => setEditMode(false)}>Batal</button>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div
+                                                    className="text-indigo-600 flex justify-between items-center cursor-pointer"
+                                                    onClick={() => setEditTanggalOpen(true)}
+                                                >
+                                                    <span>
+                                                        Tanggal panen:{' '}
+                                                        {targetTanggal
+                                                            ? targetTanggal.toLocaleDateString('id-ID', {
+                                                                day: 'numeric',
+                                                                month: 'long',
+                                                                year: 'numeric',
+                                                            })
+                                                            : 'Belum ditentukan'}
+                                                    </span>
+                                                    <div className="text-sm ml-2">
+                                                        <CalendarRange />
+                                                    </div>
+                                                </div>
+
+                                                {/* DIALOG DIPISAH DARI DIV ATAS */}
+                                                <Dialog open={editTanggalOpen} onOpenChange={setEditTanggalOpen}>
+                                                    <DialogContent className="sm:max-w-md">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Edit Tanggal Panen</DialogTitle>
+                                                            <DialogDescription>
+                                                                Pilih tanggal panen ayam sesuai perencanaan.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+
+                                                        <div className="py-2">
+                                                            <Popover>
+                                                                <PopoverTrigger asChild>
+                                                                    <Button
+                                                                        variant={"outline"}
+                                                                        className={cn(
+                                                                            "w-full justify-start text-left font-normal",
+                                                                            !selectedTanggal && "text-muted-foreground"
+                                                                        )}
+                                                                    >
+                                                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                        {selectedTanggal
+                                                                            ? format(selectedTanggal, "PPP")
+                                                                            : <span>Pilih tanggal panen</span>}
+                                                                    </Button>
+                                                                </PopoverTrigger>
+                                                                <PopoverContent className="w-auto p-0" align="start">
+                                                                    <Calendar
+                                                                        mode="single"
+                                                                        selected={selectedTanggal || undefined}
+                                                                        onSelect={(date) => {
+                                                                            setSelectedTanggal(date || null);
+                                                                            setErrorMessage(null);
+                                                                        }}
+                                                                        initialFocus
+                                                                    />
+                                                                </PopoverContent>
+                                                            </Popover>
+                                                            {errorMessage && (
+                                                                <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                                                            )}
+                                                        </div>
+
+                                                        <div className="flex justify-end gap-2 mt-4">
+                                                            <Button
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    setEditTanggalOpen(false);
+                                                                    setErrorMessage(null);
+                                                                }}
+                                                            >
+                                                                Batal
+                                                            </Button>
+                                                            <Button
+                                                                onClick={() => {
+                                                                    if (selectedTanggal && ayamId) {
+                                                                        updateTanggalPanen(ayamId, selectedTanggal);
+                                                                        setEditTanggalOpen(false);
+                                                                        setErrorMessage(null);
+                                                                    } else {
+                                                                        setErrorMessage("Harap pilih tanggal panen.");
+                                                                    }
+                                                                }}
+                                                                className="bg-green-600 hover:bg-green-700"
+                                                            >
+                                                                Simpan
+                                                            </Button>
+                                                        </div>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            </>
+
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center w-full mt-10">
@@ -413,7 +409,7 @@ export default function DataAyam() {
                             </div>
                             <div className='mt-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
                                         GRAFIK MORTALITAS
                                     </p>
                                     {grafikData.map((grafik) => (
@@ -423,7 +419,7 @@ export default function DataAyam() {
                                     ))}
                                 </div>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
                                         KENDALI JUMLAH AYAM
                                     </p>
                                     <div className='border rounded-lg'>

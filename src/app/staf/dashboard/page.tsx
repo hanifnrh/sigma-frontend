@@ -184,28 +184,28 @@ export default function Dashboard() {
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                            <div className='flex body-bold text-2xl'>
-                                Dasbor
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-4xl">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                                        Lantai {lantai}
-                                        <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className='body-light'>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <div className="flex justify-center items-center text-4xl">
-                                    <ButtonDownload onClick={handleDownload}>
-                                        <MdOutlineFileDownload className='text-4xl pr-2' />
-                                        Unduh data
-                                    </ButtonDownload>
-                                </div>
+                    </div>
+
+                    <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white gap-6">
+                        <div className='flex body-bold text-2xl'>
+                            Dasbor
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                    Lantai {lantai}
+                                    <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className='body-light'>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <div className="flex justify-center items-center">
+                                <ButtonDownload onClick={handleDownload}>
+                                    <MdOutlineFileDownload className='text-4xl pr-2' />
+                                </ButtonDownload>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@ export default function Dashboard() {
                             <div className='flex justify-between items-center py-5 px-4 w-full border-b'>
                                 <div>
                                     <span
-                                        className={`text-2xl md:text-4xl body-bold ${getStatusGradient(overallStatus)
+                                        className={`text-lg sm:text-2xl md:text-4xl body-bold ${getStatusGradient(overallStatus)
                                             } cliptext text-transparent`}
                                     >
                                         Status Total: {overallStatus || "-"}
@@ -232,25 +232,28 @@ export default function Dashboard() {
                             </div>
 
                             <div className="flex justify-between items-center w-full p-6">
-                                <div className="w-full grid grid-cols-2 gap-5 xl:grid-cols-3">
+                                <div className="w-full items-start grid grid-cols-2 gap-5 xl:grid-cols-3">
                                     {[...parameterCards, ...generalCards].map(({ label, unit, value, icon, statusColor, warning }) => (
                                         <StatCard key={label} label={label} unit={unit} value={value} icon={icon} statusColor={statusColor} warning={warning} />
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="status-container flex items-center justify-center py-4 border-b w-full">
+                            <div className="status-container flex flex-col gap-2 items-center justify-center py-4 border-b w-full">
+                                <div className="body text-base">
+                                    Indikator status:
+                                </div>
                                 <div className="status-wrapper grid grid-cols-2 xl:grid-cols-4 gap-4">
-                                    <div className="status flex items-center justify-center">
+                                    <div className="w-full status flex items-center justify-start sm:justify-center">
                                         <StatusIndicator status="success">Sangat Baik</StatusIndicator>
                                     </div>
-                                    <div className="status flex items-center justify-center">
+                                    <div className="w-full status flex items-center justify-start sm:justify-center">
                                         <StatusIndicator status="info">Baik</StatusIndicator>
                                     </div>
-                                    <div className="status flex items-center justify-center">
+                                    <div className="w-full status flex items-center justify-start sm:justify-center">
                                         <StatusIndicator status="warning">Buruk</StatusIndicator>
                                     </div>
-                                    <div className="status flex items-center justify-center">
+                                    <div className="w-full status flex items-center justify-start sm:justify-center">
                                         <StatusIndicator status="error">Bahaya</StatusIndicator>
                                     </div>
 

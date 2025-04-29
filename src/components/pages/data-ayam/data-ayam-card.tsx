@@ -11,7 +11,7 @@ interface DataAyamProps {
 
 const DataAyam: React.FC<DataAyamProps> = ({ title, label, value, icon, statusColor, warning }) => (
     <div>
-        <div className="navbar-title body-bold text-sm sm:text-xs mb-2">
+        <div className="navbar-title body-bold text-xs sm:text-sm mb-2">
             {title}
         </div>
         <div className="h-44 relative flex flex-grow flex-col items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white p-7">

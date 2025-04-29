@@ -21,7 +21,7 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, unit, icon, statusCol
     const borderClass = statusColor && colorMap[statusColor] ? colorMap[statusColor] : "border-gray-500";
 
     return (
-        <div className="w-full grid grid-cols-1 gap-4 items-center justify-center">
+        <div className="w-full items-start grid grid-cols-1 gap-4 justify-center">
             <div
                 className="relative flex flex-col items-center"
                 onMouseEnter={() => setIsHovering(label)}
@@ -46,7 +46,7 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, unit, icon, statusCol
                     </div>
                 </div>
                 <span className="mt-3 text-base font-medium text-zinc-700 dark:text-zinc-300">{label}</span>
-                {warning && <p className={`${statusColor} text-base text-center`}>{warning}</p>}
+                {warning && <p className={`${statusColor} text-xs sm:text-base text-center`}>{warning}</p>}
             </div>
         </div>
     );

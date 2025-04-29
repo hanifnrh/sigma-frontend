@@ -201,93 +201,181 @@ const TopMenu = () => {
 
 
     return (
-        <div className="flex header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
-            <div className='flex items-center navbar-title body-light'>
-                <GrMapLocation className='text-xl' />
-                <span className='ml-2 dark:text-white text-xs sm:text-sm'>
-                    Lokasi: Kecamatan Musuk, Boyolali, Jawa Tengah
-                </span>
-            </div>
-            <div className="flex justify-center items-center text-4xl relative">
-                <div className="relative mr-4">
+        <>
+            {/* Desktop */}
+            <div className="hidden sm:flex header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
+                <div className='flex items-center navbar-title body-light'>
+                    <GrMapLocation className='text-xl' />
+                    <span className='ml-2 dark:text-white text-xs sm:text-sm'>
+                        Lokasi: Penggung, Kecamatan Musuk, Boyolali, Jawa Tengah
+                    </span>
+                </div>
+                <div className="flex justify-center items-center text-4xl relative">
+                    <div className="relative mr-4">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
+                                {/* Notification Badge */}
+                                {notifications.length > 0 && (
+                                    <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
+                                )}
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className='body-light w-72'>
+                                <DropdownMenuLabel>Notifikasi</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {notifications.map((notif, index) => (
+                                    <DropdownMenuItem key={index} className='flex justify-center items-center border-b'>
+                                        <div className='mx-2'>
+                                            {notif.icon}
+                                        </div>
+                                        <div className='flex flex-col items-start w-full'>
+                                            <div>
+                                                {notif.data}: <span className={`${notif.color} body-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
+                                            </div>
+                                            <div>
+                                                {notif.message}
+                                            </div>
+                                        </div>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                    <ModeToggle />
                     <DropdownMenu>
-                        <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
-                            <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
-                            {/* Notification Badge */}
-                            {notifications.length > 0 && (
-                                <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
-                            )}
+                        <DropdownMenuTrigger asChild>
+                            <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
+                                <div className="flex items-center body text-base gap-2">
+                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                        {role}
+                                    </p>
+                                    <p className="">
+                                        {(fullName?.split(" ")[0]) || username || "User"}
+                                    </p>
+                                </div>
+                                <Image
+                                    src={`/profile/${selectedAvatar}.jpg`}
+                                    alt="Profile Picture"
+                                    className="w-8 h-8 rounded-full"
+                                    width={32}
+                                    height={32}
+                                />
+                                <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
+                            </div>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className='body-light w-72'>
-                            <DropdownMenuLabel>Notifikasi</DropdownMenuLabel>
+                        <DropdownMenuContent className="body-light w-48">
+                            <DropdownMenuLabel>Profil</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            {notifications.map((notif, index) => (
-                                <DropdownMenuItem key={index} className='flex justify-center items-center border-b'>
-                                    <div className='mx-2'>
-                                        {notif.icon}
-                                    </div>
-                                    <div className='flex flex-col items-start w-full'>
-                                        <div>
-                                            {notif.data}: <span className={`${notif.color} body-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
-                                        </div>
-                                        <div>
-                                            {notif.message}
-                                        </div>
-                                    </div>
-                                </DropdownMenuItem>
-                            ))}
+                            <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>
+                                <div className="flex items-center gap-2">
+                                    <UserRoundPen />
+                                    Edit Profil
+                                </div>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                                deleteCookie("accessToken");
+                                deleteCookie("refreshToken");
+                                deleteCookie("role");
+                                deleteCookie("username");
+                                window.location.href = '/login';
+                            }}
+                                className="text-red-500 "
+                            >
+                                <div className="flex items-center gap-2">
+                                    <LogOut />
+                                    Keluar
+                                </div>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
-                <ModeToggle />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
-                            <div className="flex items-center body text-base gap-2">
-                                <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
-                                    {role}
-                                </p>
-                                <p className="">
-                                    {fullName || username || "User"}
-                                </p>
-                            </div>
-                            <Image
-                                src={`/profile/${selectedAvatar}.jpg`}
-                                alt="Profile Picture"
-                                className="w-8 h-8 rounded-full"
-                                width={32}
-                                height={32}
-                            />
-                            <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="body-light w-48">
-                        <DropdownMenuLabel>Profil</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>
-                            <div className="flex items-center gap-2">
-                                <UserRoundPen />
-                                Edit Profil
-                            </div>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            deleteCookie("accessToken");
-                            deleteCookie("refreshToken");
-                            deleteCookie("role");
-                            deleteCookie("username");
-                            window.location.href = '/login';
-                        }}
-                            className="text-red-500 "
-                        >
-                            <div className="flex items-center gap-2">
-                                <LogOut />
-                                Keluar
-                            </div>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
-        </div>
+
+            {/* Mobile */}
+            <div className="flex sm:hidden header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
+                <div className="w-full flex justify-between items-center text-4xl relative">
+                    <div className="flex items-center">
+                        <div className="relative mr-4">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                    <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
+                                    {/* Notification Badge */}
+                                    {notifications.length > 0 && (
+                                        <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
+                                    )}
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className='body-light w-72'>
+                                    <DropdownMenuLabel>Notifikasi</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    {notifications.map((notif, index) => (
+                                        <DropdownMenuItem key={index} className='flex justify-center items-center border-b'>
+                                            <div className='mx-2'>
+                                                {notif.icon}
+                                            </div>
+                                            <div className='flex flex-col items-start w-full'>
+                                                <div>
+                                                    {notif.data}: <span className={`${notif.color} body-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
+                                                </div>
+                                                <div>
+                                                    {notif.message}
+                                                </div>
+                                            </div>
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        <ModeToggle />
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <div className="flex items-center gap-2 cursor-pointer">
+                                <div className="flex items-center body text-base gap-2">
+                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                        {role}
+                                    </p>
+                                    <p className="">
+                                        {(fullName?.split(" ")[0]) || username || "User"}
+                                    </p>
+                                </div>
+                                <Image
+                                    src={`/profile/${selectedAvatar}.jpg`}
+                                    alt="Profile Picture"
+                                    className="w-8 h-8 rounded-full"
+                                    width={32}
+                                    height={32}
+                                />
+                                <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="body-light w-48">
+                            <DropdownMenuLabel>Profil</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>
+                                <div className="flex items-center gap-2">
+                                    <UserRoundPen />
+                                    Edit Profil
+                                </div>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                                deleteCookie("accessToken");
+                                deleteCookie("refreshToken");
+                                deleteCookie("role");
+                                deleteCookie("username");
+                                window.location.href = '/login';
+                            }}
+                                className="text-red-500 "
+                            >
+                                <div className="flex items-center gap-2">
+                                    <LogOut />
+                                    Keluar
+                                </div>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+        </>
     );
 };
 
