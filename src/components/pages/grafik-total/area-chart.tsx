@@ -28,7 +28,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
     });
 
     const dataTypeMapping: Record<string, string> = {
-        score: "Skor",
+        score: "skor dalam satuan",
     };
 
     const dataTypeLabel = dataTypeMapping[dataType] || "Data";
@@ -145,7 +145,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
                 gradient: { opacityFrom: 0.55, opacityTo: 0, shade: color, gradientToColors: [color] },
             },
             dataLabels: { enabled: false },
-            stroke: { width: 6, colors: [color] },
+            stroke: { width: 4, colors: [color] },
             grid: {
                 show: false,
                 strokeDashArray: 4,
@@ -164,7 +164,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType }) =>
                 axisBorder: { show: false },
                 axisTicks: { show: false },
                 title: {
-                    text: "Garis horizontal menunjukkan waktu",
+                    text: "Garis horizontal menunjukkan waktu tiap 5 menit",
                     style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
                 },
             },

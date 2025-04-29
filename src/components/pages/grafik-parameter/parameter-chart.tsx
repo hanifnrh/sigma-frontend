@@ -44,11 +44,11 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, la
 
 
     const dataTypeMapping: Record<string, string> = {
-        ammonia: "Amonia",
-        temperature: "Suhu",
-        humidity: "Kelembapan",
+        ammonia: "amonia dalam ppm",
+        temperature: "suhu dalam °C",
+        humidity: "kelembapan dalam %",
         score: "Skor",
-        mortalitas: "Mortalitas",
+        mortalitas: "mortalitas dalam %",
     };
 
     const dataTypeLabel = dataTypeMapping[dataType] || "Data";
@@ -166,7 +166,7 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, la
                 gradient: { opacityFrom: 0.55, opacityTo: 0, shade: color, gradientToColors: [color] },
             },
             dataLabels: { enabled: false },
-            stroke: { width: 6, colors: [color] },
+            stroke: { width: 4, colors: [color] },
             grid: {
                 show: false,
                 strokeDashArray: 4,
@@ -185,7 +185,7 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, la
                 axisBorder: { show: false },
                 axisTicks: { show: false },
                 title: {
-                    text: "Garis horizontal menunjukkan waktu",
+                    text: "Garis horizontal menunjukkan waktu tiap 5 menit",
                     style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
                 },
             },

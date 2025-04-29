@@ -3,6 +3,7 @@
 // UI Components
 import ButtonRegister from "@/components/ui/buttons/button-register";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 // Libraries
 import { cn } from "@/lib/utils";
@@ -16,12 +17,13 @@ import { z } from "zod";
 
 // Schema Validasi
 const RegisterSchema = z.object({
-    username: z.string().min(2, { message: "Username must be at least 2 characters." }),
-    email: z.string().email({ message: "Invalid email address." }),
-    password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+    username: z.string().min(2, { message: "Username setidaknya harus 2 karakter." }),
+    email: z.string().email({ message: "Alamat email invalid." }),
+    password: z.string().min(6, { message: "Password setidaknya harus 6 karakter." }),
 });
 
 export default function Register() {
+    const { toast } = useToast();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,11 +38,22 @@ export default function Register() {
 
         if (!validationResult.success) {
             const fieldErrors = validationResult.error.format();
+            const usernameError = fieldErrors.username?._errors[0] || "";
+            const emailError = fieldErrors.email?._errors[0] || "";
+            const passwordError = fieldErrors.password?._errors[0] || "";
+
             setError({
-                username: fieldErrors.username?._errors[0] || "",
-                email: fieldErrors.email?._errors[0] || "",
-                password: fieldErrors.password?._errors[0] || "",
+                username: usernameError,
+                email: emailError,
+                password: passwordError,
             });
+
+            toast({
+                variant: "destructive",
+                title: "Validasi Gagal",
+                description: usernameError || emailError || passwordError || "Cek kembali inputan kamu.",
+            });
+
             return;
         }
 
@@ -55,15 +68,30 @@ export default function Register() {
             const result = await response.json();
 
             if (!response.ok) {
-                setError({ username: result.error || "Registration failed", email: "", password: "" });
+                setError({ username: "Registrasi gagal", email: "", password: "" });
+                toast({
+                    variant: "destructive",
+                    title: "Registrasi gagal",
+                    description: "Terdapat masalah. Harap coba lagi.",
+                });
                 return;
             }
 
             // Redirect ke halaman login setelah berhasil register
+            toast({
+                variant: "success",
+                title: "Berhasil membuat akun",
+                description: "Anda akan diarahkan ke halaman login.",
+            });
             router.push("/login");
         } catch (error) {
             console.error("Registration Error:", error);
-            setError({ username: "Something went wrong. Please try again.", email: "", password: "" });
+            setError({ username: "Terdapat masalah. Harap coba lagi.", email: "", password: "" });
+            toast({
+                variant: "destructive",
+                title: "Terjadi Kesalahan",
+                description: "Gagal terhubung ke server. Coba lagi nanti.",
+            });
         }
     };
 
@@ -115,7 +143,7 @@ export default function Register() {
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-8 mt-4">
                         <div className="flex flex-col items-start gap-6">
-                            <Link href="/" className="w-full flex items-center justify-start space-x-3 rtl:space-x-reverse">
+                            <Link href="/login" className="w-full flex items-center justify-start space-x-3 rtl:space-x-reverse">
                                 <div className="p-2 rounded-xl border border-zinc-300 shadow-sm text-zinc-800 hover:bg-zinc-100 transition-all">
                                     <ChevronLeft size={20} />
                                 </div>

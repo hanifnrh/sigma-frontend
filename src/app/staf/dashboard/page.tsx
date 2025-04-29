@@ -29,6 +29,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { TbAtom2Filled } from "react-icons/tb";
 
 // Private route for disallow unauthenticated users
+import { SensorStatus2 } from "@/components/pages/perangkat-keras/sensor-status2";
 import PrivateRoute from "@/components/PrivateRoute";
 import ButtonDownload from "@/components/ui/buttons/button-download";
 
@@ -260,7 +261,11 @@ export default function Dashboard() {
                                     <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
                                         PERANGKAT
                                     </p>
-                                    <SensorStatus />
+                                    {lantai === 1 ? (
+                                        <SensorStatus />
+                                    ) : (
+                                        <SensorStatus2 />
+                                    )}
                                 </div>
                                 <div className='w-full'>
                                     <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>

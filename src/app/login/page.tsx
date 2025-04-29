@@ -4,6 +4,7 @@
 // UI Components
 import ButtonLogin from "@/components/ui/buttons/button-login";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 // Libraries
 import { cn } from "@/lib/utils";
@@ -17,11 +18,12 @@ import { z } from "zod";
 
 // Schema Validasi
 const LoginSchema = z.object({
-    username: z.string().min(2, { message: "Username must be at least 2 characters." }),
-    password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+    username: z.string().min(2, { message: "Username setidaknya harus 2 karakter." }),
+    password: z.string().min(6, { message: "Password setidaknya harus 6 karakter." }),
 });
 
 export default function Login() {
+    const { toast } = useToast();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState({ username: "", password: "" });
@@ -54,15 +56,30 @@ export default function Login() {
 
             if (!response.ok) {
                 setError({ username: result.error || "Login failed", password: "" });
+                toast({
+                    variant: "destructive",
+                    title: "Login Gagal",
+                    description: "Username atau password salah.",
+                });
                 return;
             }
 
             // Redirect berdasarkan role
             const redirectPath = result.role.toLowerCase() === "pemilik" ? "/pemilik/dashboard" : "/staf/dashboard";
+            toast({
+                variant: "success",
+                title: "Login berhasil",
+                description: "Anda akan diarahkan ke halaman dasbor.",
+            });
             router.push(redirectPath);
         } catch (error) {
             console.error("Login Error:", error);
-            setError({ username: "Something went wrong. Please try again.", password: "" });
+            setError({ username: "Terdapat masalah. Harap coba lagi.", password: "" });
+            toast({
+                variant: "destructive",
+                title: "Terjadi Kesalahan",
+                description: "Gagal terhubung ke server. Coba lagi nanti.",
+            });
         }
     };
 

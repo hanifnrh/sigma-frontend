@@ -1,4 +1,3 @@
-import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -22,7 +21,6 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
-        <ServiceWorkerRegister />
         {children}
         <Toaster />
       </body>

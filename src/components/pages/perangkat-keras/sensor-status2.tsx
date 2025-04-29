@@ -1,3 +1,4 @@
+import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterContext2";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Table,
@@ -7,11 +8,10 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { useParameterContext } from "../../context/lantai-satu/ParameterContext";
 import { Button } from "../../ui/buttons/button";
 
-export function SensorStatus() {
-    const { sensorDFRobotStatus, sensorDHT22Status } = useParameterContext();
+export function SensorStatus2() {
+    const { sensorDFRobotStatus, sensorDHT22Status } = useParameterContext2();
     const sensors = [
         {
             sensor: "Suhu & Kelembapan DHT22",

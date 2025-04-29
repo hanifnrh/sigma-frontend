@@ -124,6 +124,24 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
 
     // Functions handle
+
+    async function sendWhatsapp(message: string) {
+        try {
+            await fetch('/api/whatsapp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message,
+                    to: 'YOUR_PHONE_NUMBER', // Example: "+6281234567890"
+                }),
+            });
+        } catch (error) {
+            console.error('Failed to send WhatsApp message:', error);
+        }
+    }
+
     const sendNotification = (notification: Notification) => {
         addNotification(notification);
     };
@@ -301,6 +319,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <TbAtom2Filled />,
                     color: ammoniaColor,
                 });
+                sendWhatsapp(`🚨 Peringatan Amonia: ${newWarnings.ammonia}`);
             }
             if (newWarnings.temperature) {
                 sendNotification({
@@ -311,6 +330,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: getTemperatureIcon(temperature),
                     color: temperatureColor,
                 });
+                sendWhatsapp(`🔥 Peringatan Suhu: ${newWarnings.temperature}`);
             }
             if (newWarnings.humidity) {
                 sendNotification({
@@ -321,6 +341,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <IoWater />,
                     color: humidityColor,
                 });
+                sendWhatsapp(`💧 Peringatan Kelembapan: ${newWarnings.humidity}`);
             }
         }
     }, [ammonia, temperature, humidity, ammoniaStatus, temperatureStatus, humidityStatus]);

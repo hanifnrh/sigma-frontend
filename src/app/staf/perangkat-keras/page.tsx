@@ -1,7 +1,6 @@
 "use client";
 
 // UI Components
-import { SensorBattery2 } from '@/components/pages/perangkat-keras/sensor-battery-2';
 import { SensorStatus } from '@/components/pages/perangkat-keras/sensor-status';
 import Navbar from "../navbar";
 
@@ -12,6 +11,7 @@ import { FaTemperatureLow } from "react-icons/fa";
 import { TbAtom2Filled } from "react-icons/tb";
 
 // Private route for disallow unauthenticated users
+import { SensorStatus2 } from '@/components/pages/perangkat-keras/sensor-status2';
 import PrivateRoute from '@/components/PrivateRoute';
 import TopMenu from '../top-menu';
 
@@ -65,18 +65,24 @@ export default function PerangkatKeras() {
                             <div className='mt-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-10'>
                                 <div className='w-full h-full'>
                                     <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
-                                        PERANGKAT
+                                        LANTAI 1
                                     </p>
                                     <SensorStatus></SensorStatus>
                                 </div>
                                 <div className='w-full h-full'>
+                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                        LANTAI 2
+                                    </p>
+                                    <SensorStatus2></SensorStatus2>
+                                </div>
+                                {/* <div className='w-full h-full'>
                                     <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
                                         DAYA PERANGKAT
                                     </p>
                                     <div className='border rounded-lg p-6'>
                                         <SensorBattery2></SensorBattery2>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
