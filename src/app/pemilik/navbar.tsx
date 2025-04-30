@@ -85,7 +85,18 @@ const Navbar: React.FC = () => {
                             <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
                             <MenuItem href="/pemilik/perangkat-keras" Icon={StyledSensorsIcon} label="Perangkat Keras" />
                             <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
-                            <MenuItem href="https://sigma-backend-production.up.railway.app/admin/" Icon={StyledIoPeopleOutlineIcon} label="Manajemen Akun" />
+                            <li>
+                                <Link
+                                    href="https://sigma-backend-production.up.railway.app/admin/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`flex items-center p-2 rounded-lg text-gray-900 dark:text-white transition-all hover:bg-indigo-50 hover:text-indigo-400 group`}
+                                >
+                                    <StyledIoPeopleOutlineIcon />
+                                    <span>Manajemen Akun</span>
+                                </Link>
+                            </li>
+
                         </ul>
 
                         <ul className="pt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
