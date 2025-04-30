@@ -5,7 +5,6 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 
 // UI Components
 import ButtonLogout from "@/components/ui/buttons/button-logout";
-import Dynamic from "@/components/ui/dynamic";
 import withIconStyles from "@/components/ui/withIconStyles";
 import { deleteCookie } from "cookies-next";
 
@@ -94,26 +93,6 @@ const Navbar: React.FC = () => {
                         </ul>
 
                         <div className="status-container w-full relative mt-5 sm:mt-0">
-                            <div className={`${overallColor} rounded-xl h-16 w-full flex items-center`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="93" viewBox="0 0 120 93" fill="none" className='absolute top-0 left-0'>
-                                    <circle opacity="0.2" cx="60.7009" cy="60.7009" r="60.7009" transform="matrix(0.996195 0.0871557 0.0871557 -0.996195 -74.1056 81.7822)" fill="url(#paint0_linear_58_5)" />
-                                    <circle opacity="0.2" cx="60.7009" cy="60.7009" r="60.7009" transform="matrix(0.996195 0.0871557 0.0871557 -0.996195 -11.7125 48.972)" fill="url(#paint1_linear_58_5)" />
-                                    <defs>
-                                        <linearGradient id="paint0_linear_58_5" x1="60.7009" y1="6.99719e-07" x2="84.1796" y2="121.402" gradientUnits="userSpaceOnUse">
-                                            <stop stopColor="white" />
-                                            <stop offset="1" stopColor="white" />
-                                        </linearGradient>
-                                        <linearGradient id="paint1_linear_58_5" x1="60.7009" y1="6.99719e-07" x2="84.1796" y2="121.402" gradientUnits="userSpaceOnUse">
-                                            <stop stopColor="white" />
-                                            <stop offset="1" stopColor="white" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                                <div className='flex w-full items-center justify-between px-8'>
-                                    <p className='text-white text-start body-bold text-xl'>Status: {overallStatus}</p>
-                                    <Dynamic />
-                                </div>
-                            </div>
                             <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout}/>
                         </div>
                     </div>
