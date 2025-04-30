@@ -178,7 +178,7 @@ export default function Profile() {
 
     return (
         <div className="p-8 my-10 max-w-xl mx-auto border rounded-xl">
-            <button onClick={() => router.push('/staf/dashboard')} className="mb-4 flex items-center text-blue-500">
+            <button onClick={() => router.push('/pemilik/dashboard')} className="mb-4 flex items-center text-blue-500">
                 <IoArrowBackOutline className="mr-1" /> Kembali
             </button>
 

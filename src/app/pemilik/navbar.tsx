@@ -16,12 +16,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 // Icons
-import { UsersRound } from "lucide-react";
 import { GiRooster } from "react-icons/gi";
 import { GoHistory } from "react-icons/go";
 import { HiMenuAlt2, HiX } from "react-icons/hi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { IoRocketOutline } from "react-icons/io5";
+import { IoPeopleOutline, IoRocketOutline } from "react-icons/io5";
 import { LuBook } from "react-icons/lu";
 import { MdAutoGraph, MdOutlineSensors } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
@@ -52,7 +51,7 @@ const Navbar: React.FC = () => {
     const StyledBookIcon = withIconStyles(LuBook);
     const StyledMenuIcon = withIconStyles(HiMenuAlt2);
     const StyledCloseIcon = withIconStyles(HiX);
-    const StyledUsersRoundIcon = withIconStyles(UsersRound);
+    const StyledIoPeopleOutlineIcon = withIconStyles(IoPeopleOutline);
 
     const MenuItem = ({ href, Icon, label }: { href: string; Icon: React.ComponentType; label: string }) => (
         <li>
@@ -86,7 +85,7 @@ const Navbar: React.FC = () => {
                             <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
                             <MenuItem href="/pemilik/perangkat-keras" Icon={StyledSensorsIcon} label="Perangkat Keras" />
                             <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
-                            <MenuItem href="https://sigma-backend-production.up.railway.app/admin/" Icon={StyledUsersRoundIcon} label="Manajemen Akun" />
+                            <MenuItem href="https://sigma-backend-production.up.railway.app/admin/" Icon={StyledIoPeopleOutlineIcon} label="Manajemen Akun" />
                         </ul>
 
                         <ul className="pt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
@@ -117,7 +116,7 @@ const Navbar: React.FC = () => {
                                     <Dynamic />
                                 </div>
                             </div>
-                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout}/>
+                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout} />
                         </div>
                     </div>
                 </aside>

@@ -115,7 +115,7 @@ export default function DataAyam() {
             <main className="w-full bg-white dark:bg-zinc-900 relative">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
-                    <div className="sticky top-10 sm:top-0 z-10">
+                    <div className="sticky top-10 sm:top-0 z-50">
                         <TopMenu />
                         <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
                             <div className='flex body-bold text-2xl'>
@@ -125,8 +125,8 @@ export default function DataAyam() {
                     </div>
                     <div className="page flex items-center justify-between p-4 w-full">
                         <div className="flex flex-col justify-between items-center w-full">
-                            <div className='grid grid-cols-1 xl:grid-cols-2 gap-y-6 w-full'>
-                                <div className='w-full justify-start grid grid-cols-2 gap-4 xl:w-fit'>
+                            <div className='relative grid grid-cols-1 xl:grid-cols-2 gap-y-6 w-full pointer-events-none'>
+                                <div className='opacity-40 w-full justify-start grid grid-cols-2 gap-4 xl:w-fit'>
                                     <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
                                         <div className='w-full flex text-xl'>
                                             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -214,6 +214,7 @@ export default function DataAyam() {
                                             <p className="text-black mt-2 text-sm sm:text-md text-center">Ternak belum dimulai</p>
                                         )}
                                     </div>
+
                                     <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
                                         <Dialog open={harvestDialogOpen} onOpenChange={setHarvestDialogOpen}>
                                             <DialogTrigger disabled={!farmingStarted} className="w-full">
@@ -276,7 +277,7 @@ export default function DataAyam() {
                                         </DialogContent>
                                     </Dialog>
                                 </div>
-                                <div className='w-full grid grid-cols-2 justify-end items-start gap-2'>
+                                <div className='opacity-40 w-full grid grid-cols-2 justify-end items-start gap-2'>
                                     <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
                                         Jumlah ayam awal: {jumlahAwalAyam} <ChartNoAxesCombined />
                                     </div>
@@ -399,6 +400,9 @@ export default function DataAyam() {
                                         )}
                                     </div>
                                 </div>
+                                <div className="absolute w-full h-full opacity-50 bg-zinc-800 z-30 rounded-lg text-white flex justify-center items-center body text-base">
+                                    Manajemen hanya bisa dilakukan staf
+                                </div>
                             </div>
                             <div className="flex justify-between items-center w-full mt-10">
                                 <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
@@ -422,8 +426,13 @@ export default function DataAyam() {
                                     <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
                                         KENDALI JUMLAH AYAM
                                     </p>
-                                    <div className='border rounded-lg'>
-                                        <AyamCounter jumlahAyam={jumlahAyam} jumlahAwalAyam={jumlahAwalAyam} onUpdateJumlahAyam={updateJumlahAyam} updateMortalitas={updateMortalitas} farmingStarted={farmingStarted} />
+                                    <div className='relative grid grid-cols-1 border rounded-lg pointer-events-none'>
+                                        <div className="opacity-40">
+                                            <AyamCounter jumlahAyam={jumlahAyam} jumlahAwalAyam={jumlahAwalAyam} onUpdateJumlahAyam={updateJumlahAyam} updateMortalitas={updateMortalitas} farmingStarted={farmingStarted} />
+                                        </div>
+                                        <div className="absolute w-full h-full opacity-50 bg-zinc-800 z-30 rounded-lg text-white flex justify-center items-center body text-base">
+                                            Manajemen hanya bisa dilakukan staf
+                                        </div>
                                     </div>
                                 </div>
                             </div>

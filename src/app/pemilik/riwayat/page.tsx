@@ -4,7 +4,7 @@
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/staf/navbar";
+import Navbar from "@/app/pemilik/navbar";
 import GrafikCard from "@/components/pages/grafik-total/grafik-card";
 import { Aktivitas } from "@/components/pages/riwayat/aktivitas";
 import { RiwayatTable } from '@/components/pages/riwayat/riwayat-table';
