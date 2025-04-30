@@ -4,6 +4,7 @@
 import { useChickenContext } from "@/components/context/ChickenContext";
 
 // UI Components
+import AyamCounter from '@/components/pages/data-ayam/ayam-counter';
 import DataAyamCard from '@/components/pages/data-ayam/data-ayam-card';
 import GrafikMortalitasCard from "@/components/pages/grafik-mortalitas/grafik-mortalitas-card";
 import { Button } from '@/components/ui/buttons/button';
@@ -416,6 +417,14 @@ export default function DataAyam() {
                                             <GrafikMortalitasCard ayamId={ayamId} {...grafik} />
                                         </div>
                                     ))}
+                                </div>
+                                <div className='w-full h-full'>
+                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                        KENDALI JUMLAH AYAM
+                                    </p>
+                                    <div className='border rounded-lg'>
+                                        <AyamCounter jumlahAyam={jumlahAyam} jumlahAwalAyam={jumlahAwalAyam} onUpdateJumlahAyam={updateJumlahAyam} updateMortalitas={updateMortalitas} farmingStarted={farmingStarted} />
+                                    </div>
                                 </div>
                             </div>
 

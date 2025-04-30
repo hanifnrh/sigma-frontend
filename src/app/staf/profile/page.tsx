@@ -177,8 +177,8 @@ export default function Profile() {
     };
 
     return (
-        <div className="p-8 mt-10 max-w-xl mx-auto border rounded-xl">
-            <button onClick={() => router.back()} className="mb-4 flex items-center text-blue-500">
+        <div className="p-8 my-10 max-w-xl mx-auto border rounded-xl">
+            <button onClick={() => router.push('/staf/dashboard')} className="mb-4 flex items-center text-blue-500">
                 <IoArrowBackOutline className="mr-1" /> Kembali
             </button>
 
@@ -215,7 +215,7 @@ export default function Profile() {
             {/* Avatar Selection */}
             <div className="mb-6">
                 <label className="block mb-2">Pilih Avatar</label>
-                <div className="flex gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
                     {avatarList.map((avatar) => (
                         <Image
                             key={avatar}

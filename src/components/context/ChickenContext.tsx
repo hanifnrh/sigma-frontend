@@ -782,7 +782,12 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 const daysUntilHarvest = Math.floor((harvestDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
                 setAgeInDays(ageInDays);
-                setCountdown(`Tersisa ${daysUntilHarvest} hari untuk panen`);
+                
+                if (daysUntilHarvest >= 0) {
+                    setCountdown(`Tersisa ${daysUntilHarvest} hari untuk panen`);
+                } else {
+                    setCountdown(`Terlewat ${Math.abs(daysUntilHarvest)} hari dari panen`);
+                }
 
                 // Cek jika usia ayam sudah berubah dan belum diposting hari ini
                 const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD

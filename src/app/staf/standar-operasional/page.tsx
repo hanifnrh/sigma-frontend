@@ -1,5 +1,6 @@
 "use client";
 
+import { Construction, FolderKanban, Variable, Waves } from "lucide-react";
 // UI Components
 import Navbar from "../navbar";
 import TopMenu from "../top-menu";
@@ -24,7 +25,10 @@ export default function SOP() {
                     </p>
 
                     <section>
-                        <h2 className="text-lg body">1. Pemantauan Parameter</h2>
+                        <h2 className="w-fit flex items-center gap-2 text-lg body bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6 mb-3">
+                            <Variable />
+                            Pemantauan Parameter
+                        </h2>
                         <ul className="list-disc list-inside body-light">
                             <li>Data suhu, kelembaban, dan amonia diperbarui setiap 5 menit.</li>
                             <li>Jika ada parameter di luar batas normal, segera lakukan tindakan sesuai rekomendasi sistem.</li>
@@ -33,7 +37,10 @@ export default function SOP() {
                     </section>
 
                     <section>
-                        <h2 className="text-lg body">2. Pembersihan Kandang</h2>
+                        <h2 className="w-fit flex items-center gap-2 text-lg body bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6 mb-3">
+                            <Waves />
+                            Pembersihan Kandang
+                        </h2>
                         <ul className="list-disc list-inside body-light">
                             <li>Pembersihan kotoran ayam dilakukan setiap 6 jam sekali.</li>
                             <li>Penyemprotan disinfektan dilakukan setiap 2 hari sekali.</li>
@@ -42,7 +49,10 @@ export default function SOP() {
                     </section>
 
                     <section>
-                        <h2 className="text-lg body">3. Manajemen Ayam</h2>
+                        <h2 className="w-fit flex items-center gap-2 text-lg body bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6 mb-3">
+                            <FolderKanban />
+                            Manajemen Ayam
+                        </h2>
                         <ul className="list-disc list-inside body-light">
                             <li>Penghitungan ayam dilakukan setiap hari untuk mendeteksi kematian.</li>
                             <li>Input data ayam mati langsung dilakukan di sistem SIGMA untuk memperbarui tingkat mortalitas.</li>
@@ -51,10 +61,14 @@ export default function SOP() {
                     </section>
 
                     <section>
-                        <h2 className="text-lg body">4. Pemeliharaan Sensor</h2>
+                        <h2 className="w-fit flex items-center gap-2 text-lg body bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6 mb-3">
+                            <Construction />
+                            Pemeliharaan Perangkat Keras
+                        </h2>
                         <ul className="list-disc list-inside body-light">
                             <li>Pengecekan status sensor dilakukan setiap pagi.</li>
                             <li>Kalibrasi sensor dilakukan setiap bulan untuk menjaga akurasi data.</li>
+                            <li>Jika status perangkat pada web mati, segera charge perangkat.</li>
                             <li>Jika sensor mati atau tidak berfungsi, segera lakukan penggantian atau perbaikan.</li>
                         </ul>
                     </section>

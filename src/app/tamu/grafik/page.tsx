@@ -5,7 +5,7 @@ import { useParameterContext2 } from "@/components/context/lantai-dua/ParameterC
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/staf/navbar";
+import Navbar from "@/app/tamu/navbar";
 import {
     DropdownMenu,
     DropdownMenuContent,

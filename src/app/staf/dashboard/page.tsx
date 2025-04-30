@@ -8,7 +8,6 @@ import { useParameterContext } from "@/components/context/lantai-satu/ParameterC
 // UI Components
 import StatCard from '@/components/pages/dashboard/stat-card';
 import GrafikCard from "@/components/pages/grafik-total/grafik-card";
-import { SensorBattery } from '@/components/pages/perangkat-keras/sensor-battery-1';
 import { SensorStatus } from "@/components/pages/perangkat-keras/sensor-status";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import StatusIndicator from '@/components/ui/status-indicator';
@@ -282,15 +281,14 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="container-right flex flex-col items-start justify-center px-5 py-5 h-full lg:mt-0 mt-10">
+                        {/* <div className="container-right flex flex-col items-start justify-center px-5 py-5 h-full lg:mt-0 mt-10">
                             <div className='navbar-title body-bold text-sm sm:text-xs '>
                                 DAYA PERANGKAT
                             </div>
                             <div>
                                 <SensorBattery />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </main>

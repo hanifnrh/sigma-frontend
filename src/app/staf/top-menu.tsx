@@ -345,7 +345,7 @@ const TopMenu = () => {
                                     width={32}
                                     height={32}
                                 />
-                                <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
+                                <RiArrowDropDownLine className="dark:text-white text-2xl" />
                             </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="body-light w-48">

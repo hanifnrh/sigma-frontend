@@ -16,7 +16,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 // Icons
-import { UsersRound } from "lucide-react";
 import { GiRooster } from "react-icons/gi";
 import { GoHistory } from "react-icons/go";
 import { HiMenuAlt2, HiX } from "react-icons/hi";
@@ -52,7 +51,6 @@ const Navbar: React.FC = () => {
     const StyledBookIcon = withIconStyles(LuBook);
     const StyledMenuIcon = withIconStyles(HiMenuAlt2);
     const StyledCloseIcon = withIconStyles(HiX);
-    const StyledUsersRoundIcon = withIconStyles(UsersRound);
 
     const MenuItem = ({ href, Icon, label }: { href: string; Icon: React.ComponentType; label: string }) => (
         <li>
@@ -81,19 +79,18 @@ const Navbar: React.FC = () => {
 
                         <ul className="space-y-2 font-medium mt-5 sm:mt-0">
                             <p className='body-bold navbar-title text-xs mb-2'>MAIN MENU</p>
-                            <MenuItem href="/pemilik/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
-                            <MenuItem href="/pemilik/grafik" Icon={StyledGraphIcon} label="Grafik" />
-                            <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
-                            <MenuItem href="/pemilik/perangkat-keras" Icon={StyledSensorsIcon} label="Perangkat Keras" />
-                            <MenuItem href="/pemilik/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
-                            <MenuItem href="https://sigma-backend-production.up.railway.app/admin/" Icon={StyledUsersRoundIcon} label="Manajemen Akun" />
+                            <MenuItem href="/tamu/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
+                            <MenuItem href="/tamu/grafik" Icon={StyledGraphIcon} label="Grafik" />
+                            <MenuItem href="/tamu/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
+                            <MenuItem href="/tamu/perangkat-keras" Icon={StyledSensorsIcon} label="Perangkat Keras" />
+                            <MenuItem href="/tamu/riwayat" Icon={StyledHistoryIcon} label="Riwayat" />
                         </ul>
 
                         <ul className="pt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                             <p className='body-bold navbar-title text-xs mb-2'>BANTUAN</p>
-                            <MenuItem href="/pemilik/umpan-balik" Icon={StyledFeedbackIcon} label="Umpan balik" />
-                            <MenuItem href="/pemilik/informasi" Icon={StyledInfoIcon} label="Informasi" />
-                            <MenuItem href="/pemilik/standar-operasional" Icon={StyledBookIcon} label="Standar operasional" />
+                            <MenuItem href="/tamu/umpan-balik" Icon={StyledFeedbackIcon} label="Umpan balik" />
+                            <MenuItem href="/tamu/informasi" Icon={StyledInfoIcon} label="Informasi" />
+                            <MenuItem href="/tamu/standar-operasional" Icon={StyledBookIcon} label="Standar operasional" />
                         </ul>
 
                         <div className="status-container w-full relative mt-5 sm:mt-0">

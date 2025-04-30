@@ -65,13 +65,29 @@ export default function Login() {
             }
 
             // Redirect berdasarkan role
-            const redirectPath = result.role.toLowerCase() === "pemilik" ? "/pemilik/dashboard" : "/staf/dashboard";
+            let redirectPath = "/";
+            switch (result.role.toLowerCase()) {
+                case "pemilik":
+                    redirectPath = "/pemilik/dashboard";
+                    break;
+                case "staf":
+                    redirectPath = "/staf/dashboard";
+                    break;
+                case "tamu":
+                    redirectPath = "/tamu/dashboard";
+                    break;
+                default:
+                    redirectPath = "/";
+                    break;
+            }
+
             toast({
                 variant: "success",
                 title: "Login berhasil",
                 description: "Anda akan diarahkan ke halaman dasbor.",
             });
             router.push(redirectPath);
+
         } catch (error) {
             console.error("Login Error:", error);
             setError({ username: "Terdapat masalah. Harap coba lagi.", password: "" });
@@ -82,8 +98,6 @@ export default function Login() {
             });
         }
     };
-
-
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center">

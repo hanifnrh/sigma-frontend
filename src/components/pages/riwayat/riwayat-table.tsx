@@ -256,7 +256,7 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                         ))}
                     </TableBody>
                 </Table>
-                <Pagination className="mt-4">
+                <Pagination className="hidden sm:block mt-4">
                     <PaginationContent>
                         {/* Tombol Previous */}
                         <PaginationItem>
@@ -271,40 +271,60 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                         {/* Nomor Halaman */}
                         {totalPages > 1 && (
                             <>
-                                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                                    .filter((page) => {
-                                        // Tampilkan halaman pertama, terakhir, halaman aktif, dan halaman di sekitarnya
-                                        return (
-                                            page === 1 ||
-                                            page === totalPages ||
-                                            Math.abs(page - currentPage) <= 1
-                                        );
-                                    })
-                                    .map((page, idx, array) => {
-                                        const prevPage = array[idx - 1];
-                                        const isEllipsis = prevPage && page - prevPage > 1;
+                                {/* Halaman pertama selalu tampil */}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => handlePageChange(1)}
+                                        isActive={currentPage === 1}
+                                    >
+                                        1
+                                    </PaginationLink>
+                                </PaginationItem>
 
-                                        return (
-                                            <span key={page} className="flex items-center">
-                                                {isEllipsis && (
-                                                    <PaginationItem>
-                                                        <PaginationEllipsis />
-                                                    </PaginationItem>
-                                                )}
-                                                <PaginationItem>
-                                                    <PaginationLink
-                                                        onClick={() => handlePageChange(page)}
-                                                        isActive={page === currentPage}
-                                                    >
-                                                        {page}
-                                                    </PaginationLink>
-                                                </PaginationItem>
-                                            </span>
-                                        );
-                                    })}
+                                {/* Ellipsis jika currentPage lebih dari 3 */}
+                                {currentPage > 3 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+
+                                {/* 2 halaman sebelum & setelah halaman aktif */}
+                                {Array.from({ length: totalPages }, (_, index) => index + 1)
+                                    .filter(
+                                        (page) =>
+                                            page !== 1 &&
+                                            page !== totalPages &&
+                                            Math.abs(currentPage - page) <= 2
+                                    )
+                                    .map((page) => (
+                                        <PaginationItem key={page}>
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(page)}
+                                                isActive={currentPage === page}
+                                            >
+                                                {page}
+                                            </PaginationLink>
+                                        </PaginationItem>
+                                    ))}
+
+                                {/* Ellipsis sebelum halaman terakhir */}
+                                {currentPage < totalPages - 2 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+
+                                {/* Halaman terakhir selalu tampil */}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => handlePageChange(totalPages)}
+                                        isActive={currentPage === totalPages}
+                                    >
+                                        {totalPages}
+                                    </PaginationLink>
+                                </PaginationItem>
                             </>
                         )}
-
 
 
                         {/* Tombol Next */}
@@ -318,6 +338,54 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
+
+                <Pagination className="sm:hidden mt-4">
+                    <PaginationContent>
+                        {/* Tombol Previous */}
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                aria-disabled={currentPage === 1}
+                                className={currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                            />
+                        </PaginationItem>
+
+                        {/* Page 1 (kalau bukan halaman aktif) */}
+                        {currentPage !== 1 && (
+                            <PaginationItem>
+                                <PaginationLink onClick={() => handlePageChange(1)}>
+                                    1
+                                </PaginationLink>
+                            </PaginationItem>
+                        )}
+
+                        {/* Current Page */}
+                        <PaginationItem>
+                            <PaginationLink isActive>
+                                {currentPage}
+                            </PaginationLink>
+                        </PaginationItem>
+
+                        {/* Page terakhir (kalau bukan halaman aktif) */}
+                        {currentPage !== totalPages && (
+                            <PaginationItem>
+                                <PaginationLink onClick={() => handlePageChange(totalPages)}>
+                                    {totalPages}
+                                </PaginationLink>
+                            </PaginationItem>
+                        )}
+
+                        {/* Tombol Next */}
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                aria-disabled={currentPage === totalPages}
+                                className={currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+
             </CardContent>
         </Card>
     );

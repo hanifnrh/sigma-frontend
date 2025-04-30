@@ -68,7 +68,7 @@ export default function Btn07({
     return (
         <Button
             className={cn(
-                "min-w-40 relative group",
+                "w-full relative group",
                 "bg-blue-50 dark:bg-blue-950",
                 "hover:bg-blue-100 dark:hover:bg-blue-900",
                 "text-blue-600 dark:text-blue-300",

@@ -246,7 +246,7 @@ const TopMenu = () => {
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
                                 <div className="flex items-center body text-base gap-2">
-                                    <p className="body-light bg-purple-100 text-purple-600 rounded-md px-3 flex justify-center items-center">
+                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">
@@ -266,7 +266,7 @@ const TopMenu = () => {
                         <DropdownMenuContent className="body-light w-48">
                             <DropdownMenuLabel>Profil</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => window.location.href = '/pemilik/profile'}>
+                            <DropdownMenuItem onClick={() => window.location.href = '/tamu/profile'}>
                                 <div className="flex items-center gap-2">
                                     <UserRoundPen />
                                     Edit Profil
@@ -331,7 +331,7 @@ const TopMenu = () => {
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center gap-2 cursor-pointer">
                                 <div className="flex items-center body text-base gap-2">
-                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                    <p className="body-light bg-blue-100 text-blue-600 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">
@@ -351,7 +351,7 @@ const TopMenu = () => {
                         <DropdownMenuContent className="body-light w-48">
                             <DropdownMenuLabel>Profil</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => window.location.href = '/pemilik/profile'}>
+                            <DropdownMenuItem onClick={() => window.location.href = '/tamu/profile'}>
                                 <div className="flex items-center gap-2">
                                     <UserRoundPen />
                                     Edit Profil

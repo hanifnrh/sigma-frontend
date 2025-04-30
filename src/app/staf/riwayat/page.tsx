@@ -115,7 +115,7 @@ export default function Riwayat() {
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>
-                                <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
                                     GRAFIK TOTAL
                                 </p>
                                 {grafikData.map((grafik) => (
@@ -125,7 +125,7 @@ export default function Riwayat() {
                                 ))}
                             </div>
                             <div className='w-full'>
-                                <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
                                     AKTIVITAS
                                 </p>
                                 <Aktivitas />
