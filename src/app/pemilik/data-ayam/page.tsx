@@ -406,17 +406,16 @@ export default function DataAyam() {
                                     ))}
                                 </div>
                             </div>
-                            <div className='mt-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                                <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
-                                        GRAFIK MORTALITAS
-                                    </p>
-                                    {grafikData.map((grafik) => (
-                                        <div key={grafik.chartId}>
-                                            <GrafikMortalitasCard ayamId={ayamId} {...grafik} />
-                                        </div>
-                                    ))}
-                                </div>
+
+                            <div className='mt-10 w-full grid grid-cols-1 gap-4'>
+                                <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                    GRAFIK MORTALITAS
+                                </p>
+                                {grafikData.map((grafik) => (
+                                    <div key={grafik.chartId}>
+                                        <GrafikMortalitasCard ayamId={ayamId} {...grafik} />
+                                    </div>
+                                ))}
                             </div>
 
                         </div>

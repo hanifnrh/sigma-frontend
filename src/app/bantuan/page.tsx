@@ -21,6 +21,7 @@ export default function Bantuan() {
           <p className="text-lg dark:text-neutral-200 font-semibold">Cara Menggunakan SIGMA:</p>
           <ul className="text-lg dark:text-neutral-200 list-disc list-inside">
             <li>Masuk ke platform SIGMA melalui website resmi.</li>
+            <li>Buat akun jika belum memiliki akun. Akun secara default akan memiliki role 'tamu' dan tidak bisa mengubah data. Akun akan diapprove oleh pemilik untuk mendapatkan role 'staf'.</li>
             <li>Login menggunakan akun yang telah didaftarkan.</li>
             <li>Akses dashboard untuk melihat parameter kandang secara real-time.</li>
             <li>Gunakan fitur riwayat untuk melihat data yang telah tersimpan.</li>
