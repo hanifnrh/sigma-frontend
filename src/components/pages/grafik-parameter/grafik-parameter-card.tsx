@@ -59,16 +59,15 @@ export default function GrafikParameterCard({
                     </div>
                 </div>
             </div>
-            <div className="min-h-[250px]">
-                <ParameterChart
-                    id={chartId}
-                    color={chartColor}
-                    apiUrl={apiUrl}
-                    dataType={dataType}
-                    lantai={lantai}
-                    durasi={durasi}
-                />
-            </div>
+            
+            <ParameterChart
+                id={chartId}
+                color={chartColor}
+                apiUrl={apiUrl}
+                dataType={dataType}
+                lantai={lantai}
+                durasi={durasi}
+            />
         </main>
     );
 }
