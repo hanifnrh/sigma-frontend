@@ -50,21 +50,25 @@ export default function GrafikParameterCard({
                 <div className="flex justify-between">
                     <div>
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">{title}</p>
-                        <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>{value.toFixed(1)} {unit}</h5>
+                        <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>
+                            {value ? `${value.toFixed(1)} ${unit}` : "—"}
+                        </h5>
                     </div>
                     <div className={`flex items-center px-2.5 py-0.5 text-base body ${statusColor} text-center`}>
                         {statusText}
                     </div>
                 </div>
             </div>
-            <ParameterChart
-                id={chartId}
-                color={chartColor}
-                apiUrl={apiUrl}
-                dataType={dataType}
-                lantai={lantai} // Teruskan lantai
-                durasi={durasi}
-            />
+            <div className="min-h-[250px]">
+                <ParameterChart
+                    id={chartId}
+                    color={chartColor}
+                    apiUrl={apiUrl}
+                    dataType={dataType}
+                    lantai={lantai}
+                    durasi={durasi}
+                />
+            </div>
         </main>
     );
 }
