@@ -56,7 +56,7 @@ const features = [
                     >
                         <div className="flex flex-row items-center gap-2">
                             <div className="flex flex-col">
-                                <figcaption className="text-sm font-semibold dark:text-white ">
+                                <figcaption className="text-sm font-normal dark:text-white ">
                                     {f.name}
                                 </figcaption>
                             </div>
