@@ -61,7 +61,7 @@ const BentoCard = ({
       <h3 className="text-xl font-semibold dark:text-neutral-300">
         {name}
       </h3>
-      <p className="max-w-lg body-light text-neutral-400">{description}</p>
+      <p className="max-w-lg font-semibold text-neutral-400">{description}</p>
     </div>
 
     <div
@@ -81,3 +81,4 @@ const BentoCard = ({
 );
 
 export { BentoCard, BentoGrid };
+

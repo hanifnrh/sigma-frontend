@@ -11,7 +11,7 @@ const gradientButtonVariants = cva(
         "inline-flex items-center justify-center",
         "rounded-full min-w-[132px] px-9 py-4",
         "text-base leading-[19px] font-[500] text-white",
-        "font-medium",
+        "font-semibold",
         "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
         "disabled:pointer-events-none disabled:opacity-50",
     ],
@@ -49,3 +49,4 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
 GradientButton.displayName = "GradientButton"
 
 export { GradientButton, gradientButtonVariants }
+

@@ -77,8 +77,8 @@ const Navbar: React.FC = () => {
                             </p>
                         </Link>
 
-                        <ul className="space-y-2 font-medium mt-5 sm:mt-0">
-                            <p className='body-bold navbar-title text-xs mb-2'>MENU UTAMA</p>
+                        <ul className="space-y-2 font-semibold mt-5 sm:mt-0">
+                            <p className='font-bold navbar-title text-xs mb-2'>MENU UTAMA</p>
                             <MenuItem href="/pemilik/dashboard" Icon={StyledDashboardIcon} label="Dasbor" />
                             <MenuItem href="/pemilik/grafik" Icon={StyledGraphIcon} label="Grafik" />
                             <MenuItem href="/pemilik/data-ayam" Icon={StyledRoosterIcon} label="Data Ayam" />
@@ -98,15 +98,15 @@ const Navbar: React.FC = () => {
 
                         </ul>
 
-                        <ul className="pt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-                            <p className='body-bold navbar-title text-xs mb-2'>BANTUAN</p>
+                        <ul className="pt-4 space-y-2 font-semibold border-t border-gray-200 dark:border-gray-700">
+                            <p className='font-bold navbar-title text-xs mb-2'>BANTUAN</p>
                             <MenuItem href="/pemilik/umpan-balik" Icon={StyledFeedbackIcon} label="Umpan balik" />
                             <MenuItem href="/pemilik/informasi" Icon={StyledInfoIcon} label="Informasi" />
                             <MenuItem href="/pemilik/standar-operasional" Icon={StyledBookIcon} label="Standar operasional" />
                         </ul>
 
                         <div className="status-container w-full relative mt-5 sm:mt-0">
-                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout} />
+                            <ButtonLogout className='w-full mt-5 font-bold' onClick={handleLogout} />
                         </div>
                     </div>
                 </aside>

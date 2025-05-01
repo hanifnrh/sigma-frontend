@@ -100,7 +100,7 @@ const SwipeButton = ({
             </motion.div>
             <motion.div
                 variants={textVariants}
-                className="translate-x-5 font-medium bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]"
+                className="translate-x-5 font-semibold bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]"
             >
                 {children}
             </motion.div>

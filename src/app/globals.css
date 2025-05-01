@@ -4,7 +4,11 @@
 
 @layer base {
 
+  @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
   :root {
+    --font-lexend: 'Lexend', sans-serif;
+
     --color-indigo: #6366F1;
     --color-fuchsia: #EC4899;
     --color-emerald: #10B981;
@@ -292,84 +296,6 @@
     --border-color-1: hsla(320, 75%, 90%, 0.2);
     --border-color-2: hsla(320, 50%, 90%, 0.75);
   }
-}
-
-@font-face {
-  font-family: 'Body Bold';
-  src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Body Bold Italic';
-  src:
-    url('/fonts/GoogleSans-BoldItalic.ttf') format('truetype');
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Body';
-  src:
-    url('/fonts/GoogleSans-Medium.ttf') format('truetype');
-  font-weight: medium;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Body Light';
-  src:
-    url('/fonts/GoogleSans-Regular.ttf') format('truetype');
-  font-weight: light;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Body Italic';
-  src:
-    url('/fonts/GoogleSans-Italic.ttf') format('truetype');
-  font-weight: light;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Head";
-  src: url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.eot");
-  src: url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/cec88e5a4cf367c4620cd23c5a184439.svg#PolySans Median")format("svg");
-}
-
-.body-bold-italic {
-  font-family: 'Body Bold Italic';
-}
-
-.body-bold {
-  font-family: 'Body Bold';
-}
-
-.body-light {
-  font-family: 'Body Light';
-}
-
-.body-italic {
-  font-family: 'Body Italic';
-}
-
-.body {
-  font-family: 'Body';
-}
-
-body {
-  font-family: 'Body';
 }
 
 .nav ul {

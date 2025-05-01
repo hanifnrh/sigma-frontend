@@ -27,7 +27,7 @@ export function Feature() {
                     Monitor Kandang <br />
                     Ayam Anda
                 </div>
-                <div className='text-justify body-light text-xl'>
+                <div className='text-justify font-semibold text-xl'>
                     Sigma adalah solusi digital yang dirancang khusus untuk memantau kondisi lingkungan di dalam kandang ayam. Dengan menggunakan sensor yang terintegrasi, Sigma memungkinkan pemantauan real-time terhadap beberapa parameter penting seperti kadar amonia, kadar oksigen, dan tingkat kelembaban.
                 </div>
             </div>
@@ -45,7 +45,7 @@ export function Feature() {
                             <div className='text-3xl text-slate-400'>
                                 Fitur
                             </div>
-                            <div className='text-xl body-light mt-5 w-full'>
+                            <div className='text-xl font-semibold mt-5 w-full'>
                                 Pantau parameter lingkungan secara visual melalui grafik yang mudah dipahami.
                             </div>
                         </div>
@@ -61,7 +61,7 @@ export function Feature() {
                             <div className='text-3xl text-slate-400'>
                                 Fitur
                             </div>
-                            <div className='text-xl body-light mt-5 w-full'>
+                            <div className='text-xl font-semibold mt-5 w-full'>
                                 Fitur yang menghitung jumlah ayam yang mati untuk membantu mengevaluasi indeks performa kandang.
                             </div>
                         </div>
@@ -83,7 +83,7 @@ export function Feature() {
                             <div className='text-3xl text-slate-400'>
                                 Fitur
                             </div>
-                            <div className='text-xl body-light mt-5 w-full'>
+                            <div className='text-xl font-semibold mt-5 w-full'>
                                 Parameter lingkungan akan disesuaikan secara otomatis berdasarkan usia ayam, memberikan kondisi optimal sesuai kebutuhan.
                             </div>
                         </div>
@@ -99,7 +99,7 @@ export function Feature() {
                             <div className='text-3xl text-slate-400'>
                                 Fitur
                             </div>
-                            <div className='text-xl body-light mt-5 w-full'>
+                            <div className='text-xl font-semibold mt-5 w-full'>
                                 Dapatkan pemberitahuan segera jika salah satu parameter melewati batas aman, memastikan tindakan cepat dan tepat.
                             </div>
                         </div>

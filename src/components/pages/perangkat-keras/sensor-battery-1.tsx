@@ -4,7 +4,7 @@ export function SensorBattery() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-1 gap-4 mt-5">
             <div className='flex flex-col justify-center items-start'>
-                <div className='body-light'>
+                <div className='font-semibold'>
                     Suhu & Kelembapan DHT 22
                 </div>
                 <div>
@@ -40,7 +40,7 @@ export function SensorBattery() {
                                 lightContrastColor: '#111',
                                 darkContrastColor: '#fff',
                                 lowBatteryColor: 'red',
-                                fontFamily: 'Body Light',
+                                fontFamily: 'Lexend',
                                 fontSize: 10,
                                 showPercentage: true,
                             },
@@ -56,7 +56,7 @@ export function SensorBattery() {
             </div>
 
             <div className='flex flex-col justify-center items-start'>
-                <div className='body-light'>
+                <div className='font-semibold'>
                     Amonia DFRobot
                 </div>
                 <div>
@@ -92,7 +92,7 @@ export function SensorBattery() {
                                 lightContrastColor: '#111',
                                 darkContrastColor: '#fff',
                                 lowBatteryColor: 'red',
-                                fontFamily: 'Body Light',
+                                fontFamily: 'Lexend',
                                 fontSize: 10,
                                 showPercentage: true,
                             },

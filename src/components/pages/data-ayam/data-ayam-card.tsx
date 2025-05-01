@@ -11,7 +11,7 @@ interface DataAyamProps {
 
 const DataAyam: React.FC<DataAyamProps> = ({ title, label, value, icon, statusColor, warning }) => (
     <div>
-        <div className="navbar-title body-bold text-xs sm:text-sm mb-2">
+        <div className="navbar-title font-bold text-xs sm:text-sm mb-2">
             {title}
         </div>
         <div className="h-44 relative flex flex-grow flex-col items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white p-7">
@@ -24,8 +24,8 @@ const DataAyam: React.FC<DataAyamProps> = ({ title, label, value, icon, statusCo
                     </div>
                 </div>
                 <div className="ml-4 flex flex-col justify-center">
-                    <p className="font-dm text-xl font-medium text-gray-600 dark:text-white">{label}</p>
-                    <h4 className={`text-3xl body-bold ${statusColor}`}>{value}</h4>
+                    <p className="font-dm text-xl font-semibold text-gray-600 dark:text-white">{label}</p>
+                    <h4 className={`text-3xl font-bold ${statusColor}`}>{value}</h4>
                 </div>
             </div>
             {warning && <p className={`${statusColor} text-sm text-center`}>{warning}</p>}

@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
+import { Urbanist } from 'next/font/google';
 import "./globals.css";
 import { baseUrl } from "./sitemap";
 
@@ -50,6 +51,11 @@ export const metadata: Metadata = {
   },
 };
 
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -60,7 +66,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body>
+      <body className={`${urbanist.className}`}>
         {children}
         <Toaster />
       </body>

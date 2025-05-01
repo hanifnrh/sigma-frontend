@@ -118,7 +118,7 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ color, dataType, lantai
                 chart: {
                     type: "area",
                     toolbar: { show: false },
-                    fontFamily: "Body Light, sans-serif",
+                    fontFamily: "Lexend, sans-serif",
                 },
                 fill: {
                     type: "gradient",
@@ -139,13 +139,13 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ color, dataType, lantai
                     labels: { show: false },
                     title: {
                         text: "Garis horizontal menunjukkan waktu tiap 5 menit",
-                        style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
+                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
                     },
                 },
                 yaxis: {
                     title: {
                         text: `Tingkat ${dataTypeLabel}`,
-                        style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
+                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
                     },
                     labels: { show: false },
                 },

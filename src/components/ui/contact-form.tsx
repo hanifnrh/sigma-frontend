@@ -154,7 +154,7 @@ const ContactForm = () => {
                                                     type="text"
                                                     placeholder="Tulis nama Anda"
                                                     autoComplete="true"
-                                                    className="bg-white body-light"
+                                                    className="bg-white font-semibold"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -173,7 +173,7 @@ const ContactForm = () => {
                                                     type="phone"
                                                     placeholder="Tulis nomor telepon Anda"
                                                     autoComplete="true"
-                                                    className="bg-white body-light"
+                                                    className="bg-white font-semibold"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -191,7 +191,7 @@ const ContactForm = () => {
                                             <FormControl>
                                                 <Textarea
                                                     placeholder="Tulis saran dan masukan"
-                                                    className="resize-none bg-white body-light"
+                                                    className="resize-none bg-white font-semibold"
                                                     {...field}
                                                     autoComplete="true"
                                                 />

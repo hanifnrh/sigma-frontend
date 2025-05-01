@@ -24,8 +24,8 @@ export default function PerangkatKeras() {
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                            <div className='flex body-bold text-xl sm:text-2xl'>
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                            <div className='flex font-bold text-xl sm:text-2xl'>
                                 Perangkat Keras
                             </div>
                         </div>
@@ -43,8 +43,8 @@ export default function PerangkatKeras() {
                                         </div>
                                     </div>
                                     <div className="h-50 ml-4 flex w-auto flex-col justify-center">
-                                        <p className="font-dm text-lg sm:text-xl font-medium text-gray-600 dark:text-white">Suhu & Kelembapan DHT 22</p>
-                                        <h4 className="text-xl sm:text-3xl body-bold">4 buah</h4>
+                                        <p className="font-dm text-lg sm:text-xl font-semibold text-gray-600 dark:text-white">Suhu & Kelembapan DHT 22</p>
+                                        <h4 className="text-xl sm:text-3xl font-bold">4 buah</h4>
                                     </div>
                                 </div>
                                 <div className="relative flex flex-grow !flex-row items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
@@ -56,27 +56,27 @@ export default function PerangkatKeras() {
                                         </div>
                                     </div>
                                     <div className="h-50 ml-4 flex w-auto flex-col justify-center">
-                                        <p className="font-dm text-lg sm:text-xl font-medium text-gray-600 dark:text-white">Amonia DFRobot MEMS NH3</p>
-                                        <h4 className="text-xl sm:text-3xl body-bold">2 buah</h4>
+                                        <p className="font-dm text-lg sm:text-xl font-semibold text-gray-600 dark:text-white">Amonia DFRobot MEMS NH3</p>
+                                        <h4 className="text-xl sm:text-3xl font-bold">2 buah</h4>
                                     </div>
                                 </div>
                             </div>
 
                             <div className='mt-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title font-bold text-sm sm:text-xs mb-2'>
                                         LANTAI 1
                                     </p>
                                     <SensorStatus></SensorStatus>
                                 </div>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title font-bold text-sm sm:text-xs mb-2'>
                                         LANTAI 2
                                     </p>
                                     <SensorStatus2></SensorStatus2>
                                 </div>
                                 {/* <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title font-bold text-sm sm:text-xs mb-2'>
                                         DAYA PERANGKAT
                                     </p>
                                     <div className='border rounded-lg p-6'>

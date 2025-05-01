@@ -140,7 +140,6 @@ export default function Dashboard() {
                             : "" // Tidak tampilkan jika negatif
                     : "", // Tidak tampilkan jika null
         },
-
     ];
 
     const getStatusGradient = (statusText: string) => {
@@ -185,17 +184,17 @@ export default function Dashboard() {
                         <TopMenu />
                     </div>
 
-                    <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white gap-6">
-                        <div className='flex body-bold text-2xl'>
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white gap-6">
+                        <div className='flex font-bold text-2xl'>
                             Dasbor
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                             <DropdownMenu>
-                                <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     Lantai {lantai}
                                     <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='body-light'>
+                                <DropdownMenuContent className='font-semibold'>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
@@ -214,17 +213,17 @@ export default function Dashboard() {
                             <div className='flex justify-between items-center py-5 px-4 w-full border-b'>
                                 <div>
                                     <span
-                                        className={`text-lg sm:text-2xl md:text-4xl body-bold ${getStatusGradient(overallStatus)
+                                        className={`text-lg sm:text-2xl md:text-4xl font-bold ${getStatusGradient(overallStatus)
                                             } cliptext text-transparent`}
                                     >
                                         Status Total: {overallStatus || "-"}
                                     </span>
                                 </div>
                                 <div className='border-l px-5'>
-                                    <div className='navbar-title body-bold text-sm sm:text-xs'>
+                                    <div className='navbar-title font-bold text-sm sm:text-xs'>
                                         SKOR TOTAL
                                     </div>
-                                    <div className={`text-2xl md:text-4xl body-bold ${overallColor}`}>
+                                    <div className={`text-2xl md:text-4xl font-bold ${overallColor}`}>
                                         {averageScore?.toFixed(0) || "-"}<span className="text-lg">/100</span>
                                     </div>
                                 </div>
@@ -239,7 +238,7 @@ export default function Dashboard() {
                             </div>
 
                             <div className="status-container flex flex-col gap-2 items-center justify-center py-4 border-b w-full">
-                                <div className="body text-base">
+                                <div className="font-semibold text-base">
                                     Indikator status:
                                 </div>
                                 <div className="status-wrapper grid grid-cols-2 xl:grid-cols-4 gap-4">
@@ -260,7 +259,7 @@ export default function Dashboard() {
                             </div>
                             <div className='grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-8 w-full p-4 justify-between'>
                                 <div className='w-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title font-bold text-sm sm:text-xs mb-2'>
                                         PERANGKAT
                                     </p>
                                     {lantai === 1 ? (
@@ -270,7 +269,7 @@ export default function Dashboard() {
                                     )}
                                 </div>
                                 <div className='w-full'>
-                                    <p className='navbar-title body-bold text-sm sm:text-xs mb-2'>
+                                    <p className='navbar-title font-bold text-sm sm:text-xs mb-2'>
                                         GRAFIK TOTAL
                                     </p>
                                     {grafikData.map((grafik) => (
@@ -281,14 +280,6 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="container-right flex flex-col items-start justify-center px-5 py-5 h-full lg:mt-0 mt-10">
-                            <div className='navbar-title body-bold text-sm sm:text-xs '>
-                                DAYA PERANGKAT
-                            </div>
-                            <div>
-                                <SensorBattery />
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </main>

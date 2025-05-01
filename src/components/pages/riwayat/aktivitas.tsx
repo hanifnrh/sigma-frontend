@@ -63,10 +63,10 @@ export function Aktivitas() {
                     <TableBody>
                         {aktivitasList.map((item, index) => (
                             <TableRow key={index}>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     Jumlah ayam berkurang {item.perubahan}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.timestamp}
                                 </TableCell>
                             </TableRow>

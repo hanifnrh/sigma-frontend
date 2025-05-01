@@ -36,8 +36,8 @@ export function SensorStatus() {
                     <TableBody>
                         {sensors.map((sensor, index) => (
                             <TableRow key={index}>
-                                <TableCell className="font-medium">{sensor.sensor}</TableCell>
-                                <TableCell className={`px-2 py-1 font-medium rounded-lg"
+                                <TableCell className="font-semibold">{sensor.sensor}</TableCell>
+                                <TableCell className={`px-2 py-1 font-semibold rounded-lg"
                                     : "text-red-600 bg-red-100"
                                     }`}>
                                     <Button variant={sensor.status === "Aktif" ? "aktif" : "mati"}>

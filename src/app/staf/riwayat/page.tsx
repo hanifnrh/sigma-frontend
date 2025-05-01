@@ -65,17 +65,17 @@ export default function Riwayat() {
             <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                 <div className="sticky top-10 sm:top-0 z-10">
                     <TopMenu />
-                    <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                        <div className='hidden md:flex body-bold text-xl md:text-2xl'>
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                        <div className='hidden md:flex font-bold text-xl md:text-2xl'>
                             Riwayat
                         </div>
                         <div className="w-full md:w-fit grid grid-cols-3 gap-2 justify-between">
                             <DropdownMenu>
-                                <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     {`Lantai ${lantai}`}
                                     <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='body-light'>
+                                <DropdownMenuContent className='font-semibold'>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => handleFloorChange(1)}>Lantai 1</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => handleFloorChange(2)}>Lantai 2</DropdownMenuItem>
@@ -83,11 +83,11 @@ export default function Riwayat() {
                             </DropdownMenu>
 
                             <DropdownMenu>
-                                <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                <DropdownMenuTrigger className='border p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     {selectedTime}
                                     <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='body-light'>
+                                <DropdownMenuContent className='font-semibold'>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => setSelectedTime("30 Menit")}>30 Menit</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setSelectedTime("1 Jam")}>1 Jam</DropdownMenuItem>
@@ -108,14 +108,14 @@ export default function Riwayat() {
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full gap-2">
-                        <div className="md:hidden body text-xl sm:text-2xl pb-2">
+                        <div className="md:hidden font-semibold text-xl sm:text-2xl pb-2">
                             Riwayat Kandang
                         </div>
                         <RiwayatTable lantai={lantai} selectedTime={selectedTime} />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>
-                                <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                <p className='navbar-title font-bold text-xs sm:text-sm mb-2'>
                                     GRAFIK TOTAL
                                 </p>
                                 {grafikData.map((grafik) => (
@@ -125,7 +125,7 @@ export default function Riwayat() {
                                 ))}
                             </div>
                             <div className='w-full'>
-                                <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                <p className='navbar-title font-bold text-xs sm:text-sm mb-2'>
                                     AKTIVITAS
                                 </p>
                                 <Aktivitas />

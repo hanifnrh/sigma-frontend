@@ -56,10 +56,10 @@ export default function GrafikParameterCard({
             <div className="w-full bg-white rounded-lg dark:bg-zinc-900">
                 <div className="flex justify-between">
                     <div>
-                        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{title}</p>
-                        <h5 className={`leading-none text-3xl body-bold ${statusColor} pb-2`}>{value.toFixed(1)} {unit}</h5>
+                        <p className="text-base font-semibold text-gray-500 dark:text-gray-400">{title}</p>
+                        <h5 className={`leading-none text-3xl font-bold ${statusColor} pb-2`}>{value.toFixed(1)} {unit}</h5>
                     </div>
-                    <div className={`flex items-center px-2.5 py-0.5 text-base body ${statusColor} text-center`}>
+                    <div className={`flex items-center px-2.5 py-0.5 text-base font-semibold ${statusColor} text-center`}>
                         {statusText}
                     </div>
                 </div>

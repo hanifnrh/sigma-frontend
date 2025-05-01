@@ -25,7 +25,7 @@ Circle.displayName = "Circle";
 export function Notifikasi() {
     return (
         <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-green-300 bg-background shadow-lg shadow-green-200">
-            <div className="z-10 whitespace-pre-wrap text-center text-5xl font-medium tracking-tighter text-white">
+            <div className="z-10 whitespace-pre-wrap text-center text-5xl font-semibold tracking-tighter text-white">
                 <Circle className="size-16 text-green-700">
                     <IoMdNotificationsOutline />
                 </Circle>

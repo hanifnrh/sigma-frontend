@@ -50,7 +50,7 @@ const AyamCounter: React.FC<AyamCounterProps> = ({ jumlahAyam, jumlahAwalAyam, o
     return (
         <div className="py-6 px-12 h-full flex justify-center items-center flex-col">
             <h2 className="text-xl">Kendali Jumlah Ayam</h2>
-            <div className="text-3xl body-bold my-4">{jumlahAyam}</div>
+            <div className="text-3xl font-bold my-4">{jumlahAyam}</div>
 
             <div className="flex flex-col items-center mt-4">
                 <Input

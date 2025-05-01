@@ -223,28 +223,28 @@ export function RiwayatTable({ lantai, selectedTime }: RiwayatTableProps) {
                     <TableBody>
                         {currentItems.map((item, index) => (
                             <TableRow key={index}>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.timestamp ? new Date(item.timestamp).toLocaleString() : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.temperature !== undefined && item.temperature !== null ? `${item.temperature.toFixed(2)} °C` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.humidity !== undefined && item.humidity !== null ? `${item.humidity.toFixed(2)} %` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.ammonia !== undefined && item.ammonia !== null ? `${item.ammonia.toFixed(2)} ppm` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.jumlah_ayam !== undefined && item.usia_ayam !== null ? `${item.jumlah_ayam} ekor` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.mortalitas !== undefined && item.mortalitas !== null ? `${((item.mortalitas) * 100).toFixed(2)} %` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {item.usia_ayam !== undefined && item.usia_ayam !== null ? `${item.usia_ayam} hari` : '-'}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-semibold">
                                     {typeof item.score === 'number' && !isNaN(item.score) ? item.score.toFixed(2) : '-'}
                                 </TableCell>
                                 <TableCell>

@@ -125,23 +125,6 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
 
     // Functions handle
 
-    async function sendSMS(message: string) {
-        try {
-            await fetch('/api/smsinactive', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message,
-                    to: '+6285794202130',
-                }),
-            });
-        } catch (error) {
-            console.error('Failed to send SMS message:', error);
-        }
-    }
-
     const sendNotification = (notification: Notification) => {
         addNotification(notification);
     };
@@ -309,8 +292,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
         ) {
             setWarnings(newWarnings);
 
-            let combinedMessage = ""; // <-- Gabung semua pesan di sini
-
+            // Send notifications only when warnings are updated
             if (newWarnings.ammonia) {
                 sendNotification({
                     data: "Amonia Lt. 1",
@@ -320,9 +302,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <TbAtom2Filled />,
                     color: ammoniaColor,
                 });
-                combinedMessage += `🚨 Amonia Lt. 1: ${ammonia} ppm. ${newWarnings.ammonia}\n`;
             }
-
             if (newWarnings.temperature) {
                 sendNotification({
                     data: "Suhu Lt. 1",
@@ -332,9 +312,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: getTemperatureIcon(temperature),
                     color: temperatureColor,
                 });
-                combinedMessage += `🔥 Suhu Lt. 1: ${temperature} °C. ${newWarnings.temperature}\n`;
             }
-
             if (newWarnings.humidity) {
                 sendNotification({
                     data: "Kelembapan Lt. 1",
@@ -344,15 +322,9 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
                     icon: <IoWater />,
                     color: humidityColor,
                 });
-                combinedMessage += `💧 Kelembapan Lt. 1: ${humidity}%. ${newWarnings.humidity}`;
-            }
-
-            if (combinedMessage) {
-                sendSMS(combinedMessage.trim()); // Kirim hanya 1 SMS berisi gabungan
             }
         }
     }, [ammonia, temperature, humidity, ammoniaStatus, temperatureStatus, humidityStatus]);
-
     return (
         <ParameterContext.Provider
             value={{

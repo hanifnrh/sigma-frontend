@@ -188,7 +188,7 @@ export default function Profile() {
             <div className="flex flex-col gap-2 mb-6">
                 <div className="flex items-center gap-2">
                     <label className="text-base">Username</label>
-                    <p className="text-base body-light text-red-500">
+                    <p className="text-base font-semibold text-red-500">
                         &#42;Tidak dapat diganti
                     </p>
                 </div>
@@ -196,7 +196,7 @@ export default function Profile() {
                     type="text"
                     value={username || ""}
                     disabled
-                    className="w-full p-2 body-light border rounded-lg bg-gray-100 text-gray-600"
+                    className="w-full p-2 font-semibold border rounded-lg bg-gray-100 text-gray-600"
                 />
             </div>
 
@@ -208,7 +208,7 @@ export default function Profile() {
                     value={fullName ?? ""}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder={fullName ?? "Nama lengkap"}
-                    className="w-full p-2 border rounded-lg body-light"
+                    className="w-full p-2 border rounded-lg font-semibold"
                 />
             </div>
 
@@ -232,9 +232,9 @@ export default function Profile() {
                 </div>
             </div>
 
-            <ButtonSave className='w-full mt-5 body-bold' onClick={handleSave} />
+            <ButtonSave className='w-full mt-5 font-bold' onClick={handleSave} />
 
-            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout} />
+            <ButtonLogout className='w-full mt-5 font-bold' onClick={handleLogout} />
         </div>
     );
 }

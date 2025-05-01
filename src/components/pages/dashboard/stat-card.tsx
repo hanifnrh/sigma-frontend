@@ -42,11 +42,11 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, unit, icon, statusCol
 
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                         <span className={`text-2xl font-bold ${statusColor}`}>{value}</span>
-                        <span className="text-sm text-zinc-500 dark:text-zinc-400">{unit}</span>
+                        <span className="font-semibold text-sm text-zinc-500 dark:text-zinc-400">{unit}</span>
                     </div>
                 </div>
-                <span className="mt-3 text-base font-medium text-zinc-700 dark:text-zinc-300">{label}</span>
-                {warning && <p className={`${statusColor} text-xs sm:text-base text-center`}>{warning}</p>}
+                <span className="mt-3 text-base font-semibold text-zinc-700 dark:text-zinc-300">{label}</span>
+                {warning && <p className={`${statusColor} font-semibold text-xs sm:text-base text-center`}>{warning}</p>}
             </div>
         </div>
     );

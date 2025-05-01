@@ -29,7 +29,7 @@ Circle.displayName = "Circle";
 export function EvaluasiMortalitas() {
     return (
         <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border-2 text-purple-700 border-purple-300 bg-white p-10 shadow-lg shadow-purple-200">
-            <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl body leading-none text-transparent dark:from-white dark:to-black">
+            <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-black">
                 <Circle className="size-16 text-purple-700">
                     <BsHeartPulse/>
                 </Circle>

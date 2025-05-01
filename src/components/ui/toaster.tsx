@@ -21,9 +21,9 @@ export function Toaster() {
           <Toast key={id} {...props} className="relative overflow-hidden rounded-lg backdrop-blur-xs p-4 shadow-sm">
             <div className="flex gap-2">
               <div className="flex flex-col">
-                {title && <ToastTitle className="text-sm body">{title}</ToastTitle>}
+                {title && <ToastTitle className="text-sm font-semibold">{title}</ToastTitle>}
                 {description && (
-                  <ToastDescription className="text-sm body-light">{description}</ToastDescription>
+                  <ToastDescription className="text-sm font-semibold">{description}</ToastDescription>
                 )}
               </div>
             </div>

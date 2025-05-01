@@ -167,26 +167,26 @@ export default function Login() {
                         <div className="flex flex-col gap-4">
                             {/* Username Field */}
                             <div className="flex flex-col gap-2">
-                                <label className="block text-gray-700 font-medium">Username</label>
+                                <label className="block text-gray-700 font-semibold">Username</label>
                                 <Input
                                     type="text"
                                     placeholder="Masukkan username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="body-light"
+                                    className="font-semibold"
                                 />
                                 {error.username && <p className="text-red-500 text-sm">{error.username}</p>}
                             </div>
 
                             {/* Password Field */}
                             <div className="flex flex-col gap-2">
-                                <label className="block text-gray-700 font-medium">Password</label>
+                                <label className="block text-gray-700 font-semibold">Password</label>
                                 <Input
                                     type="password"
                                     placeholder="Masukkan password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="body-light"
+                                    className="font-semibold"
                                 />
                                 {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
                             </div>

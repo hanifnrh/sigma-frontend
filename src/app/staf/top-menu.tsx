@@ -203,8 +203,8 @@ const TopMenu = () => {
     return (
         <>
             {/* Desktop */}
-            <div className="hidden sm:flex header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
-                <div className='flex items-center navbar-title body-light'>
+            <div className="hidden sm:flex header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                <div className='flex items-center navbar-title font-semibold'>
                     <GrMapLocation className='text-xl' />
                     <span className='ml-2 dark:text-white text-xs sm:text-sm'>
                         Lokasi: Penggung, Kecamatan Musuk, Boyolali, Jawa Tengah
@@ -213,14 +213,14 @@ const TopMenu = () => {
                 <div className="flex justify-center items-center text-4xl relative">
                     <div className="relative mr-4">
                         <DropdownMenu>
-                            <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                            <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                 <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
                                 {/* Notification Badge */}
                                 {notifications.length > 0 && (
                                     <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
                                 )}
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className='body-light w-72'>
+                            <DropdownMenuContent className='font-semibold w-72'>
                                 <DropdownMenuLabel>Notifikasi</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 {notifications.map((notif, index) => (
@@ -230,7 +230,7 @@ const TopMenu = () => {
                                         </div>
                                         <div className='flex flex-col items-start w-full'>
                                             <div>
-                                                {notif.data}: <span className={`${notif.color} body-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
+                                                {notif.data}: <span className={`${notif.color} font-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
                                             </div>
                                             <div>
                                                 {notif.message}
@@ -245,8 +245,8 @@ const TopMenu = () => {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
-                                <div className="flex items-center body text-base gap-2">
-                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                <div className="flex items-center font-semibold text-base gap-2">
+                                    <p className="font-semibold bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">
@@ -263,7 +263,7 @@ const TopMenu = () => {
                                 <RiArrowDropDownLine className="dark:text-white mx-1 text-2xl" />
                             </div>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="body-light w-48">
+                        <DropdownMenuContent className="font-semibold w-48">
                             <DropdownMenuLabel>Profil</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>
@@ -292,19 +292,19 @@ const TopMenu = () => {
             </div>
 
             {/* Mobile */}
-            <div className="flex sm:hidden header w-full py-2 px-4 body-light justify-between items-center border-b bg-white">
+            <div className="flex sm:hidden header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white">
                 <div className="w-full flex justify-between items-center text-4xl relative">
                     <div className="flex items-center">
                         <div className="relative mr-4">
                             <DropdownMenu>
-                                <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
                                     {/* Notification Badge */}
                                     {notifications.length > 0 && (
                                         <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
                                     )}
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='body-light w-72'>
+                                <DropdownMenuContent className='font-semibold w-72'>
                                     <DropdownMenuLabel>Notifikasi</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     {notifications.map((notif, index) => (
@@ -314,7 +314,7 @@ const TopMenu = () => {
                                             </div>
                                             <div className='flex flex-col items-start w-full'>
                                                 <div>
-                                                    {notif.data}: <span className={`${notif.color} body-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
+                                                    {notif.data}: <span className={`${notif.color} font-bold`}>{notif.status}</span> - {notif.timestamp.toLocaleTimeString()}
                                                 </div>
                                                 <div>
                                                     {notif.message}
@@ -330,8 +330,8 @@ const TopMenu = () => {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center gap-2 cursor-pointer">
-                                <div className="flex items-center body text-base gap-2">
-                                    <p className="body-light bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                <div className="flex items-center font-semibold text-base gap-2">
+                                    <p className="font-semibold bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">
@@ -348,7 +348,7 @@ const TopMenu = () => {
                                 <RiArrowDropDownLine className="dark:text-white text-2xl" />
                             </div>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="body-light w-48">
+                        <DropdownMenuContent className="font-semibold w-48">
                             <DropdownMenuLabel>Profil</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => window.location.href = '/staf/profile'}>

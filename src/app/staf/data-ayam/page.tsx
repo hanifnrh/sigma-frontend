@@ -117,8 +117,8 @@ export default function DataAyam() {
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                            <div className='flex body-bold text-2xl'>
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                            <div className='flex font-bold text-2xl'>
                                 Data Ayam
                             </div>
                         </div>
@@ -131,7 +131,7 @@ export default function DataAyam() {
                                         <div className='w-full flex text-xl'>
                                             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                                                 <DialogTrigger disabled={farmingStarted} className="w-full">
-                                                    <div onClick={() => setDialogOpen(true)} className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                                    <div onClick={() => setDialogOpen(true)} className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                                         <div className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customGreen opacity-50' : 'bg-customGreen'} mulaiTernak w-full h-full px-4 py-2 rounded-lg text-sm sm:text-xl`}>
                                                             <FaPlay className='mr-2' />
                                                             Mulai Ternak
@@ -160,7 +160,7 @@ export default function DataAyam() {
                                                                     <Button
                                                                         variant={"outline"}
                                                                         className={cn(
-                                                                            "w-full justify-start text-left font-normal",
+                                                                            "w-full justify-start text-left font-semibold",
                                                                             !targetTanggal && "text-muted-foreground"
                                                                         )}
                                                                     >
@@ -217,7 +217,7 @@ export default function DataAyam() {
                                     <div className='flex flex-col justify-start items-start w-full xl:w-48 h-full'>
                                         <Dialog open={harvestDialogOpen} onOpenChange={setHarvestDialogOpen}>
                                             <DialogTrigger disabled={!farmingStarted} className="w-full">
-                                                <div className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                                <div className='w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                                     <div onClick={() => setHarvestDialogOpen(true)} className={`flex items-center justify-center text-white ${farmingStarted ? 'bg-customRed' : 'bg-customRed opacity-50'} w-full panen h-full px-4 py-2 rounded-lg text-sm sm:text-xl`} >
                                                         <FaStop className='mr-2' />
                                                         Panen
@@ -277,11 +277,11 @@ export default function DataAyam() {
                                     </Dialog>
                                 </div>
                                 <div className='w-full grid grid-cols-2 justify-end items-start gap-2'>
-                                    <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                    <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
                                         Jumlah ayam awal: {jumlahAwalAyam} <ChartNoAxesCombined />
                                     </div>
 
-                                    <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 body-light text-sm sm:text-base'>
+                                    <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
                                         {editMode ? (
                                             <div className="flex gap-2 items-center">
                                                 <input
@@ -340,7 +340,7 @@ export default function DataAyam() {
                                                                     <Button
                                                                         variant={"outline"}
                                                                         className={cn(
-                                                                            "w-full justify-start text-left font-normal",
+                                                                            "w-full justify-start text-left font-semibold",
                                                                             !selectedTanggal && "text-muted-foreground"
                                                                         )}
                                                                     >
@@ -409,7 +409,7 @@ export default function DataAyam() {
                             </div>
                             <div className='mt-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                    <p className='navbar-title font-bold text-xs sm:text-sm mb-2'>
                                         GRAFIK MORTALITAS
                                     </p>
                                     {grafikData.map((grafik) => (
@@ -419,7 +419,7 @@ export default function DataAyam() {
                                     ))}
                                 </div>
                                 <div className='w-full h-full'>
-                                    <p className='navbar-title body-bold text-xs sm:text-sm mb-2'>
+                                    <p className='navbar-title font-bold text-xs sm:text-sm mb-2'>
                                         KENDALI JUMLAH AYAM
                                     </p>
                                     <div className='border rounded-lg'>

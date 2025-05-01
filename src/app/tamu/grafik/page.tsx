@@ -206,28 +206,28 @@ export default function Grafik() {
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 body-light justify-between items-center border-b bg-white">
-                            <div className='hidden md:flex body-bold text-xl md:text-2xl'>
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                            <div className='hidden md:flex font-bold text-xl md:text-2xl'>
                                 Grafik
                             </div>
                             <div className="w-full md:w-fit grid grid-cols-3 gap-2 justify-between">
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                    <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                         Lantai {lantai}
                                         <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent className='body-light'>
+                                    <DropdownMenuContent className='font-semibold'>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+                                    <DropdownMenuTrigger className='border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                         {durasi}
                                         <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent className='body-light'>
+                                    <DropdownMenuContent className='font-semibold'>
                                         <DropdownMenuSeparator />
                                         {Object.keys(durationMap).map((key) => (
                                             <DropdownMenuItem key={key} onClick={() => setDurasi(key)}>
@@ -244,9 +244,6 @@ export default function Grafik() {
                     </div>
 
                     <div className="page flex flex-col justify-between w-full">
-                        <div className="w-full flex justify-center md:hidden text-center body text-xl py-2 mt-2">
-                            Grafik Parameter
-                        </div>
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 p-4 w-full">
                             {grafikData.map((grafik) => (
                                 <div key={grafik.chartId}>

@@ -149,7 +149,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                 chart: {
                     type: "area",
                     toolbar: { show: false },
-                    fontFamily: "Body Light, sans-serif",
+                    fontFamily: "Lexend, sans-serif",
                 },
                 fill: {
                     type: "gradient",
@@ -170,7 +170,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                     title: {
                         text: "Garis horizontal menunjukkan waktu",
                         style: {
-                            fontFamily: "Body Light, sans-serif",
+                            fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
                             color: "#333"
@@ -181,7 +181,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                     title: {
                         text: `Tingkat ${dataTypeLabel}`,
                         style: {
-                            fontFamily: "Body Light, sans-serif",
+                            fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
                             color: "#333"
