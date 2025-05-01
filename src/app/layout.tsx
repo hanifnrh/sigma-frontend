@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Farrel Asyraf Abrar",
   ],
   verification: {
-    google: "",
+    google: "SRgZL2O3jHMkYmWHMZ2Rdw4eRYvCXQ751T6qEsWbWoQ",
   },
   icons: {
     icon: `/favicon.ico`,
