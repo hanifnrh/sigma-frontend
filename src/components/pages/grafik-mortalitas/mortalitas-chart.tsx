@@ -1,8 +1,8 @@
 "use client";
 
-import ApexCharts from "apexcharts";
 import { getCookie, setCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
 
 interface DataItem {
     id: number;
@@ -23,17 +23,16 @@ interface MortalitasChartProps {
     color: string;
     apiUrl: string;
     dataType: keyof DataItem["data_ayam_details"];
+    onLoaded?: () => void;
 }
 
-const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, apiUrl }) => {
-    const [chartData, setChartData] = useState<{ seriesData: number[]; categories: string[] }>({
-        seriesData: [],
-        categories: [],
-    });
+const dataTypeMapping: Record<string, string> = {
+    mortalitas: "mortalitas dalam %",
+};
 
-    const dataTypeMapping: Record<string, string> = {
-        mortalitas: "mortalitas",
-    };
+const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, apiUrl, onLoaded }) => {
+    const [seriesData, setSeriesData] = useState<number[]>([]);
+    const [categories, setCategories] = useState<string[]>([]);
 
     const dataTypeLabel = dataTypeMapping[dataType] || "Data";
 
@@ -41,7 +40,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
         try {
             const response = await fetch("/api/refresh", {
                 method: "POST",
-                credentials: "include", // 🛠️ Pastikan cookies dikirim!
+                credentials: "include",
             });
 
             const data = await response.json();
@@ -57,12 +56,44 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
         }
     };
 
+    const processChartData = (data: DataItem[]) => {
+        console.log("Fetched data:", data);
+
+        // Filter out items with invalid or missing timestamp
+        const validData = data.filter((item) => {
+            return item.timestamp !== undefined && item.timestamp !== null;
+        });
+
+        // Sort data by timestamp
+        const sortedData = validData.sort((a, b) => {
+            const timestampA = new Date(a.timestamp as string | number).getTime();
+            const timestampB = new Date(b.timestamp as string | number).getTime();
+            return timestampA - timestampB;
+        });
+
+        // Get all data
+        const processedSeriesData = sortedData.map((item) => {
+            const value = item.data_ayam_details[dataType as keyof typeof item.data_ayam_details];
+            if (typeof value === "number" && !isNaN(value)) {
+                return dataType === "mortalitas" ? value * 100 : value;
+            }
+            return 0;
+        });
+
+        const processedCategories = sortedData.map((item) =>
+            new Date(item.timestamp as string | number).toLocaleString()
+        );
+
+        setSeriesData(processedSeriesData);
+        setCategories(processedCategories);
+        if (onLoaded) onLoaded();
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 let token = getCookie("accessToken");
 
-                // Jika token tidak ada atau kadaluarsa, refresh token
                 if (!token) {
                     token = await fetchAccessToken();
                     if (!token) throw new Error("Failed to obtain new access token.");
@@ -76,7 +107,6 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                     }
                 });
 
-                // Jika token kadaluarsa, coba refresh token dan ulangi request
                 if (response.status === 401) {
                     const newToken = await fetchAccessToken();
                     if (!newToken) throw new Error("Failed to refresh token.");
@@ -110,105 +140,74 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
             }
         };
 
-        const processChartData = (data: DataItem[]) => {
-            console.log("Fetched data:", data);
-
-            // Filter out items with invalid or missing timestamp
-            const validData = data.filter((item) => {
-                return item.timestamp !== undefined && item.timestamp !== null; // Ensure timestamp is valid
-            });
-
-            // Urutkan data berdasarkan timestamp
-            const sortedData = validData.sort((a, b) => {
-                const timestampA = new Date(a.timestamp as string | number).getTime(); // Type assertion
-                const timestampB = new Date(b.timestamp as string | number).getTime(); // Type assertion
-                return timestampA - timestampB;
-            });
-
-            // Ambil semua data
-            const seriesData = sortedData.map((item) => {
-                // Akses mortalitas dari data_ayam_details
-                const mortalitasValue = item.data_ayam_details[dataType as keyof typeof item.data_ayam_details];
-                if (typeof mortalitasValue === "number" && !isNaN(mortalitasValue)) {
-                    return mortalitasValue * 100; // Kalikan dengan 100
-                }
-                return 0; // Jika nilai tidak valid, kembalikan 0
-            });
-
-            const categories = sortedData.map((item) => new Date(item.timestamp as string | number).toLocaleString());
-
-            setChartData({ seriesData, categories });
-        };
-
         fetchData();
     }, [apiUrl, dataType]);
 
-    useEffect(() => {
-        const label = dataTypeMapping[dataType] || "Data";
-        const options = {
-            chart: {
-                maxHeight: "100%",
-                maxWidth: "100%",
-                type: "area",
-                fontFamily: "Body Light, sans-serif",
-                dropShadow: { enabled: false },
-                toolbar: { show: false },
-            },
-            tooltip: {
-                enabled: true,
-                x: { show: false },
-                y: {
-                    formatter: (value: number) => `${value.toFixed(2)}%`, // Nilai sudah dikalikan 100 di processChartData
-                }
-            },
-            fill: {
-                type: "gradient",
-                gradient: { opacityFrom: 0.55, opacityTo: 0, shade: color, gradientToColors: [color] },
-            },
-            dataLabels: { enabled: false },
-            stroke: { width: 6, colors: [color] },
-            grid: {
-                show: false,
-                strokeDashArray: 4,
-                padding: { left: 2, right: 2, top: 0 },
-            },
-            series: [
+    return (
+        <Chart
+            options={{
+                chart: {
+                    type: "area",
+                    toolbar: { show: false },
+                    fontFamily: "Body Light, sans-serif",
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.55,
+                        opacityTo: 0,
+                        stops: [0, 100],
+                        gradientToColors: [color],
+                    },
+                },
+                colors: [color],
+                stroke: { width: 4, colors: [color] },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories,
+                    labels: { show: false },
+                    title: {
+                        text: "Garis horizontal menunjukkan waktu",
+                        style: {
+                            fontFamily: "Body Light, sans-serif",
+                            fontWeight: "light",
+                            fontSize: "14px",
+                            color: "#333"
+                        },
+                    },
+                },
+                yaxis: {
+                    title: {
+                        text: `Tingkat ${dataTypeLabel}`,
+                        style: {
+                            fontFamily: "Body Light, sans-serif",
+                            fontWeight: "light",
+                            fontSize: "14px",
+                            color: "#333"
+                        },
+                    },
+                    labels: { show: false },
+                },
+                tooltip: {
+                    y: {
+                        formatter: (val: number) => `${val.toFixed(2)}${dataType === "mortalitas" ? "%" : ""}`,
+                    },
+                },
+                grid: {
+                    show: false,
+                },
+            }}
+            series={[
                 {
-                    name: label,
-                    data: chartData.seriesData,
-                    color: color,
+                    name: dataTypeLabel,
+                    data: seriesData,
                 },
-            ],
-            xaxis: {
-                categories: chartData.categories,
-                labels: { show: false },
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                title: {
-                    text: "Garis horizontal menunjukkan waktu",
-                    style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
-                },
-            },
-            yaxis: {
-                title: {
-                    text: `Tingkat ${label}`,
-                    style: { fontFamily: "Body Light, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
-                },
-                labels: { show: false },
-            },
-        };
-
-        if (typeof window !== "undefined" && document.getElementById(id)) {
-            const chart = new ApexCharts(document.getElementById(id), options);
-            chart.render();
-
-            return () => {
-                chart.destroy();
-            };
-        }
-    }, [id, color, chartData, dataType]);
-
-    return <div id={id} className="h-full" />;
+            ]}
+            type="area"
+            height="300"
+        />
+    );
 };
 
 export default MortalitasChart;

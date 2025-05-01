@@ -4,7 +4,10 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
-const MortalitasChart = dynamic(() => import("@/components/pages/grafik-mortalitas/mortalitas-chart"), { ssr: false });
+const MortalitasChart = dynamic(() => import('@/components/pages/grafik-mortalitas/mortalitas-chart'), {
+    ssr: false,
+    loading: () => <div className="h-[300px] w-full bg-gray-100 rounded-md animate-pulse" />,
+});
 
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",
@@ -43,6 +46,7 @@ export default function GrafikMortalitasCard({
 }: GrafikMortalitasCardProps) {
     const [selectedDurasi, setSelectedDurasi] = useState("Semua");
     const [apiUrl, setApiUrl] = useState("");
+    const [chartLoaded, setChartLoaded] = useState(false)
 
     const chartColor = tailwindColorMap[statusColor] || "#28A745";
     const unit = dataType === "mortalitas" ? "%" : "";
@@ -93,6 +97,7 @@ export default function GrafikMortalitasCard({
                 color={chartColor}
                 apiUrl={apiUrl}
                 dataType="mortalitas"
+                onLoaded={() => setChartLoaded(true)}
             />
         </main>
     );

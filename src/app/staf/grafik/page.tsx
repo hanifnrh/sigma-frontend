@@ -244,9 +244,6 @@ export default function Grafik() {
                     </div>
 
                     <div className="page flex flex-col justify-between w-full">
-                        <div className="w-full flex justify-center md:hidden text-center body text-xl py-2 mt-2">
-                            Grafik Parameter
-                        </div>
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 p-4 w-full">
                             {grafikData.map((grafik) => (
                                 <div key={grafik.chartId}>

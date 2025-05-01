@@ -1,8 +1,13 @@
 "use client";
+
+import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 
-const ParameterChart = dynamic(() => import("@/components/pages/grafik-parameter/parameter-chart"), { ssr: false });
-
+const ParameterChart = dynamic(() => import('@/components/pages/grafik-parameter/parameter-chart'), {
+    ssr: false,
+    loading: () => <div className="h-[300px] w-full bg-gray-100 rounded-md animate-pulse" />,
+});
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",
     "text-blue-500": "#3B82F6",
@@ -34,6 +39,8 @@ export default function GrafikParameterCard({
     durasi,
 }: GrafikParameterCardProps) {
     const chartColor = tailwindColorMap[statusColor] || "#28A745";
+    const [chartLoaded, setChartLoaded] = useState(false)
+
     let unit = "";
     if (dataType === "ammonia") {
         unit = "ppm";
@@ -57,14 +64,23 @@ export default function GrafikParameterCard({
                     </div>
                 </div>
             </div>
-            <ParameterChart
-                id={chartId}
-                color={chartColor}
-                apiUrl={apiUrl}
-                dataType={dataType}
-                lantai={lantai}
-                durasi={durasi}
-            />
+
+            <div className="mt-4 relative min-h-[300px]">
+                {!chartLoaded && (
+                    <div className="absolute inset-0 rounded-md animate-pulse bg-zinc-100 dark:bg-zinc-800" />
+                )}
+                <div className={cn(chartLoaded ? 'opacity-100' : 'opacity-0')}>
+                    <ParameterChart
+                        id={chartId}
+                        color={chartColor}
+                        apiUrl={apiUrl}
+                        dataType={dataType}
+                        lantai={lantai}
+                        durasi={durasi}
+                        onLoaded={() => setChartLoaded(true)}
+                    />
+                </div>
+            </div>
         </main>
     );
 }

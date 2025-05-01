@@ -70,7 +70,13 @@ const Navbar: React.FC = () => {
                 <aside id="separator-sidebar" className={`fixed top-0 left-0 z-40 w-64 sm:w-44 md:w-56 xl:w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
                     <div className="flex flex-col justify-between items-stretch h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r dark:border-gray-700">
                         <Link href="/" className="flex items-center gap-2 ps-2.5">
-                            <Image src="/sigmalogonobg.png" alt="Logo" width={256} height={256} className="h-16 md:h-12 xl:h-16 w-auto mt-8 sm:mt-0" />
+                            <Image
+                                src="/sigmalogonobg.png"
+                                alt="Logo"
+                                width={256}
+                                height={256}
+                                className="h-16 md:h-12 xl:h-16 w-auto mt-8 sm:mt-0"
+                            />
                             <p className='font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
                                 SIGMA
                             </p>
@@ -93,7 +99,7 @@ const Navbar: React.FC = () => {
                         </ul>
 
                         <div className="status-container w-full relative mt-5 sm:mt-0">
-                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout}/>
+                            <ButtonLogout className='w-full mt-5 body-bold' onClick={handleLogout} />
                         </div>
                     </div>
                 </aside>
