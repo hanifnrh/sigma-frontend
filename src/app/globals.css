@@ -299,6 +299,7 @@
   src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -307,6 +308,7 @@
     url('/fonts/GoogleSans-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -315,6 +317,7 @@
     url('/fonts/GoogleSans-Medium.ttf') format('truetype');
   font-weight: medium;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -323,6 +326,7 @@
     url('/fonts/GoogleSans-Regular.ttf') format('truetype');
   font-weight: light;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -331,6 +335,7 @@
     url('/fonts/GoogleSans-Italic.ttf') format('truetype');
   font-weight: light;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
