@@ -21,6 +21,7 @@ interface ParameterChartProps {
     dataType: keyof Omit<DataItem, "timestamp">;
     lantai: number;
     durasi: string;
+    onLoaded?: () => void
 }
 
 const ParameterChart: React.FC<ParameterChartProps> = ({ id, color, dataType, lantai, durasi }) => {
