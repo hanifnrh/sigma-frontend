@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
                     <div className="flex flex-col justify-between items-stretch h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r dark:border-gray-700">
                         <Link href="/" className="flex items-center gap-2 ps-2.5">
                             <Image src="/sigmalogonobg.png" alt="Logo" width={256} height={256} className="h-16 md:h-12 xl:h-16 w-auto mt-8 sm:mt-0" />
-                            <p className='font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
+                            <p className='mt-8 sm:m-0 font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
                                 SIGMA
                             </p>
                         </Link>

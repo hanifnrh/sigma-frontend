@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
                                 height={256}
                                 className="h-16 md:h-12 xl:h-16 w-auto mt-8 sm:mt-0"
                             />
-                            <p className='font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
+                            <p className='mt-8 sm:m-0 font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
                                 SIGMA
                             </p>
                         </Link>
