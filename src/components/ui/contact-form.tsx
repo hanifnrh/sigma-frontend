@@ -101,7 +101,7 @@ const ContactForm = () => {
 
             // Add toast here
             toast({
-                variant: "default",
+                variant: "success",
                 title: "Message sent!",
                 description: "We'll get back to you soon.",
             });
@@ -202,7 +202,42 @@ const ContactForm = () => {
                                 />
 
                                 {/* Submit button */}
-                                <ButtonKirim type="submit" disabled={loading} />
+                                <ButtonKirim
+                                    type="submit"
+                                    disabled={loading}
+                                    onProcess={async () => {
+                                        try {
+                                            await form.handleSubmit(async (data) => {
+                                                const res = await fetch("/api/contact", {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "Content-Type": "application/json",
+                                                    },
+                                                    body: JSON.stringify(data),
+                                                });
+
+                                                if (!res.ok) throw new Error("Gagal mengirim");
+
+                                                toast({
+                                                    variant: "success",
+                                                    title: "Message sent!",
+                                                    description: "We'll get back to you soon.",
+                                                });
+
+                                                return true;
+                                            })();
+                                            return true;
+                                        } catch (err) {
+                                            toast({
+                                                variant: "destructive",
+                                                title: "Message not sent!",
+                                                description: "We'll fix the problem ASAP.",
+                                            });
+                                            return false;
+                                        }
+                                    }}
+                                />
+
 
                             </form>
                         </div>

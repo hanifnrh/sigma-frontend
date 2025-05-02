@@ -182,7 +182,7 @@ export default function Profile() {
                 <IoArrowBackOutline className="mr-1" /> Kembali
             </button>
 
-            <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+            <h1 className="text-2xl font-bold mb-6">Edit Profil</h1>
 
             {/* Username */}
             <div className="flex flex-col gap-2 mb-6">
