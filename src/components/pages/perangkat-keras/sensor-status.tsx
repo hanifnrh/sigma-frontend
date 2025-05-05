@@ -18,7 +18,7 @@ export function SensorStatus() {
             status: sensorDHT22Status,
         },
         {
-            sensor: "Amonia DFRobot MEMS NH3",
+            sensor: "Amonia DFRobot MiCS-5524", 
             status: sensorDFRobotStatus,
         },
     ]

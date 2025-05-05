@@ -57,7 +57,7 @@ export function SensorBattery() {
 
             <div className='flex flex-col justify-center items-start'>
                 <div className='font-semibold'>
-                    Amonia DFRobot
+                    Amonia DFRobot MiCS-5524
                 </div>
                 <div>
                     <BatteryGauge

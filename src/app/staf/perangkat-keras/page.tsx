@@ -56,7 +56,7 @@ export default function PerangkatKeras() {
                                         </div>
                                     </div>
                                     <div className="h-50 ml-4 flex w-auto flex-col justify-center">
-                                        <p className="font-dm text-lg sm:text-xl font-semibold text-gray-600 dark:text-white">Amonia DFRobot MEMS NH3</p>
+                                        <p className="font-dm text-lg sm:text-xl font-semibold text-gray-600 dark:text-white">Amonia DFRobot MiCS-5524</p>
                                         <h4 className="text-xl sm:text-3xl font-bold">2 buah</h4>
                                     </div>
                                 </div>
