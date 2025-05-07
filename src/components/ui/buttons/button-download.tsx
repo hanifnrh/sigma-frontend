@@ -16,6 +16,7 @@ export default function ButtonDownload({
         return Math.random() > 0.5;
     },
     processDuration = 2000,
+    onClick,
     ...props
 }: ButtonDownload) {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -42,8 +43,13 @@ export default function ButtonDownload({
         }
     }, [isProcessing, processDuration]);
 
-    async function handleClick() {
+    async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
         if (isProcessing) return;
+
+        // Call the original onClick handler if it exists
+        if (onClick) {
+            onClick(e);
+        }
 
         setIsProcessing(true);
         setIsSuccess(null);

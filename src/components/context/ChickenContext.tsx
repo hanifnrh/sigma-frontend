@@ -255,7 +255,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
 
         try {
             const deleteParameters = async (floor: number) => {
-                let response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/floor/${floor}/`, {
+                let response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/delete/`, {
                     method: 'DELETE',
                     credentials: "include",
                     headers: {
@@ -271,7 +271,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                     setCookie("accessToken", newToken, { path: "/" });
 
                     // Coba request lagi dengan token baru
-                    response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/floor/${floor}/`, {
+                    response = await fetch(`https://sigma-backend-production.up.railway.app/api/parameters/delete/`, {
                         method: 'DELETE',
                         credentials: "include",
                         headers: {
@@ -351,7 +351,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
                 setAgeInDays(latestData.usia_ayam);
                 setFarmingStarted(true);
             } else {
-                console.error('Data kosong')
+                alert('Data kosong')
             }
         } catch (error) {
             console.error('Error fetching ayam data:', error);

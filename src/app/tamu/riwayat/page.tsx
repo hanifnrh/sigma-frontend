@@ -4,7 +4,7 @@
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/tamu/navbar";
+import Navbar from "@/app/pemilik/navbar";
 import GrafikCard from "@/components/pages/grafik-total/grafik-card";
 import { Aktivitas } from "@/components/pages/riwayat/aktivitas";
 import { RiwayatTable } from '@/components/pages/riwayat/riwayat-table';
@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // Libraries
+import { useState } from "react";
 
 // Icons
 import ButtonDownload from "@/components/ui/buttons/button-download";
-import { useState } from "react";
+import { exportHistoryToXLSX } from "@/lib/utils/exportToXLSX";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import TopMenu from "../top-menu";
@@ -36,24 +37,22 @@ export default function Riwayat() {
         "1 Hari": "1d",
         "1 Minggu": "1w",
         "1 Bulan": "1mo",
-        "Semua": "all" // Sesuaikan dengan backend
+        "Semua": "all"
     };
 
     const grafikData = [
         {
             title: "Skor Total",
-            value: averageScore ?? 0, // Contoh rata-rata
+            value: averageScore ?? 0,
             statusColor: overallColor || "text-gray-500",
             statusText: overallStatus || "N/A",
             chartId: "overall",
             apiUrl: selectedTime === "Semua"
-            ? `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`
-            : `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationMap[selectedTime]}`,
+                ? `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/`
+                : `https://sigma-backend-production.up.railway.app/api/parameters/floor/${lantai}/?time_range=${durationMap[selectedTime]}`,
             dataType: "score",
         }
     ];
-
-
 
     const handleFloorChange = (floor: number) => {
         setLantai(floor);
@@ -98,7 +97,7 @@ export default function Riwayat() {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            <ButtonDownload>
+                            <ButtonDownload onClick={() => exportHistoryToXLSX(lantai)}>
                                 <MdOutlineFileDownload className='text-4xl pr-2' />
                                 Unduh data
                             </ButtonDownload>
@@ -108,10 +107,11 @@ export default function Riwayat() {
 
                 <div className="page flex items-center justify-between p-4">
                     <div className="flex flex-col justify-between items-center w-full gap-2">
-                        <div className="md:hidden font-semibold text-xl sm:text-2xl pb-2">
+                        <div className="md:hidden font-bold text-xl sm:text-2xl pb-2">
                             Riwayat Kandang
                         </div>
-                        <RiwayatTable lantai={lantai} selectedTime={selectedTime} />
+
+                        <RiwayatTable lantai={1} selectedTime="1 Hari" />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>
@@ -134,7 +134,6 @@ export default function Riwayat() {
                     </div>
                 </div>
             </div>
-
         </main>
     );
 }
