@@ -7,7 +7,7 @@ import { PenyesuaianParameter } from "./penyesuaianparameter";
 
 export function Feature() {
     return (
-        <main className="z-30 flex flex-col items-center w-4/6">
+        <main className="z-30 flex flex-col items-center w-5/6 sm:w-4/6">
             <div className='w-fit p-16'>
                 <div className='grid grid-cols-3'>
                     <svg className='-mx-2' xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 74 74" fill="none">

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
     try {
-        const { username, password } = await req.json();
+        const { username, password, rememberMe  } = await req.json();
 
         const response = await fetch("https://sigma-backend-production.up.railway.app/api/login/", {
             method: "POST",
@@ -19,14 +19,21 @@ export async function POST(req: Request) {
         const data = await response.json();
         console.log("Response Data:", data);
 
-        // ✅ HARUS pakai await cookies()
         const cookieStore = await cookies();
+        const cookieOptions = {
+            path: "/",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax" as const,
+            httpOnly: false,
+            // Jika rememberMe true, set expiry lebih lama (misal 30 hari)
+            maxAge: rememberMe ? 30 * 24 * 60 * 60 : undefined
+        };
 
         cookieStore.set("accessToken", data.access, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
-            httpOnly: false, // kalau mau dibaca client
+            httpOnly: false,
         });
         cookieStore.set("refreshToken", data.refresh, {
             path: "/",

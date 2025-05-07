@@ -12,7 +12,7 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 
 // Schema Validasi
@@ -27,6 +27,15 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState({ username: "", password: "" });
     const router = useRouter();
+    const [rememberMe, setRememberMe] = useState(false);
+
+    useEffect(() => {
+        const savedUsername = localStorage.getItem('rememberedUsername');
+        if (savedUsername) {
+            setUsername(savedUsername);
+            setRememberMe(true);
+        }
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,12 +52,19 @@ export default function Login() {
             return;
         }
 
+        // Jika remember me dicentang, simpan username di localStorage
+        if (rememberMe) {
+            localStorage.setItem('rememberedUsername', username);
+        } else {
+            localStorage.removeItem('rememberedUsername');
+        }
+
         // Jika validasi sukses, lanjutkan dengan login
         try {
             const response = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password, rememberMe }),
             });
 
             const result = await response.json();
@@ -199,17 +215,19 @@ export default function Login() {
                                 <input
                                     id="remember-me"
                                     type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 />
                                 <label htmlFor="remember-me" className="ml-3 text-sm text-gray-800">
                                     Ingat saya
                                 </label>
                             </div>
-                            <div>
+                            {/* <div>
                                 <a href="#" className="text-blue-600 text-sm hover:underline">
                                     Lupa Password?
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>
