@@ -108,8 +108,8 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
     const [latestData, setLatestData] = useState<ParameterData | null>(null);
     const [historyParameter, setHistoryParameter] = useState<ParameterData[]>([]);
 
-    const [sensorDFRobotStatus, setSensorDFRobotStatus] = useState<string>("Aktif");
-    const [sensorDHT22Status, setSensorDHT22Status] = useState<string>("Aktif");
+    const [sensorDFRobotStatus, setSensorDFRobotStatus] = useState<string>("Mati");
+    const [sensorDHT22Status, setSensorDHT22Status] = useState<string>("Mati");
 
     // const [historyParameter, setHistoryParameter] = useState<ParameterData[]>([]);
     const [ammoniaStatus, setAmmoniaStatus] = useState<string>("");

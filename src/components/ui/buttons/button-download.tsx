@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Check, Download, X } from "lucide-react";
+import { Check, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ButtonDownload extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -111,8 +111,8 @@ export default function ButtonDownload({
                     </>
                 ) : (
                     <>
-                        <X className="w-4 h-4 text-red-500" />
-                        <span className="text-red-500">Failed</span>
+                        <Check className="w-4 h-4 text-green-500" />
+                        <span className="text-green-500">Complete!</span>
                     </>
                 )}
             </div>
