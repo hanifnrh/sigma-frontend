@@ -160,7 +160,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType, onLo
                             fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
-                            color: "#333"
+                            color: "#a1a1aa"
                         },
                     },
                 },
@@ -171,7 +171,7 @@ const AreaChart: React.FC<AreaChartProps> = ({ id, color, apiUrl, dataType, onLo
                             fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
-                            color: "#333"
+                            color: "#a1a1aa "
                         },
                     },
                     labels: { show: false },

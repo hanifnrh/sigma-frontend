@@ -6,8 +6,9 @@ import { useState } from "react";
 
 const ParameterChart = dynamic(() => import('@/components/pages/grafik-parameter/parameter-chart'), {
     ssr: false,
-    loading: () => <div className="h-[300px] w-full bg-gray-100 rounded-md animate-pulse" />,
+    loading: () => <div className="h-[300px] w-full bg-gray-100 dark:bg-zinc-900 rounded-md animate-pulse" />,
 });
+
 const tailwindColorMap: { [key: string]: string } = {
     "text-green-500": "#22C55E",
     "text-blue-500": "#3B82F6",
@@ -52,8 +53,8 @@ export default function GrafikParameterCard({
         unit = ""; // Tidak ada satuan untuk keseluruhan
     }
     return (
-        <main className="p-6 bg-white dark:bg-zinc-900 border rounded-lg w-full">
-            <div className="w-full bg-white rounded-lg dark:bg-zinc-900">
+        <main className="p-6 bg-white dark:bg-zinc-950 border rounded-lg w-full">
+            <div className="w-full bg-white rounded-lg dark:bg-zinc-950">
                 <div className="flex justify-between">
                     <div>
                         <p className="text-base font-semibold text-gray-500 dark:text-gray-400">{title}</p>

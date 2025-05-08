@@ -178,14 +178,14 @@ export default function Dashboard() {
 
     return (
         <PrivateRoute>
-            <main className="bg-white dark:bg-zinc-900 w-full">
+            <main className="bg-white dark:bg-zinc-950 w-full">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
                     </div>
 
-                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white gap-6">
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950 gap-6">
                         <div className='flex font-bold text-2xl'>
                             Dasbor
                         </div>
@@ -213,9 +213,9 @@ export default function Dashboard() {
                         <div className="container-left flex flex-col justify-center items-center w-full border-r">
                             <div className='flex justify-between items-center py-5 px-4 w-full border-b'>
                                 <div>
-                                    <span
-                                        className={`text-lg sm:text-2xl md:text-4xl font-bold ${getStatusGradient(overallStatus)
-                                            } cliptext text-transparent`}
+                                <span
+                                        className={`text-lg sm:text-2xl md:text-4xl font-bold ${overallStatus ? getStatusGradient(overallStatus) : 'text-zinc-950 dark:text-white'
+                                            } clip-text text-transparent`}
                                     >
                                         Status Total: {overallStatus || "-"}
                                     </span>

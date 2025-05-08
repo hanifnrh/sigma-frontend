@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
     const MenuItem = ({ href, Icon, label }: { href: string; Icon: React.ComponentType; label: string }) => (
         <li>
-            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-100 text-indigo-600' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-50 hover:text-indigo-400 group`}>
+            <Link href={href} className={`flex items-center p-2 rounded-lg ${currentPath === href ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400' : 'text-gray-900 dark:text-white'} transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900 hover:text-indigo-400 dark:hover:text-indigo-200 group`}>
                 <Icon />
                 <span>{label}</span>
             </Link>
@@ -62,14 +62,14 @@ const Navbar: React.FC = () => {
     );
 
     return (
-        <div className="bg-white dark:bg-zinc-900 w-full mx-auto">
+        <div className="bg-white dark:bg-zinc-950 w-full mx-auto">
             <div className="fixed top-0 z-50 w-full bg-white dark:bg-gray-800 transition-colors">
-                <button onClick={toggleNavbar} className="flex justify-start items-center p-2 text-gray-900 sm:hidden dark:text-white z-50 bg-white w-full border-b relative" aria-label={isOpen ? 'Tutup menu' : 'Buka menu'}>
+                <button onClick={toggleNavbar} className="flex justify-start items-center p-2 text-gray-900 sm:hidden dark:text-white z-50 bg-white dark:bg-zinc-950 w-full border-b relative" aria-label={isOpen ? 'Tutup menu' : 'Buka menu'}>
                     {isOpen ? <><StyledCloseIcon /> Tutup Menu</> : <><StyledMenuIcon /> Buka Menu</>}
                 </button>
 
                 <aside id="separator-sidebar" className={`fixed top-0 left-0 z-40 w-64 sm:w-44 md:w-56 xl:w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
-                    <div className="flex flex-col justify-between items-stretch h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r dark:border-gray-700">
+                    <div className="flex flex-col justify-between items-stretch h-full px-3 py-4 overflow-y-auto bg-white dark:bg-zinc-950 border-r dark:border-gray-700">
                         <Link href="/" className="flex items-center gap-2 ps-2.5">
                             <Image src="/sigmalogonobg.png" alt="Logo" width={256} height={256} className="h-16 md:h-12 xl:h-16 w-auto mt-8 sm:mt-0" />
                             <p className='mt-8 sm:m-0 font-bold text-xl bg-clip-text text-transparent bg-[linear-gradient(107deg,#802696_8.32%,#6348CF_60.18%,#5DAEDB_105.75%)]'>
@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
                                     href="https://sigma-backend-production.up.railway.app/admin/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`flex items-center p-2 rounded-lg text-gray-900 dark:text-white transition-all hover:bg-indigo-50 hover:text-indigo-400 group`}
+                                    className={`flex items-center p-2 rounded-lg text-gray-900 dark:text-white transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900 hover:text-indigo-400 dark:hover:text-indigo-200 group`}
                                 >
                                     <StyledIoPeopleOutlineIcon />
                                     <span>Manajemen Akun</span>

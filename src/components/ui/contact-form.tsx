@@ -132,7 +132,7 @@ const ContactForm = () => {
                     <div className="grid grid-cols-1 gap-3 mx-auto">
                         <div
                             className={cn(
-                                "group relative p-8 rounded-xl overflow-hidden transition-all duration-300",
+                                "group relative p-8 rounded-md overflow-hidden transition-all duration-300",
                                 "hover:-translate-y-0.5 will-change-transform",
                                 "col-span-1",
                                 "md:col-span-2",
@@ -146,7 +146,7 @@ const ContactForm = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             {/* Give a lable for the form field */}
-                                            <FormLabel className="text-zinc-900">Nama</FormLabel>
+                                            <FormLabel className="dark:text-white">Nama</FormLabel>
 
                                             {/* Input field */}
                                             <FormControl>
@@ -154,7 +154,7 @@ const ContactForm = () => {
                                                     type="text"
                                                     placeholder="Tulis nama Anda"
                                                     autoComplete="true"
-                                                    className="bg-white font-semibold"
+                                                    className="bg-white dark:bg-zinc-900 font-semibold rounded-md"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -167,13 +167,13 @@ const ContactForm = () => {
                                     name="phone"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-zinc-900">No. Telp</FormLabel>
+                                            <FormLabel className="dark:text-white">No. Telp</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     type="phone"
                                                     placeholder="Tulis nomor telepon Anda"
                                                     autoComplete="true"
-                                                    className="bg-white font-semibold"
+                                                    className="bg-white dark:bg-zinc-900 font-semibold rounded-md"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -187,11 +187,11 @@ const ContactForm = () => {
                                     name="message"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-zinc-900">Pesan</FormLabel>
+                                            <FormLabel className="dark:text-white">Pesan</FormLabel>
                                             <FormControl>
                                                 <Textarea
                                                     placeholder="Tulis saran dan masukan"
-                                                    className="resize-none bg-white font-semibold"
+                                                    className="resize-none bg-white dark:bg-zinc-900 font-semibold"
                                                     {...field}
                                                     autoComplete="true"
                                                 />

@@ -203,15 +203,15 @@ const TopMenu = () => {
     return (
         <>
             {/* Desktop */}
-            <div className="hidden sm:flex header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+            <div className="hidden sm:flex header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                 <div className='flex items-center navbar-title font-semibold'>
                     <GrMapLocation className='text-xl' />
                     <span className='ml-2 dark:text-white text-xs sm:text-sm'>
                         Lokasi: Penggung, Kecamatan Musuk, Boyolali, Jawa Tengah
                     </span>
                 </div>
-                <div className="flex justify-center items-center text-4xl relative">
-                    <div className="relative mr-4">
+                <div className="flex justify-center items-center text-4xl relative gap-2">
+                    <div className="rounded-md bg-background dark:bg-zinc-950 hover:bg-accent dark:hover:bg-zinc-900 hover:text-accent-foreground relative">
                         <DropdownMenu>
                             <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                 <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
@@ -246,7 +246,7 @@ const TopMenu = () => {
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center border-l ml-3 pl-5 gap-2 cursor-pointer">
                                 <div className="flex items-center font-semibold text-base gap-2">
-                                    <p className="font-semibold bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                    <p className="font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">
@@ -292,10 +292,10 @@ const TopMenu = () => {
             </div>
 
             {/* Mobile */}
-            <div className="flex sm:hidden header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+            <div className="flex sm:hidden header w-full py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                 <div className="w-full flex justify-between items-center text-4xl relative">
-                    <div className="flex items-center">
-                        <div className="relative mr-4">
+                    <div className="flex items-center gap-2">
+                        <div className="rounded-md bg-background dark:bg-zinc-950 hover:bg-accent dark:hover:bg-zinc-900 hover:text-accent-foreground relative">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='p-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
                                     <IoIosNotificationsOutline className="dark:text-white cursor-pointer text-xl sm:text-2xl" onClick={() => alert(notifications.map(notif => `${notif.data}: ${notif.status} - ${notif.timestamp.toLocaleTimeString()}`).join("\n"))} />
@@ -331,7 +331,7 @@ const TopMenu = () => {
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center gap-2 cursor-pointer">
                                 <div className="flex items-center font-semibold text-base gap-2">
-                                    <p className="font-semibold bg-emerald-100 text-emerald-600 rounded-md px-3 flex justify-center items-center">
+                                    <p className="font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-md px-3 flex justify-center items-center">
                                         {role}
                                     </p>
                                     <p className="">

@@ -19,12 +19,12 @@ export default function PerangkatKeras() {
 
     return (
         <PrivateRoute>
-            <main className="w-full bg-white dark:bg-zinc-900 relative">
+            <main className="w-full bg-white dark:bg-zinc-950 relative">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                             <div className='flex font-bold text-xl sm:text-2xl'>
                                 Perangkat Keras
                             </div>
@@ -34,7 +34,7 @@ export default function PerangkatKeras() {
                     <div className="page flex items-center justify-between p-4">
                         <div className="flex flex-col justify-between items-center w-full">
                             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 w-full'>
-                                <div className="relative flex flex-grow !flex-row items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
+                                <div className="relative flex flex-grow !flex-row items-center justify-center rounded-[10px] border-[1px] border-gray-200 bg-white dark:bg-zinc-950 bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:bg-black dark:text-white dark:shadow-none p-7">
                                     <div className="flex h-[90px] w-auto flex-row items-center">
                                         <div className="rounded-full bg-lightPrimary  dark:bg-navy-700">
                                             <span className="flex items-center text-brand-500 dark:text-white">

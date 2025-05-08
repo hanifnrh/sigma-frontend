@@ -4,7 +4,7 @@
 import { useParameterContext } from "@/components/context/lantai-satu/ParameterContext";
 
 // UI Components
-import Navbar from "@/app/pemilik/navbar";
+import Navbar from "@/app/staf/navbar";
 import GrafikCard from "@/components/pages/grafik-total/grafik-card";
 import { Aktivitas } from "@/components/pages/riwayat/aktivitas";
 import { RiwayatTable } from '@/components/pages/riwayat/riwayat-table';
@@ -59,12 +59,12 @@ export default function Riwayat() {
     };
 
     return (
-        <main className="w-full bg-white dark:bg-zinc-900 relative">
+        <main className="w-full bg-white dark:bg-zinc-950 relative">
             <Navbar />
             <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                 <div className="sticky top-10 sm:top-0 z-10">
                     <TopMenu />
-                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                         <div className='hidden md:flex font-bold text-xl md:text-2xl'>
                             Riwayat
                         </div>

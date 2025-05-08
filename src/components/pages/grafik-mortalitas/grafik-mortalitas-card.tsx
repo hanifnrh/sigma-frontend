@@ -64,8 +64,8 @@ export default function GrafikMortalitasCard({
     };
 
     return (
-        <main className="p-6 bg-white dark:bg-zinc-900 border rounded-lg w-full">
-            <div className="w-full bg-white rounded-lg dark:bg-zinc-900">
+        <main className="p-6 bg-white dark:bg-zinc-950 border rounded-lg w-full">
+            <div className="w-full bg-white rounded-lg dark:bg-zinc-950">
                 <div className="flex justify-between items-start">
                     <div>
                         <p className="text-base font-semibold text-gray-500 dark:text-gray-400">{title}</p>

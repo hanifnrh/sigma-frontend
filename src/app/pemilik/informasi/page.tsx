@@ -7,16 +7,16 @@ import TopMenu from "../top-menu";
 
 export default function Informasi() {
     return (
-        <main className="w-full bg-white dark:bg-zinc-900 relative">
+        <main className="w-full bg-white dark:bg-zinc-950 relative">
             <Navbar />
             <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                 <div className="sticky top-10 sm:top-0 z-10">
                     <TopMenu />
-                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                         <h1 className='font-bold text-2xl'>Informasi</h1>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 w-full h-full p-4">
+                <div className="flex flex-col gap-4 w-full h-full p-4 pb-10">
                     <h1 className="text-indigo-600 text-xl font-bold">
                         Panduan Penggunaan Sistem Monitoring Kandang Ayam
                     </h1>
@@ -25,7 +25,7 @@ export default function Informasi() {
                     </p>
 
                     <section>
-                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6">
+                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-400 px-4 py-2 rounded-md mt-6">
                             <LayoutDashboard />
                             Dasbor
                         </h2>
@@ -48,7 +48,7 @@ export default function Informasi() {
                     </section>
 
                     <section>
-                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6">
+                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-400 px-4 py-2 rounded-md mt-6">
                             <BetweenHorizontalStart />
                             Data Ayam
                         </h2>
@@ -72,7 +72,7 @@ export default function Informasi() {
                     </section>
 
                     <section>
-                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6">
+                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-400 px-4 py-2 rounded-md mt-6">
                             <SmartphoneCharging />
                             Perangkat Keras
                         </h2>
@@ -86,7 +86,7 @@ export default function Informasi() {
                     </section>
 
                     <section>
-                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 px-4 py-2 rounded-md mt-6">
+                        <h2 className="w-fit flex items-center gap-2 text-lg font-semibold bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-400 px-4 py-2 rounded-md mt-6">
                             <FileClock />
                             Riwayat
                         </h2>

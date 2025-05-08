@@ -12,7 +12,6 @@ import { SensorStatus } from "@/components/pages/perangkat-keras/sensor-status";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import StatusIndicator from '@/components/ui/status-indicator';
 import Navbar from "../navbar";
-import TopMenu from "../top-menu";
 
 // Libraries
 import { useState } from "react";
@@ -31,6 +30,7 @@ import { TbAtom2Filled } from "react-icons/tb";
 import { SensorStatus2 } from "@/components/pages/perangkat-keras/sensor-status2";
 import PrivateRoute from "@/components/PrivateRoute";
 import ButtonDownload from "@/components/ui/buttons/button-download";
+import TopMenu from "../top-menu";
 
 export default function Dashboard() {
     const [lantai, setLantai] = useState<1 | 2>(1);
@@ -154,7 +154,7 @@ export default function Dashboard() {
             case "Bahaya":
                 return "bg-red-500";
             default:
-                return "bg-zinc-900";
+                return "bg-zinc-950";
         }
     };
     const handleDownload = () => {
@@ -178,14 +178,14 @@ export default function Dashboard() {
 
     return (
         <PrivateRoute>
-            <main className="bg-white dark:bg-zinc-900 w-full">
+            <main className="bg-white dark:bg-zinc-950 w-full">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
                     </div>
 
-                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white gap-6">
+                    <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950 gap-6">
                         <div className='flex font-bold text-2xl'>
                             Dasbor
                         </div>
@@ -195,7 +195,7 @@ export default function Dashboard() {
                                     Lantai {lantai}
                                     <RiArrowDropDownLine className="dark:text-white text-center text-2xl" />
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='font-semibold'>
+                                <DropdownMenuContent className='font-semibold dark:bg-zinc-950'>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => setLantai(1)}>Lantai 1</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setLantai(2)}>Lantai 2</DropdownMenuItem>
@@ -214,8 +214,8 @@ export default function Dashboard() {
                             <div className='flex justify-between items-center py-5 px-4 w-full border-b'>
                                 <div>
                                     <span
-                                        className={`text-lg sm:text-2xl md:text-4xl font-bold ${getStatusGradient(overallStatus)
-                                            } cliptext text-transparent`}
+                                        className={`text-lg sm:text-2xl md:text-4xl font-bold ${overallStatus ? getStatusGradient(overallStatus) : 'text-zinc-950 dark:text-white'
+                                            } clip-text text-transparent`}
                                     >
                                         Status Total: {overallStatus || "-"}
                                     </span>

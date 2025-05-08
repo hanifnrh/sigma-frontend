@@ -17,10 +17,10 @@ const StatusIndicator = ({
     };
 
     const textColors = {
-        success: "text-green-800",
-        warning: "text-yellow-800",
-        error: "text-red-800",
-        info: "text-blue-800",
+        success: "text-green-800 dark:text-green-400",
+        warning: "text-yellow-800 dark:text-yellow-400",
+        error: "text-red-800 dark:text-red-400",
+        info: "text-blue-800 dark:text-blue-400",
     };
 
     const backgroundClass = backgroundColors[status];

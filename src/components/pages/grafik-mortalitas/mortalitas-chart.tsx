@@ -173,7 +173,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                             fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
-                            color: "#333"
+                            color: "#a1a1aa"
                         },
                     },
                 },
@@ -184,7 +184,7 @@ const MortalitasChart: React.FC<MortalitasChartProps> = ({ id, color, dataType, 
                             fontFamily: "Lexend, sans-serif",
                             fontWeight: "light",
                             fontSize: "14px",
-                            color: "#333"
+                            color: "#a1a1aa"
                         },
                     },
                     labels: { show: false },

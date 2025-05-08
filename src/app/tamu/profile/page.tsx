@@ -196,7 +196,7 @@ export default function Profile() {
                     type="text"
                     value={username || ""}
                     disabled
-                    className="w-full p-2 font-semibold border rounded-lg bg-gray-100 text-gray-600"
+                    className="w-full p-2 font-semibold border rounded-lg bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-white"
                 />
             </div>
 

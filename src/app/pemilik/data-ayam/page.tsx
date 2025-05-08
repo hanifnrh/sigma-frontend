@@ -111,12 +111,12 @@ export default function DataAyam() {
 
     return (
         <PrivateRoute>
-            <main className="w-full bg-white dark:bg-zinc-900 relative">
+            <main className="w-full bg-white dark:bg-zinc-950 relative">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                             <div className='flex font-bold text-2xl'>
                                 Data Ayam
                             </div>
@@ -237,12 +237,12 @@ export default function DataAyam() {
                                                     }}
                                                     type="submit"
                                                     disabled={!farmingStarted}
-                                                    className="w-full bg-blue-100 text-blue-600 border-blue-300 hover:bg-blue-200  transition-all"
+                                                    className="w-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-300 dark:border-blue-600 hover:bg-blue-200 dark:hover:bg-blue-900 transition-all"
                                                 >
                                                     Ya, saya yakin
                                                 </Button>
                                                 <DialogClose asChild>
-                                                    <Button type="button" className="bg-red-100 text-red-600 border-red-300 hover:bg-red-200  transition-all">
+                                                    <Button type="button" className="bbg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border-red-300 dark:border-red-600 hover:bg-red-200 dark:hover:bg-red-900 transition-all">
                                                         Tutup
                                                     </Button>
                                                 </DialogClose>
@@ -263,12 +263,12 @@ export default function DataAyam() {
                                                 </DialogDescription>
                                             </DialogHeader>
                                             <div className="flex justify-between items-center">
-                                                <Button onClick={confirmHarvest} className='w-full bg-blue-100 text-blue-600 border-blue-300 hover:bg-blue-200  transition-all' type="submit">
+                                                <Button onClick={confirmHarvest} className='w-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-300 dark:border-blue-600 hover:bg-blue-200 dark:hover:bg-blue-900 transition-all' type="submit">
                                                     Ya, Panen
                                                 </Button>
                                             </div>
                                             <DialogClose asChild>
-                                                <Button type="button" className='w-full bg-red-100 text-red-600 border-red-300 hover:bg-red-200  transition-all'>
+                                                <Button type="button" className='w-full bbg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border-red-300 dark:border-red-600 hover:bg-red-200 dark:hover:bg-red-900 transition-all'>
                                                     Tutup
                                                 </Button>
                                             </DialogClose>
@@ -276,11 +276,11 @@ export default function DataAyam() {
                                     </Dialog>
                                 </div>
                                 <div className='w-full grid grid-cols-2 justify-end items-start gap-2'>
-                                    <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
+                                    <div className='w-full flex items-center justify-between gap-2 border border-zinc-300 dark:border-zinc-800 rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
                                         Jumlah ayam awal: {jumlahAwalAyam} <ChartNoAxesCombined />
                                     </div>
 
-                                    <div className='border border-indigo-200 bg-indigo-100 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
+                                    <div className='border border-indigo-200 dark:border-indigo-600 bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 hover:bg-indigo-200 transition-all rounded-xl px-4 py-2 font-semibold text-sm sm:text-base'>
                                         {editMode ? (
                                             <div className="flex gap-2 items-center">
                                                 <input
@@ -386,7 +386,7 @@ export default function DataAyam() {
                                                                         setErrorMessage("Harap pilih tanggal panen.");
                                                                     }
                                                                 }}
-                                                                className="bg-green-600 hover:bg-green-700"
+                                                                className="bg-green-600  dark:bg-green-950 dark:text-green-400 dark:hover:bg-green-600 hover:bg-green-700"
                                                             >
                                                                 Simpan
                                                             </Button>

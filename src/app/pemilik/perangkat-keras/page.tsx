@@ -19,12 +19,12 @@ export default function PerangkatKeras() {
 
     return (
         <PrivateRoute>
-            <main className="w-full bg-white dark:bg-zinc-900 relative">
+            <main className="w-full bg-white dark:bg-zinc-950 relative">
                 <Navbar />
                 <div className='flex flex-col mt-10 sm:mt-0 sm:pl-44 md:pl-56 xl:pl-64 w-full'>
                     <div className="sticky top-10 sm:top-0 z-10">
                         <TopMenu />
-                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white">
+                        <div className="flex header py-2 px-4 font-semibold justify-between items-center border-b bg-white dark:bg-zinc-950">
                             <div className='flex font-bold text-xl sm:text-2xl'>
                                 Perangkat Keras
                             </div>

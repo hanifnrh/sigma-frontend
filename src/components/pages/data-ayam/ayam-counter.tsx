@@ -48,7 +48,7 @@ const AyamCounter: React.FC<AyamCounterProps> = ({ jumlahAyam, jumlahAwalAyam, o
     };
 
     return (
-        <div className="py-6 px-12 h-full flex justify-center items-center flex-col">
+        <div className="py-6 px-12 h-full flex justify-center items-center flex-col dark:bg-zinc-950">
             <h2 className="text-xl">Kendali Jumlah Ayam</h2>
             <div className="text-3xl font-bold my-4">{jumlahAyam}</div>
 
@@ -64,14 +64,14 @@ const AyamCounter: React.FC<AyamCounterProps> = ({ jumlahAyam, jumlahAwalAyam, o
                     disabled={!farmingStarted}
                     variant={'blue'}
                     onClick={handleUpdateAyamMati}
-                    className="mb-2 w-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all"
+                    className="mb-2 w-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900 transition-all"
                 >
                     Kurangi Jumlah Ayam
                 </Button>
                 <Button
                     disabled={!farmingStarted}
                     onClick={handleUndo}
-                    className="w-full bg-red-100 text-red-600 hover:bg-red-200 transition-all"
+                    className="w-full bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900 transition-all"
                 >
                     <FaUndo className="mr-2" />
                     Undo

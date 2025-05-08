@@ -139,13 +139,13 @@ const ParameterChart: React.FC<ParameterChartProps> = ({ color, dataType, lantai
                     labels: { show: false },
                     title: {
                         text: "Garis horizontal menunjukkan waktu tiap 5 menit",
-                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
+                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#a1a1aa" },
                     },
                 },
                 yaxis: {
                     title: {
                         text: `Tingkat ${dataTypeLabel}`,
-                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#333" },
+                        style: { fontFamily: "Lexend, sans-serif", fontWeight: "light", fontSize: "14px", color: "#a1a1aa" },
                     },
                     labels: { show: false },
                 },
