@@ -29,7 +29,7 @@ const StatusIndicator = ({
     return (
         <div
             className={cn(
-                "font-semibold relative flex items-center gap-x-2.5 bg-popover px-6 py-3 cursor-pointer",
+                "font-semibold relative flex items-center gap-x-2.5 px-6 py-3 cursor-pointer",
                 textClass,
                 className
             )}

@@ -24,7 +24,7 @@ export function SensorStatus() {
     ]
 
     return (
-        <Card className="w-full">
+        <Card className="w-full bg-zinc-950">
             <CardContent>
                 <Table>
                     <TableHeader>
