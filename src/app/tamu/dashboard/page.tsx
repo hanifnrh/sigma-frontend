@@ -215,7 +215,7 @@ export default function Dashboard() {
                                 <div>
                                     <span
                                         className={`text-lg sm:text-2xl md:text-4xl font-bold ${overallStatus ? getStatusGradient(overallStatus) : 'text-zinc-950 dark:text-white'
-                                            } clip-text text-transparent`}
+                                            } bg-clip-text text-transparent`}
                                     >
                                         Status Total: {overallStatus || "-"}
                                     </span>
