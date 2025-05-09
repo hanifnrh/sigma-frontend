@@ -111,7 +111,7 @@ export default function Riwayat() {
                             Riwayat Kandang
                         </div>
 
-                        <RiwayatTable lantai={1} selectedTime="1 Hari" />
+                        <RiwayatTable lantai={lantai} selectedTime="1 Hari" />
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10'>
                             <div className='w-full h-full'>
