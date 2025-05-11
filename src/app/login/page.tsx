@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Libraries
 import { cn } from "@/lib/utils";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +28,8 @@ export default function Login() {
     const [error, setError] = useState({ username: "", password: "" });
     const router = useRouter();
     const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     useEffect(() => {
         const savedUsername = localStorage.getItem('rememberedUsername');
@@ -195,17 +197,26 @@ export default function Login() {
                             </div>
 
                             {/* Password Field */}
-                            <div className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-2 relative">
                                 <label className="block text-gray-700 font-semibold">Password</label>
                                 <Input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Masukkan password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="font-semibold"
+                                    className="font-semibold pr-10"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    className="absolute right-3 top-[50px] transform -translate-y-1/2 text-zinc-600 hover:text-zinc-800"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
                                 {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
                             </div>
+
                         </div>
 
 

@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Libraries
 import { cn } from "@/lib/utils";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -27,31 +27,48 @@ export default function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState({ username: "", email: "", password: "" });
     const router = useRouter();
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState({ username: "", email: "", password: "", confirmPassword: "" });
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const RegisterSchema = z
+            .object({
+                username: z.string().min(2, { message: "Username setidaknya harus 2 karakter." }),
+                email: z.string().email({ message: "Alamat email invalid." }),
+                password: z.string().min(6, { message: "Password setidaknya harus 6 karakter." }),
+                confirmPassword: z.string(),
+            })
+            .refine((data) => data.password === data.confirmPassword, {
+                message: "Konfirmasi password tidak cocok.",
+                path: ["confirmPassword"],
+            });
+
         // Validasi dengan Zod
-        const validationResult = RegisterSchema.safeParse({ username, email, password });
+        const validationResult = RegisterSchema.safeParse({ username, email, password, confirmPassword });
 
         if (!validationResult.success) {
             const fieldErrors = validationResult.error.format();
-            const usernameError = fieldErrors.username?._errors[0] || "";
-            const emailError = fieldErrors.email?._errors[0] || "";
-            const passwordError = fieldErrors.password?._errors[0] || "";
-
             setError({
-                username: usernameError,
-                email: emailError,
-                password: passwordError,
+                username: fieldErrors.username?._errors[0] || "",
+                email: fieldErrors.email?._errors[0] || "",
+                password: fieldErrors.password?._errors[0] || "",
+                confirmPassword: fieldErrors.confirmPassword?._errors[0] || "",
             });
 
             toast({
                 variant: "destructive",
                 title: "Validasi Gagal",
-                description: usernameError || emailError || passwordError || "Cek kembali inputan kamu.",
+                description:
+                    fieldErrors.username?._errors[0] ||
+                    fieldErrors.email?._errors[0] ||
+                    fieldErrors.password?._errors[0] ||
+                    fieldErrors.confirmPassword?._errors[0] ||
+                    "Cek kembali inputan kamu.",
             });
 
             return;
@@ -68,7 +85,8 @@ export default function Register() {
             const result = await response.json();
 
             if (!response.ok) {
-                setError({ username: "Registrasi gagal", email: "", password: "" });
+                setError({ username: "Registrasi gagal", email: "", password: "", confirmPassword: "" });
+
                 toast({
                     variant: "destructive",
                     title: "Registrasi gagal",
@@ -86,7 +104,7 @@ export default function Register() {
             router.push("/login");
         } catch (error) {
             console.error("Registration Error:", error);
-            setError({ username: "Terdapat masalah. Harap coba lagi.", email: "", password: "" });
+            setError({ username: "Terdapat masalah. Harap coba lagi.", email: "", password: "", confirmPassword: "" });
             toast({
                 variant: "destructive",
                 title: "Terjadi Kesalahan",
@@ -161,12 +179,56 @@ export default function Register() {
 
                         {/* Form Field */}
                         <div className="flex flex-col gap-4">
-                            <Input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                            {error.username && <p className="text-red-500 text-sm">{error.username}</p>}
-                            <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
-                            <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+                            <div className="flex flex-col gap-2 relative">
+                                <label className="block text-gray-700 font-semibold">Username</label>
+                                <Input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                {error.username && <p className="text-red-500 text-sm">{error.username}</p>}
+                            </div>
+
+                            <div className="flex flex-col gap-2 relative">
+                                <label className="block text-gray-700 font-semibold">Email</label>
+                                <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
+                            </div>
+
+                            <div className="flex flex-col gap-2 relative">
+                                <label className="block text-gray-700 font-semibold">Password</label>
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    className="absolute right-3 top-[50px] transform -translate-y-1/2 text-zinc-600 hover:text-zinc-800"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                                {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+                            </div>
+
+                            <div className="flex flex-col gap-2 relative">
+                                <label className="block text-gray-700 font-semibold">Konfirmasi Password</label>
+                                <Input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    placeholder="Konfirmasi Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                {error.confirmPassword && <p className="text-red-500 text-sm">{error.confirmPassword}</p>}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                    className="absolute right-3 top-[50px] transform -translate-y-1/2 text-zinc-600 hover:text-zinc-800"
+                                    tabIndex={-1}
+                                >
+                                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
+
                         </div>
 
                         <ButtonRegister type="submit" className="w-full rounded-xl" />

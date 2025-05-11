@@ -6,7 +6,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 
 const MortalitasChart = dynamic(() => import('@/components/pages/grafik-mortalitas/mortalitas-chart'), {
     ssr: false,
-    loading: () => <div className="h-[300px] w-full bg-gray-100 rounded-md animate-pulse" />,
+    loading: () => <div className="h-[300px] w-full bg-gray-100 dark:bg-zinc-900 rounded-md animate-pulse" />,
 });
 
 const tailwindColorMap: { [key: string]: string } = {
