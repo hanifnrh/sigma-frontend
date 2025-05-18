@@ -51,6 +51,7 @@ export default function DataAyam() {
     const [selectedTanggal, setSelectedTanggal] = useState<Date | null>(targetTanggal || null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [open, setOpen] = useState(false)
+    const [openCalendarTernak, setOpenCalendarTernak] = useState(false)
 
     const grafikData = [
         {
@@ -156,7 +157,7 @@ export default function DataAyam() {
                                                         </div>
                                                         <div>
                                                             <label className="block mb-2">Tanggal Panen:</label>
-                                                            <Popover>
+                                                            <Popover open={openCalendarTernak} onOpenChange={setOpenCalendarTernak}>
                                                                 <PopoverTrigger asChild>
                                                                     <Button
                                                                         variant={"outline"}
@@ -164,17 +165,18 @@ export default function DataAyam() {
                                                                             "w-full justify-start text-left font-semibold",
                                                                             !targetTanggal && "text-muted-foreground"
                                                                         )}
+                                                                        onClick={() => setOpenCalendarTernak(true)}
                                                                     >
                                                                         <CalendarIcon className="mr-2 h-4 w-4" />
                                                                         {targetTanggal ? format(targetTanggal, "PPP") : <span>Pilih target waktu panen</span>}
                                                                     </Button>
                                                                 </PopoverTrigger>
-                                                                <PopoverContent className="w-auto p-0" align="start">
+                                                                <PopoverContent className="w-auto p-0" align="start" sideOffset={4} avoidCollisions={true}>
                                                                     <Calendar
                                                                         mode="single"
                                                                         selected={targetTanggal || undefined} // Ensure selected is Date | undefined
                                                                         onSelect={(date) => setTargetTanggal(date || null)} // Convert undefined to null
-                                                                        initialFocus
+                                                                        disabled={(date) => date < new Date()}
                                                                     />
                                                                 </PopoverContent>
                                                             </Popover>
