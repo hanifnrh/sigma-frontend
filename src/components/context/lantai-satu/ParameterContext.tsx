@@ -248,7 +248,7 @@ export const ParameterProvider: React.FC<ParameterProviderProps> = ({ children }
     const getStatusAndColor = (score: number): { status: string; color: string } => {
         if (score >= 90) {
             return { status: "Sangat Baik", color: "text-green-500" };
-        } else if (score >= 75) {
+        } else if (score >= 70) {
             return { status: "Baik", color: "text-blue-500" };
         } else if (score >= 50) {
             return { status: "Buruk", color: "text-yellow-500" };

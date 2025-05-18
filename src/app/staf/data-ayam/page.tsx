@@ -50,6 +50,7 @@ export default function DataAyam() {
     const [editTanggalOpen, setEditTanggalOpen] = useState(false);
     const [selectedTanggal, setSelectedTanggal] = useState<Date | null>(targetTanggal || null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [open, setOpen] = useState(false)
 
     const grafikData = [
         {
@@ -335,30 +336,27 @@ export default function DataAyam() {
                                                         </DialogHeader>
 
                                                         <div className="py-2">
-                                                            <Popover>
+                                                            <Popover open={open} onOpenChange={setOpen}>
                                                                 <PopoverTrigger asChild>
                                                                     <Button
                                                                         variant={"outline"}
-                                                                        className={cn(
-                                                                            "w-full justify-start text-left font-semibold",
-                                                                            !selectedTanggal && "text-muted-foreground"
-                                                                        )}
+                                                                        className={cn("w-full justify-start text-left font-semibold", !selectedTanggal && "text-muted-foreground")}
+                                                                        onClick={() => setOpen(true)}
                                                                     >
                                                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                                                        {selectedTanggal
-                                                                            ? format(selectedTanggal, "PPP")
-                                                                            : <span>Pilih tanggal panen</span>}
+                                                                        {selectedTanggal ? format(selectedTanggal, "PPP") : <span>Pilih tanggal panen</span>}
                                                                     </Button>
                                                                 </PopoverTrigger>
-                                                                <PopoverContent className="w-auto p-0" align="start">
+                                                                <PopoverContent className="w-auto p-0" align="start" sideOffset={4} avoidCollisions={true}>
                                                                     <Calendar
                                                                         mode="single"
                                                                         selected={selectedTanggal || undefined}
                                                                         onSelect={(date) => {
-                                                                            setSelectedTanggal(date || null);
-                                                                            setErrorMessage(null);
+                                                                            setSelectedTanggal(date || null)
+                                                                            setErrorMessage(null)
+                                                                            setOpen(false) // Close popover after selection
                                                                         }}
-                                                                        initialFocus
+                                                                        disabled={(date) => date < new Date()}
                                                                     />
                                                                 </PopoverContent>
                                                             </Popover>
