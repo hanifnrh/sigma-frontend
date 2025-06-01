@@ -67,51 +67,68 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
 
             const mergeData = () => {
                 const dataMap = new Map<string, CombinedHistory>();
-                const historyParameter = lantai === 1 ? historyParameter1 : historyParameter2;
+                let lastChickenData: { jumlah_ayam?: number; mortalitas?: number; usia_ayam?: number } | null = null;
 
-                // 1. Process all parameter data first
-                historyParameter.forEach(param => {
+                // Urutkan historyParameter terbaru ke terlama
+                historyParameter.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+                // Simpan data parameter duluan biar gak ketimpa
+                historyParameter.forEach((param) => {
                     const roundedTimestamp = roundToNearest5Minutes(new Date(param.timestamp)).toISOString();
-                    dataMap.set(roundedTimestamp, {
-                        timestamp: param.timestamp, // Keep original timestamp for display
-                        temperature: param.temperature,
-                        humidity: param.humidity,
-                        ammonia: param.ammonia,
-                        score: param.score,
-                        status: param.status,
-                        // Initialize chicken data as undefined
-                        jumlah_ayam: undefined,
-                        mortalitas: undefined,
-                        usia_ayam: undefined
-                    });
+
+                    if (!dataMap.has(roundedTimestamp)) {
+                        dataMap.set(roundedTimestamp, {
+                            timestamp: roundedTimestamp,
+                            temperature: param.temperature,
+                            humidity: param.humidity,
+                            ammonia: param.ammonia,
+                            score: param.score,
+                            status: param.status,
+                        });
+                    }
                 });
 
-                // 2. Process all chicken data
-                historyData.forEach(ayam => {
-                    const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp)).toISOString();
-                    const existingEntry = dataMap.get(roundedTimestamp);
+                // Urutkan historyData dari terbaru ke terlama
+                historyData.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-                    if (existingEntry) {
-                        // Update existing entry with chicken data
+                historyData.forEach((ayam) => {
+                    const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp)).toISOString();
+
+                    lastChickenData = {
+                        jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                        mortalitas: ayam.data_ayam_details.mortalitas,
+                        usia_ayam: ayam.data_ayam_details.usia_ayam,
+                    };
+
+                    if (dataMap.has(roundedTimestamp)) {
+                        const existingData = dataMap.get(roundedTimestamp)!;
                         dataMap.set(roundedTimestamp, {
-                            ...existingEntry,
-                            jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
-                            mortalitas: ayam.data_ayam_details.mortalitas,
-                            usia_ayam: ayam.data_ayam_details.usia_ayam
+                            ...existingData,
+                            ...lastChickenData,
                         });
                     } else {
-                        // Create new entry with just chicken data
                         dataMap.set(roundedTimestamp, {
-                            timestamp: ayam.timestamp, // Keep original timestamp
-                            temperature: undefined,
-                            humidity: undefined,
-                            ammonia: undefined,
-                            score: undefined,
-                            status: undefined,
-                            jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
-                            mortalitas: ayam.data_ayam_details.mortalitas,
-                            usia_ayam: ayam.data_ayam_details.usia_ayam
+                            timestamp: roundedTimestamp,
+                            ...lastChickenData,
                         });
+                    }
+                });
+
+                 // Terapkan carry forward jika ada data parameter yang belum punya data ayam
+                let lastKnownChickenData: Pick<CombinedHistory, 'jumlah_ayam' | 'mortalitas' | 'usia_ayam'> | undefined = undefined;
+
+                Array.from(dataMap.entries()).reverse().forEach(([timestamp, data]) => {
+                    if (!data.jumlah_ayam && lastKnownChickenData) {
+                        dataMap.set(timestamp, {
+                            ...data,
+                            ...lastKnownChickenData,
+                        });
+                    } else if (data.jumlah_ayam) {
+                        lastKnownChickenData = {
+                            jumlah_ayam: data.jumlah_ayam,
+                            mortalitas: data.mortalitas,
+                            usia_ayam: data.usia_ayam,
+                        };
                     }
                 });
 
