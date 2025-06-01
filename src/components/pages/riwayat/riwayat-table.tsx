@@ -69,11 +69,11 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
                 const dataMap = new Map<string, CombinedHistory>();
                 const historyParameter = lantai === 1 ? historyParameter1 : historyParameter2;
 
-                // 1. First process all parameter data
+                // 1. Process all parameter data first
                 historyParameter.forEach(param => {
                     const roundedTimestamp = roundToNearest5Minutes(new Date(param.timestamp)).toISOString();
                     dataMap.set(roundedTimestamp, {
-                        timestamp: roundedTimestamp,
+                        timestamp: param.timestamp, // Keep original timestamp for display
                         temperature: param.temperature,
                         humidity: param.humidity,
                         ammonia: param.ammonia,
@@ -86,33 +86,41 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
                     });
                 });
 
-                // 2. Then enrich with chicken data where available
+                // 2. Process all chicken data
                 historyData.forEach(ayam => {
                     const roundedTimestamp = roundToNearest5Minutes(new Date(ayam.timestamp)).toISOString();
-                    const existingEntry = dataMap.get(roundedTimestamp) || {
-                        timestamp: roundedTimestamp,
-                        // Initialize parameter data as undefined
-                        temperature: undefined,
-                        humidity: undefined,
-                        ammonia: undefined,
-                        score: undefined,
-                        status: undefined
-                    };
+                    const existingEntry = dataMap.get(roundedTimestamp);
 
-                    dataMap.set(roundedTimestamp, {
-                        ...existingEntry,
-                        jumlah_ayam: ayam.data_ayam_details?.jumlah_ayam,
-                        mortalitas: ayam.data_ayam_details?.mortalitas,
-                        usia_ayam: ayam.data_ayam_details?.usia_ayam
-                    });
+                    if (existingEntry) {
+                        // Update existing entry with chicken data
+                        dataMap.set(roundedTimestamp, {
+                            ...existingEntry,
+                            jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                            mortalitas: ayam.data_ayam_details.mortalitas,
+                            usia_ayam: ayam.data_ayam_details.usia_ayam
+                        });
+                    } else {
+                        // Create new entry with just chicken data
+                        dataMap.set(roundedTimestamp, {
+                            timestamp: ayam.timestamp, // Keep original timestamp
+                            temperature: undefined,
+                            humidity: undefined,
+                            ammonia: undefined,
+                            score: undefined,
+                            status: undefined,
+                            jumlah_ayam: ayam.data_ayam_details.jumlah_ayam,
+                            mortalitas: ayam.data_ayam_details.mortalitas,
+                            usia_ayam: ayam.data_ayam_details.usia_ayam
+                        });
+                    }
                 });
 
-                // 3. Convert to array and sort
+                // 3. Convert to array and sort by timestamp (newest first)
                 const mergedArray = Array.from(dataMap.values()).sort(
                     (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
                 );
 
-                console.log('Final merged data:', mergedArray);
+                console.log('Merged data:', mergedArray);
                 setCombinedHistory(mergedArray);
             };
             // error bugging
@@ -125,22 +133,22 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
         }, [historyParameter1, historyParameter2, lantai, historyData]);
 
         const filterDataByTime = (data: CombinedHistory[]) => {
-            if (selectedTime === "Semua") return data;
+            if (selectedTime === "all") return data;
 
-            const now = new Date();
-            const cutoff = new Date(now);
+            const now = new Date().getTime();
+            const timeLimit = {
+                "1h": 1 * 60 * 60 * 1000,
+                "1d": 24 * 60 * 60 * 1000,
+                "1w": 7 * 24 * 60 * 60 * 1000,
+            }[selectedTime];
 
-            switch (selectedTime) {
-                case "30 Menit": cutoff.setMinutes(now.getMinutes() - 30); break;
-                case "1 Jam": cutoff.setHours(now.getHours() - 1); break;
-                case "1 Hari": cutoff.setDate(now.getDate() - 1); break;
-                case "1 Minggu": cutoff.setDate(now.getDate() - 7); break;
-                case "1 Bulan": cutoff.setMonth(now.getMonth() - 1); break;
-                default: return data;
-            }
-
-            return data.filter(item => new Date(item.timestamp) >= cutoff);
+            if (timeLimit === undefined) return data;
+            return data.filter((item) => {
+                const itemTime = new Date(item.timestamp).getTime();
+                return now - itemTime <= timeLimit;
+            });
         };
+
 
         const filteredHistory = filterDataByTime(combinedHistory);
 
@@ -148,6 +156,10 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
         const currentItems = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
+
+        useEffect(() => {
+            setCurrentPage(1);
+        }, [selectedTime, combinedHistory]);
 
         // Hitung total halaman
         const totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
@@ -187,6 +199,7 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
                 }));
             }
         }));
+
 
         return (
             <Card className="w-full">

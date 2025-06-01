@@ -157,7 +157,7 @@ export const ChickenProvider: React.FC<ChickenProviderProps> = ({ children }) =>
         try {
             // Fetch data ayam
             let response = await fetch("https://sigma-backend-production.up.railway.app/api/data-ayam/", {
-                credentials: "include", // Penting agar cookies dikirim ke backend
+                credentials: "include",
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
                 },
