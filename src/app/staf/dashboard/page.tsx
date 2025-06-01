@@ -39,7 +39,7 @@ export default function Dashboard() {
     const parameterLantai2 = useParameterContext2();
 
     const {
-        averageScore, ammonia, temperature, humidity,
+        timestamp, averageScore, ammonia, temperature, humidity,
         overallStatus, warnings, ammoniaColor, temperatureColor,
         humidityColor, overallColor
     } = lantai === 1 ? parameterLantai1 : parameterLantai2;
@@ -228,7 +228,11 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
-
+                            <div className="flex justify-right items-center w-full p-4">
+                                Data terakhir diambil pada: <span className="font-semibold">
+                                    {timestamp ? timestamp.toLocaleString() : 'Belum tersedia'}
+                                </span>
+                            </div>
                             <div className="flex justify-between items-center w-full p-6">
                                 <div className="w-full items-start grid grid-cols-2 gap-5 xl:grid-cols-3">
                                     {[...parameterCards, ...generalCards].map(({ label, unit, value, icon, statusColor, warning }) => (

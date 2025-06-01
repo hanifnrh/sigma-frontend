@@ -217,6 +217,7 @@ export const ParameterProvider2: React.FC<ParameterProvider2Props> = ({ children
 
                 setHistoryParameter(sortedData);
                 setLatestData(latestData);
+                setTimestamp(new Date(latestData.timestamp));
                 setAmmonia(latestData.ammonia);
                 setTemperature(latestData.temperature);
                 setHumidity(latestData.humidity);
