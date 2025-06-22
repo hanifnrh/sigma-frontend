@@ -114,7 +114,7 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
                     }
                 });
 
-                 // Terapkan carry forward jika ada data parameter yang belum punya data ayam
+                // Terapkan carry forward jika ada data parameter yang belum punya data ayam
                 let lastKnownChickenData: Pick<CombinedHistory, 'jumlah_ayam' | 'mortalitas' | 'usia_ayam'> | undefined = undefined;
 
                 Array.from(dataMap.entries()).reverse().forEach(([timestamp, data]) => {
@@ -137,35 +137,43 @@ export const RiwayatTable = forwardRef<RiwayatTableRef, RiwayatTableProps>(
                     (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
                 );
 
-                console.log('Merged data:', mergedArray);
                 setCombinedHistory(mergedArray);
             };
-            // error bugging
-            console.log('History Parameter 1:', historyParameter1);
-            console.log('History Parameter 2:', historyParameter2);
-            console.log('History Chicken Data:', historyData);
-            console.log(`Selected historyParameter for floor ${lantai}:`, historyParameter);
 
             mergeData();
         }, [historyParameter1, historyParameter2, lantai, historyData]);
 
         const filterDataByTime = (data: CombinedHistory[]) => {
-            if (selectedTime === "all") return data;
+            if (selectedTime === "Semua") return data;
 
             const now = new Date().getTime();
-            const timeLimit = {
-                "1h": 1 * 60 * 60 * 1000,
-                "1d": 24 * 60 * 60 * 1000,
-                "1w": 7 * 24 * 60 * 60 * 1000,
-            }[selectedTime];
+            let timeLimit = 0;
 
-            if (timeLimit === undefined) return data;
+            switch (selectedTime) {
+                case "30 Menit":
+                    timeLimit = 30 * 60 * 1000;
+                    break;
+                case "1 Jam":
+                    timeLimit = 60 * 60 * 1000;
+                    break;
+                case "1 Hari":
+                    timeLimit = 24 * 60 * 60 * 1000;
+                    break;
+                case "1 Minggu":
+                    timeLimit = 7 * 24 * 60 * 60 * 1000;
+                    break;
+                case "1 Bulan":
+                    timeLimit = 30 * 24 * 60 * 60 * 1000; // Approximate month
+                    break;
+                default:
+                    return data;
+            }
+
             return data.filter((item) => {
                 const itemTime = new Date(item.timestamp).getTime();
                 return now - itemTime <= timeLimit;
             });
         };
-
 
         const filteredHistory = filterDataByTime(combinedHistory);
 
