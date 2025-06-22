@@ -1,6 +1,6 @@
 "use client";
 
-import { easeIn, easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 interface SwipeButtonProps {
@@ -18,15 +18,15 @@ const SwipeButton = ({
         open: {
             width: "176px",
             transition: {
-                duration,
-                ease: [0.32, 0.72, 0, 1],
+                duration: duration,
+                ease: [0.32, 0.72, 0, 1] as const, // Add 'as const' for tuple type
             },
         },
         closed: {
             width: "50px",
             transition: {
-                duration,
-                ease: [0.32, 0.72, 0, 1],
+                duration: duration,
+                ease: [0.32, 0.72, 0, 1] as const,
             },
         },
     };
@@ -37,7 +37,7 @@ const SwipeButton = ({
             translateX: 10,
             transition: {
                 duration: 0.4,
-                easeIn,
+                ease: [0.42, 0, 1, 1] as const, // cubic-bezier for easeIn
                 bounce: 0,
             },
         },
@@ -46,8 +46,25 @@ const SwipeButton = ({
             translateX: 20,
             transition: {
                 duration: 0.4,
-                easeOut,
+                ease: [0, 0, 0.58, 1] as const, // cubic-bezier for easeOut
                 bounce: 0,
+            },
+        },
+    };
+
+    const childrenVariants = {
+        open: {
+            opacity: 1,
+            transition: {
+                duration: 0.4,
+                ease: [0.42, 0, 1, 1] as const, // cubic-bezier for easeIn
+            },
+        },
+        closed: {
+            opacity: 0,
+            transition: {
+                duration: 0.4,
+                ease: [0, 0, 0.58, 1] as const, // cubic-bezier for easeOut
             },
         },
     };
@@ -58,23 +75,6 @@ const SwipeButton = ({
         },
         closed: {
             opacity: 1,
-        },
-    };
-
-    const childrenVariants = {
-        open: {
-            opacity: 1,
-            transition: {
-                duration: 0.4,
-                easeIn,
-            },
-        },
-        closed: {
-            opacity: 0,
-            transition: {
-                duration: 0.4,
-                easeOut,
-            },
         },
     };
 
